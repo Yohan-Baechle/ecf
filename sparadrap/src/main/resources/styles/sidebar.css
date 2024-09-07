@@ -1,0 +1,92 @@
+@import url('global.css');
+
+
+.main-menu-container {
+    -fx-background-color: white;
+    -fx-alignment: center;
+}
+
+.title-container {
+    -fx-background-color: white;
+    -fx-padding: 10 10 0 10;
+    -fx-spacing: 10;
+    -fx-alignment: center;
+}
+
+.subtitle-container {
+    -fx-padding: 0;
+    -fx-alignment: center;
+}
+
+.subtitle-container Text {
+    -fx-font-size: 12px;
+    -fx-fill: #002B36;
+}
+
+.title-container FontIcon {
+    -fx-fill: #23dfa5;
+}
+
+.title-container Text {
+    -fx-fill: #002B36;
+    -fx-font-size: 1.6em;
+    -fx-font-family: "Poppins Bold";
+}
+
+.menu-container {
+    -fx-padding: 60 20;
+    -fx-spacing: 10;
+}
+
+.menu-container Text {
+    -fx-padding: 20 0;
+    -fx-spacing: 10;
+    -fx-fill: #aaa;
+}
+
+.menu-container Button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #002B36;
+    -fx-font-size: 1.1em;
+    -fx-alignment: center-left;
+    -fx-graphic-text-gap: 10;
+    -fx-padding: 15 30;
+    -fx-pref-width: 100%;
+}
+
+.menu-container Button FontIcon {
+    -fx-fill: #002B36;
+}
+
+.menu-container Button:hover {
+    -fx-cursor: hand;
+    -fx-text-fill: #23dfa5;
+}
+
+.menu-container Button.button-selected {
+    -fx-background-color: #002B36;
+    -fx-text-fill: white;
+}
+
+
+.menu-container Button.button-selected FontIcon {
+    -fx-fill: #23dfa5;
+}
+
+.button-selected FontIcon {
+    -fx-background-color: white;
+    -fx-text-fill: white;
+}
+
+.menu-container Button:hover FontIcon {
+    -fx-fill: #23dfa5;
+}
+
+.menu-container Button:selected FontIcon {
+    -fx-fill: white;
+}
+
+.separator {
+    -fx-stroke: #EFFCF6;
+    -fx-vgrow: ALWAYS;
+}

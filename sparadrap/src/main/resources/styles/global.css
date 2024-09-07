@@ -1,0 +1,426 @@
+@font-face {
+    font-family: 'Poppins Light';
+    src: url('../fonts/Poppins-Light.ttf');
+}
+
+@font-face {
+    font-family: 'Poppins Regular';
+    src: url('../fonts/Poppins-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Poppins Medium';
+    src: url('../fonts/Poppins-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'Poppins SemiBold';
+    src: url('../fonts/Poppins-SemiBold.ttf');
+}
+
+@font-face {
+    font-family: 'Poppins Bold';
+    src: url('../fonts/Poppins-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Poppins ExtraBold';
+    src: url('../fonts/Poppins-ExtraBold.ttf');
+}
+
+
+Label, TextField, TextArea, Text, Button, ComboBox, ListView, TableView, CheckBox, RadioButton, MenuItem {
+    -fx-font-family: 'Poppins Regular';
+    -fx-text-fill: #00374f;
+}
+
+Button {
+    -fx-font-family: 'Poppins Bold';
+}
+
+.page-title {
+    -fx-font-family: "Poppins Bold";
+    -fx-font-size: 1.6em;
+    -fx-fill: #00374f;
+}
+
+.main-container {
+    -fx-background-color: #F0F0F0;
+}
+
+.button-primary {
+    -fx-background-color: #006a60;
+    -fx-text-fill: white;
+    -fx-padding: 10 20 ;
+    -fx-font-size: 14px;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 15, 0, 0, 2);
+}
+
+.button-primary FontIcon {
+    -fx-fill: white;
+}
+
+.button-primary:hover {
+    -fx-background-color: #005b50;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 20, 0, 0, 4);
+}
+
+.button-primary:pressed {
+    -fx-background-color: #004d40;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, -2);
+}
+
+.button-success {
+    -fx-background-color: #23dfa5;
+    -fx-text-fill: white;
+    -fx-padding: 12 8;
+    -fx-font-size: 16px;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 3, 0, 0, 0.5);
+}
+
+.button-success FontIcon {
+    -fx-fill: white;
+}
+
+.button-info {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-padding: 4 8;
+    -fx-font-size: 16px;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 3, 0, 0, 0.5);
+}
+
+.button-info FontIcon {
+    -fx-fill: white;
+}
+
+.button-info:hover {
+    -fx-background-color: #1E88E5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 1);
+}
+
+.button-info:pressed {
+    -fx-background-color: #1976D2;
+}
+
+.button-success:hover {
+    -fx-background-color: #1abf95;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 1);
+}
+
+.button-success:pressed {
+    -fx-background-color: #1a9b7b;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, -1);
+}
+
+.button-warning {
+    -fx-background-color: #FF9800;
+    -fx-text-fill: white;
+    -fx-padding: 4 8;
+    -fx-font-size: 16px;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 3, 0, 0, 0.5);
+}
+
+.button-warning FontIcon {
+    -fx-fill: white;
+}
+
+.button-warning:hover {
+    -fx-background-color: #FB8C00;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 1);
+}
+
+.button-warning:pressed {
+    -fx-background-color: #F57C00;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0, 0, -0.5);
+}
+
+.button-destructive {
+    -fx-background-color: #F44336;
+    -fx-text-fill: white;
+    -fx-padding: 4 8;
+    -fx-font-size: 16px;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 3, 0, 0, 0.5);
+}
+
+.button-destructive FontIcon {
+    -fx-fill: white;
+}
+
+.button-destructive:hover {
+    -fx-background-color: #E53935;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 1);
+}
+
+.button-destructive:pressed {
+    -fx-background-color: #D32F2F;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0, 0, -0.5);
+}
+
+
+.input-field {
+    -fx-background-color: #FFF;
+    -fx-pref-height: 35px;
+    -fx-font-size: 1.2em;
+    -fx-padding: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0.2, 0, 1);
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-border-color: transparent;
+}
+
+.search-bar {
+    -fx-background-color: #FFF;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+.search-icon {
+    -fx-fill: aaa;
+}
+
+
+/* Style général du tableau */
+.table-view .virtual-flow .scroll-bar:vertical,
+.table-view .virtual-flow .scroll-bar:vertical .track,
+.table-view .virtual-flow .scroll-bar:vertical .track-background,
+.table-view .virtual-flow .scroll-bar:horizontal,
+.table-view .virtual-flow .scroll-bar:horizontal .track,
+.table-view .virtual-flow .scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+}
+
+.table-view {
+    -fx-alternate-row-fill-visible: true;
+    -fx-control-inner-background: white;
+    -fx-control-inner-background-alt: #f0fdf7;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-selection-bar: #e0f9eb;
+    -fx-selection-bar-non-focused: #e0f9eb;
+    -fx-border-color: #ececec;
+    -fx-border-width: 1px;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 5px;
+}
+
+.table-view .column-header {
+    -fx-background-color: white;
+    -fx-border-color: white;
+    -fx-border-width: 0 1px 0 0;
+    -fx-background-radius: 5 5 0 0;
+    -fx-border-radius: 5 5 0 0;
+    -fx-padding: 0; /* Remove padding from header */
+}
+.table-column {
+    -fx-alignment: CENTER-LEFT;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #00374f;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+
+.table-view .column-header:hover,
+.table-view .table-column-header:hover {
+    -fx-background-radius: 5 5 0 0;
+}
+
+.table-view .table-row-cell {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+.table-view .corner {
+    -fx-background-radius: 0 0 5 5;
+    -fx-border-radius: 0 0 5 5;
+}
+
+.table-view .virtual-flow .scroll-bar:vertical .thumb {
+    -fx-background-color: #23dfa5;
+}
+
+
+.table-view .virtual-flow .scroll-bar:horizontal .thumb {
+    -fx-background-color: #23dfa5;
+}
+
+.pagination .pagination-control .button, .pagination .toggle-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50%;
+    -fx-font-size: 1.2em;
+    -fx-font-weight: bold;
+}
+
+.pagination .pagination-control .toggle-button:selected {
+    -fx-background-color: #232E3C;
+    -fx-text-fill: white;
+    -fx-background-radius: 50%;
+}
+
+.pagination .pagination-control .toggle-button:hover, .pagination .button:hover {
+    -fx-background-color: #232E3C;
+    -fx-text-fill: white;
+    -fx-background-radius: 50%;
+    -fx-cursor: hand;
+}
+
+.pagination .pagination-control .left-arrow, .right-arrow {
+    -fx-background-color: #00374f;
+}
+
+.pagination .label {
+    -fx-text-fill: #00374f;
+}
+
+
+
+
+/* Style général de l'alerte */
+.dialog-pane {
+    -fx-background-color: #F0F0F0;
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-spacing: 20;
+    -fx-font-family: 'Poppins Regular';
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #E0F2F1;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane .label {
+    -fx-text-fill: #00374f;
+}
+
+.dialog-pane .text-field {
+    -fx-background-color: #FFF;
+    -fx-pref-height: 35px;
+    -fx-font-size: 1.2em;
+    -fx-padding: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 10, 0, 0, 0.5);
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-border-color: transparent
+}
+
+/* Style pour le contenu de l'alerte */
+.dialog-pane .content {
+    -fx-text-fill: #333;
+    -fx-font-size: 14px;
+}
+
+/* Style pour les boutons de l'alerte */
+.dialog-pane .button-bar .button {
+    -fx-background-color: #23dfa5;
+    -fx-text-fill: white;
+    -fx-padding: 10 20 ;
+    -fx-font-size: 14px;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 15, 0, 0, 2);
+}
+
+.dialog-pane .button-bar .button:hover {
+    -fx-background-color: #1abf95;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 20, 0, 0, 4);
+}
+
+.dialog-pane .button-bar .button:pressed {
+    -fx-background-color: #1a9b7b;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, -2);
+}
+
+.dialog-pane .error-label {
+    -fx-text-fill: red;
+}
+
+.combo-box {
+    -fx-background-color: #FFF;
+    -fx-font-size: 1.2em;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 10, 0, 0, 0.5);
+}
+
+/* Style général pour les alertes */
+.alert {
+    -fx-background-color: #e9ecef;
+    -fx-text-fill: #00374f;
+    -fx-padding: 15px 20px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-border-color: #bee5eb;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 2);
+    -fx-font-family: 'Poppins Regular';
+    -fx-font-size: 14px;
+}
+
+/* Variations de couleur pour différents types d'alertes */
+.alert-info {
+    -fx-background-color: #d1ecf1;
+    -fx-border-color: #bee5eb;
+    -fx-text-fill: #00374f;
+}
+
+.alert-success {
+    -fx-background-color: #d4edda;
+    -fx-border-color: #c3e6cb;
+    -fx-text-fill: #155724;
+}
+
+.alert-warning {
+    -fx-background-color: #fff3cd;
+    -fx-border-color: #ffeeba;
+    -fx-text-fill: #856404;
+}
+
+.alert-error {
+    -fx-background-color: #f8d7da;
+    -fx-border-color: #f5c6cb;
+    -fx-text-fill: #721c24;
+}
+
+/* Optionnel : style pour le texte gras (par exemple, les titres dans l'alerte) */
+.alert .alert-heading {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10 0;
+    -fx-text-fill: inherit;
+}
+
+
+/* Style pour la liste déroulante */
+.combo-box-popup .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #00374f;
+}
+
+/* Style pour un élément sélectionné dans la liste */
+.combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: #EDE6FF;
+}
+
+/* Style pour la partie du bouton de la ComboBox */
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+}
