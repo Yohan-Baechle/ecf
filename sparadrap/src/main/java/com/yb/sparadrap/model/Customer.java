@@ -12,6 +12,16 @@ public class Customer extends Person {
     private final StringProperty mutual;
     private final StringProperty referringDoctor;
 
+    // Constructeur par défaut
+    public Customer() {
+        super("", "", new Address("", "", ""), "", "");
+        this.socialSecurityNumber = new SimpleStringProperty("");
+        this.birthDate = new SimpleObjectProperty<>(LocalDate.now());
+        this.mutual = new SimpleStringProperty("");
+        this.referringDoctor = new SimpleStringProperty("");
+    }
+
+    // Constructeur avec paramètres
     public Customer(String firstName, String lastName, Address address, String phoneNumber, String email,
                     String socialSecurityNumber, LocalDate birthDate, String mutual, String referringDoctor) {
         super(firstName, lastName, address, phoneNumber, email);

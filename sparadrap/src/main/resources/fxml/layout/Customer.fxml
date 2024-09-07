@@ -18,7 +18,7 @@
       <FontIcon iconLiteral="fas-users" iconSize="24" />
         <Text styleClass="page-title" text="Gestion des clients" />
         <Region HBox.hgrow="ALWAYS" />
-        <Button fx:id="addCustomerBtn" prefWidth="120.0" styleClass="button-success" text="Nouveau">
+        <Button fx:id="addCustomerBtn" onAction="#handleAddCustomer" prefWidth="120.0" styleClass="button-success" text="Nouveau">
             <graphic>
                 <FontIcon iconLiteral="fas-user-plus" iconSize="20" />
             </graphic>

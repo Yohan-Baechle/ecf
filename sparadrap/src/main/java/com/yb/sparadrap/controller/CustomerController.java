@@ -2,11 +2,10 @@ package com.yb.sparadrap.controller;
 
 import com.yb.sparadrap.model.Address;
 import com.yb.sparadrap.model.Customer;
+import com.yb.sparadrap.model.store.CustomerDataStore;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
@@ -17,10 +16,10 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.javafx.FontIcon;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -40,10 +39,6 @@ public class CustomerController {
     @FXML
     private TableColumn<Customer, String> addressColumn;
     @FXML
-    private TableColumn<Customer, String> postalCodeColumn;
-    @FXML
-    private TableColumn<Customer, String> cityColumn;
-    @FXML
     private TableColumn<Customer, String> phoneNumberColumn;
     @FXML
     private TableColumn<Customer, String> emailColumn;
@@ -57,8 +52,6 @@ public class CustomerController {
     private TextField searchField;
     @FXML
     private Label statusLabel;
-
-    private ObservableList<Customer> customerData;
 
     /**
      * Initializes the controller by setting up columns, user data, search functionality, and action buttons.
@@ -93,13 +86,13 @@ public class CustomerController {
         );
 
         // Set column widths as percentages of the TableView width
-        firstNameColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.15));
-        lastNameColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.15));
+        firstNameColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.10));
+        lastNameColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.10));
         addressColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.15));
         emailColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.15));
-        phoneNumberColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.15));
+        phoneNumberColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.10));
         socialSecurityNumberColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.15));
-        addressColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.30));
+        addressColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.25));
         actionColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.10));
     }
 
@@ -107,41 +100,15 @@ public class CustomerController {
      * Initializes the user data for the TableView with some example customers.
      */
     private void initializeCustomerData() {
-        customerData = FXCollections.observableArrayList(
-                new Customer("Jean", "Dupont",
-                        new Address("12 rue de la Paix", "75002", "Paris"),
-                        "0612345678", "jean.dupont@example.com",
-                        "192073409812345", LocalDate.of(1980, 5, 12), "Mutuelle A", "Dr. Bernard Martin"),
-
-                new Customer("Marie", "Lefevre",
-                        new Address("25 avenue des Champs-Élysées", "75008", "Paris"),
-                        "0623456789", "marie.lefevre@example.com",
-                        "283067509825674", LocalDate.of(1975, 3, 22), "Mutuelle B", "Dr. Anne Dupuis"),
-
-                new Customer("Paul", "Moreau",
-                        new Address("14 rue des Fleurs", "69002", "Lyon"),
-                        "0645678910", "paul.moreau@example.com",
-                        "170023456789012", LocalDate.of(1990, 11, 3), "Mutuelle C", "Dr. Sophie Girard"),
-
-                new Customer("Lucie", "Durand",
-                        new Address("58 boulevard Victor Hugo", "06000", "Nice"),
-                        "0654321098", "lucie.durand@example.com",
-                        "185089012345678", LocalDate.of(1985, 8, 15), "Mutuelle D", "Dr. Pierre Lefevre"),
-
-                new Customer("Pierre", "Dubois",
-                        new Address("34 rue de la République", "13001", "Marseille"),
-                        "0678912345", "pierre.dubois@example.com",
-                        "197054308765432", LocalDate.of(1970, 12, 7), "Mutuelle E", "Dr. Jacques Bernard")
-        );
-
-        customersTable.setItems(customerData);
+        // Utiliser les clients depuis CustomerDataStore
+        customersTable.setItems(CustomerDataStore.getInstance().getCustomers());
     }
 
     /**
      * Sets up the search functionality for filtering users in the TableView.
      */
     private void initializeSearchField() {
-        FilteredList<Customer> filteredData = new FilteredList<>(customerData, b -> true);
+        FilteredList<Customer> filteredData = new FilteredList<>(CustomerDataStore.getInstance().getCustomers(), b -> true);
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(customer -> {
@@ -180,8 +147,8 @@ public class CustomerController {
                 editButton.getStyleClass().add("button-warning");
                 deleteButton.getStyleClass().add("button-destructive");
 
-//                editButton.setOnAction(event -> editCustomer(getTableView().getItems().get(getIndex())));
-//                deleteButton.setOnAction(event -> deleteCustomer(getTableView().getItems().get(getIndex())));
+                editButton.setOnAction(event -> handleEditCustomer(getTableView().getItems().get(getIndex())));
+                deleteButton.setOnAction(event -> handleDeleteCustomer(getTableView().getItems().get(getIndex())));
             }
 
             @Override
@@ -198,25 +165,115 @@ public class CustomerController {
         });
     }
 
+    @FXML
+    private void handleAddCustomer() {
+        try {
+            // Charger le fichier FXML du formulaire client
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/layout/CustomerForm.fxml"));
+            DialogPane dialogPane = loader.load();
+
+            // Obtenir le contrôleur du formulaire client
+            CustomerFormController controller = loader.getController();
+            // Créer un nouveau client vide et le passer au contrôleur
+            controller.setCustomer(new Customer("", "", new Address("", "", ""), "", "", "", LocalDate.now(), "", ""));
+
+            // Créer une boîte de dialogue pour le formulaire
+            Dialog<Customer> dialog = new Dialog<>();
+            dialog.setDialogPane(dialogPane);
+            dialog.setTitle("Ajouter un nouveau client");
+            dialog.getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+
+            // Vérifier les entrées lors de la validation
+            Button saveButton = (Button) dialogPane.lookupButton(ButtonType.OK);
+            saveButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
+                if (!controller.validateInputs()) {
+                    event.consume(); // Empêche la fermeture de la boîte de dialogue si les entrées ne sont pas valides
+                }
+            });
+
+            // Définir le résultat de la boîte de dialogue si le bouton OK est cliqué
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == ButtonType.OK) {
+                    return controller.getCustomer(); // Obtenir le client du contrôleur si les données sont valides
+                }
+                return null;
+            });
+
+            // Afficher la boîte de dialogue et attendre l'action de l'utilisateur
+            Optional<Customer> result = dialog.showAndWait();
+            result.ifPresent(newCustomer -> {
+                // Ajouter le nouveau client à CustomerDataStore
+                CustomerDataStore.getInstance().addCustomer(newCustomer);
+                updateStatusLabel("Le client a été créé avec succès.");
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    private void handleEditCustomer(Customer customer) {
+        try {
+            // Charger le fichier FXML du formulaire client
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/layout/CustomerForm.fxml"));
+            DialogPane dialogPane = loader.load();
+
+            // Obtenir le contrôleur du formulaire client
+            CustomerFormController controller = loader.getController();
+            // Passer le client sélectionné au contrôleur pour le pré-remplissage du formulaire
+            controller.setCustomer(customer);
+
+            // Créer une boîte de dialogue pour le formulaire
+            Dialog<Customer> dialog = new Dialog<>();
+            dialog.setDialogPane(dialogPane);
+            dialog.setTitle("Modification client");
+            dialog.getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+
+            // Vérifier les entrées lors de la validation
+            Button saveButton = (Button) dialogPane.lookupButton(ButtonType.OK);
+            saveButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
+                if (!controller.validateInputs()) {
+                    event.consume(); // Empêche la fermeture de la boîte de dialogue si les entrées ne sont pas valides
+                }
+            });
+
+            dialog.setResultConverter(dialogButton -> dialogButton == ButtonType.OK ? controller.getCustomer() : null);
+
+            Optional<Customer> result = dialog.showAndWait();
+            result.ifPresent(updatedUser -> {
+                int index = CustomerDataStore.getInstance().getCustomers().indexOf(customer);
+                if (index >= 0) {
+                    CustomerDataStore.getInstance().getCustomers().set(index, updatedUser);
+                    updateStatusLabel("Personne modifiée avec succès.");
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     /**
      * Opens a confirmation dialog to delete the selected user.
      * If confirmed, the user is removed from the list.
      *
      * @param customer The user to be deleted.
      */
-    private void deleteUser(Customer customer) {
+    private void handleDeleteCustomer(Customer customer) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation de suppression");
         alert.setHeaderText("Êtes-vous sûr de vouloir supprimer cette personne ?");
         alert.setContentText("Cette action est irréversible.");
 
         DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(getClass().getResource("/styles/global.css").toExternalForm());
+        dialogPane.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/global.css")).toExternalForm());
         dialogPane.getStyleClass().add("dialog-pane");
 
-        FontIcon icon = new FontIcon(FontAwesomeSolid.INFO);
+        FontIcon icon = new FontIcon(FontAwesomeSolid.INFO_CIRCLE);
         icon.setIconSize(48);
-        icon.setIconColor(Color.web("#2E1274"));
+        icon.setIconColor(Color.web("#E53935"));
         alert.setGraphic(icon);
 
         ButtonType yesButton = new ButtonType("Oui", ButtonBar.ButtonData.OK_DONE);
@@ -228,8 +285,8 @@ public class CustomerController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == yesButton) {
-            customerData.remove(customer);
-            updateStatusLabel("La personne a été supprimé avec succès.", "alert-success");
+            CustomerDataStore.getInstance().removeCustomer(customer);
+            updateStatusLabel("Personne supprimée avec succès.");
         }
     }
 
@@ -237,12 +294,11 @@ public class CustomerController {
      * Updates the status label with a message and a CSS class.
      * The message is cleared after 3 seconds.
      *
-     * @param message  The message to display.
-     * @param cssClass The CSS class to apply for styling.
+     * @param message The message to display.
      */
-    private void updateStatusLabel(String message, String cssClass) {
+    private void updateStatusLabel(String message) {
         statusLabel.setText(message);
-        statusLabel.getStyleClass().setAll("alert", cssClass);
+        statusLabel.getStyleClass().setAll("alert", "alert-success");
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.seconds(3),
                 ae -> {

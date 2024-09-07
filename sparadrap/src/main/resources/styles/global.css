@@ -299,7 +299,7 @@ Button {
 }
 
 .dialog-pane .header-panel {
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: white;
     -fx-font-weight: bold;
 }
 
