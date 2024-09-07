@@ -11,5 +11,6 @@ module com.yb.sparadrap {
     exports com.yb.sparadrap;
     exports com.yb.sparadrap.controller;
     exports com.yb.sparadrap.model;
+    exports com.yb.sparadrap.model.enums;
     exports com.yb.sparadrap.view;
 }
