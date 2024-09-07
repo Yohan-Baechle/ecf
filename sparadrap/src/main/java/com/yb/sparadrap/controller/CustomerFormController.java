@@ -3,13 +3,16 @@ package com.yb.sparadrap.controller;
 import com.yb.sparadrap.model.Address;
 import com.yb.sparadrap.model.Customer;
 import com.yb.sparadrap.model.store.MutualDataStore;
+import com.yb.sparadrap.util.ValidationUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.StringConverter;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import com.yb.sparadrap.util.ValidationUtils;
+import java.util.Map;
+import java.util.HashMap;
 
 public class CustomerFormController {
 
@@ -18,83 +21,58 @@ public class CustomerFormController {
 
     @FXML
     private TextField firstNameField;
-
     @FXML
     private TextField lastNameField;
-
     @FXML
     private TextField streetField;
-
     @FXML
     private TextField zipCodeField;
-
     @FXML
     private TextField cityField;
-
     @FXML
     private TextField phoneNumberField;
-
     @FXML
     private TextField emailField;
-
     @FXML
     private TextField socialSecurityNumberField;
-
     @FXML
     private DatePicker birthDatePicker;
-
     @FXML
     private ComboBox<String> mutualComboBox;
-
     @FXML
     private ComboBox<String> primaryDoctorComboBox;
 
     @FXML
     private Label firstNameErrorLabel;
-
     @FXML
     private Label lastNameErrorLabel;
-
     @FXML
     private Label streetErrorLabel;
-
     @FXML
     private Label postalCodeErrorLabel;
-
     @FXML
     private Label cityErrorLabel;
-
     @FXML
     private Label phoneNumberErrorLabel;
-
     @FXML
     private Label emailErrorLabel;
-
     @FXML
     private Label socialSecurityNumberErrorLabel;
-
     @FXML
     private Label birthDateErrorLabel;
-
     @FXML
     private Label mutualErrorLabel;
-
     @FXML
     private Label referringDoctorErrorLabel;
 
-    @FXML
-    private ButtonType saveButtonType;
-
-    private Customer customer;
+    private Map<TextField, Label> fieldErrorMap;
 
     @FXML
     public void initialize() {
         mutualComboBox.setItems(MutualDataStore.getInstance().getMutuals());
 
-        clearErrorLabels();
-
         // Configuration du DatePicker
-        birthDatePicker.setConverter(new StringConverter<LocalDate>() {
+        birthDatePicker.setConverter(new StringConverter<>() {
             private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
             @Override
@@ -113,182 +91,86 @@ public class CustomerFormController {
             }
         });
 
-// Remplir les champs avec les informations du client si disponible
-        if (customer != null) {
-            firstNameField.setText(customer.getFirstName());
-            lastNameField.setText(customer.getLastName());
-
-            if (customer.getAddress() != null) {
-                streetField.setText(customer.getAddress().getStreet());
-                zipCodeField.setText(customer.getAddress().getPostalCode());
-                cityField.setText(customer.getAddress().getCity());
-            }
-
-            phoneNumberField.setText(customer.getPhoneNumber());
-            emailField.setText(customer.getEmail());
-            socialSecurityNumberField.setText(customer.getSocialSecurityNumber());
-
-            // Gérer la date de naissance avec un LocalDate directement
-            LocalDate birthDate = customer.getBirthDate();
-            if (birthDate != null) {
-                birthDatePicker.setValue(birthDate);  // Définir la valeur du DatePicker directement
-            } else {
-                birthDatePicker.setValue(null);
-            }
-
-            mutualComboBox.setValue(customer.getMutual());
-            primaryDoctorComboBox.setValue(customer.getReferringDoctor());
-        }
-
-        Button saveButton = (Button) dialogPane.lookupButton(saveButtonType);
-        if (saveButton != null) {
-            saveButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
-                if (!validateInputs()) {
-                    event.consume();
-                }
-            });
-        }
+        // Mapping des champs de saisie avec leurs labels d'erreur
+        fieldErrorMap = new HashMap<>();
+        fieldErrorMap.put(firstNameField, firstNameErrorLabel);
+        fieldErrorMap.put(lastNameField, lastNameErrorLabel);
+        fieldErrorMap.put(streetField, streetErrorLabel);
+        fieldErrorMap.put(zipCodeField, postalCodeErrorLabel);
+        fieldErrorMap.put(cityField, cityErrorLabel);
+        fieldErrorMap.put(phoneNumberField, phoneNumberErrorLabel);
+        fieldErrorMap.put(emailField, emailErrorLabel);
+        fieldErrorMap.put(socialSecurityNumberField, socialSecurityNumberErrorLabel);
     }
 
     public void setCustomer(Customer customer) {
-        this.customer = customer;
         if (customer != null) {
             firstNameField.setText(customer.getFirstName());
             lastNameField.setText(customer.getLastName());
-
             if (customer.getAddress() != null) {
                 streetField.setText(customer.getAddress().getStreet());
                 zipCodeField.setText(customer.getAddress().getPostalCode());
                 cityField.setText(customer.getAddress().getCity());
             }
-
             phoneNumberField.setText(customer.getPhoneNumber());
             emailField.setText(customer.getEmail());
             socialSecurityNumberField.setText(customer.getSocialSecurityNumber());
-
-            // Gestion de la date de naissance
-            if (customer.getBirthDate() != null) {
-                birthDatePicker.setValue(customer.getBirthDate());
-            } else {
-                birthDatePicker.setValue(null);
-            }
-
+            birthDatePicker.setValue(customer.getBirthDate());
             mutualComboBox.setValue(customer.getMutual());
             primaryDoctorComboBox.setValue(customer.getReferringDoctor());
         }
     }
 
-
     public Customer getCustomer() {
-        if (customer == null) {
-            customer = new Customer();
+        return new Customer(
+                firstNameField.getText().trim(),
+                lastNameField.getText().trim(),
+                new Address(streetField.getText().trim(), zipCodeField.getText().trim(), cityField.getText().trim()),
+                phoneNumberField.getText().trim(),
+                emailField.getText().trim(),
+                socialSecurityNumberField.getText().trim(),
+                birthDatePicker.getValue(),
+                mutualComboBox.getValue(),
+                primaryDoctorComboBox.getValue()
+        );
+    }
+
+    public boolean validateInputs() {
+        clearErrorLabels();
+
+        // Validation des champs TextField en utilisant la classe utilitaire
+        boolean isFirstNameValid = validateField(firstNameField, ValidationUtil.validateFirstName(firstNameField.getText().trim()));
+        boolean isLastNameValid = validateField(lastNameField, ValidationUtil.validateLastName(lastNameField.getText().trim()));
+        boolean isStreetValid = validateField(streetField, ValidationUtil.validateStreet(streetField.getText().trim()));
+        boolean isZipCodeValid = validateField(zipCodeField, ValidationUtil.validateZipCode(zipCodeField.getText().trim()));
+        boolean isCityValid = validateField(cityField, ValidationUtil.validateCity(cityField.getText().trim()));
+        boolean isPhoneNumberValid = validateField(phoneNumberField, ValidationUtil.validatePhoneNumber(phoneNumberField.getText().trim()));
+        boolean isEmailValid = validateField(emailField, ValidationUtil.validateEmail(emailField.getText().trim()));
+        boolean isSSNValid = validateField(socialSecurityNumberField, ValidationUtil.validateSocialSecurityNumber(socialSecurityNumberField.getText().trim()));
+        String birthDateError = ValidationUtil.validateBirthDate(birthDatePicker.getValue());
+        boolean isBirthDateValid = (birthDateError == null);
+        if (!isBirthDateValid) {
+            birthDateErrorLabel.setText(birthDateError);
         }
-        customer.setFirstName(firstNameField.getText().trim());
-        customer.setLastName(lastNameField.getText().trim());
 
-        customer.setAddress(new Address(streetField.getText().trim(), zipCodeField.getText().trim(), cityField.getText().trim()));
-        customer.setPhoneNumber(phoneNumberField.getText().trim());
-        customer.setEmail(emailField.getText().trim());
-        customer.setSocialSecurityNumber(socialSecurityNumberField.getText().trim());
-
-        // Gestion de la date de naissance
-        if (birthDatePicker.getValue() != null) {
-            customer.setBirthDate(birthDatePicker.getValue());
-        }
-
-        customer.setMutual(mutualComboBox.getValue());
-        customer.setReferringDoctor(primaryDoctorComboBox.getValue());
-        return customer;
+        // Retourne 'true' uniquement si toutes les validations sont correctes
+        return isFirstNameValid && isLastNameValid && isStreetValid && isZipCodeValid && isCityValid
+                && isPhoneNumberValid && isEmailValid && isSSNValid && isBirthDateValid;
     }
 
 
-    public boolean validateInputs() {
-        boolean valid = true;
-        clearErrorLabels();
 
-        String firstName = firstNameField.getText().trim();
-        String lastName = lastNameField.getText().trim();
-        String street = streetField.getText().trim();
-        String zipCode = zipCodeField.getText().trim();
-        String city = cityField.getText().trim();
-        String phoneNumber = phoneNumberField.getText().trim();
-        String email = emailField.getText().trim();
-        String socialSecurityNumber = socialSecurityNumberField.getText().trim();
 
-        // Validation du prénom
-        if (!ValidationUtils.isValidName(firstName)) {
-            firstNameErrorLabel.setText("Le prénom est invalide.");
-            valid = false;
+    private boolean validateField(TextField field, String error) {
+        if (error != null) {
+            fieldErrorMap.get(field).setText(error);
+            return false;
         }
-
-        // Validation du nom
-        if (!ValidationUtils.isValidName(lastName)) {
-            lastNameErrorLabel.setText("Le nom est invalide.");
-            valid = false;
-        }
-
-        // Validation de l'adresse
-        if (!ValidationUtils.isValidStreet(street)) {
-            streetErrorLabel.setText("L'adresse est requise.");
-            valid = false;
-        }
-
-        // Validation du code postal
-        if (!ValidationUtils.isValidZipCode(zipCode)) {
-            postalCodeErrorLabel.setText("Code postal invalide.");
-            valid = false;
-        }
-
-        // Validation de la ville
-        if (!ValidationUtils.isValidCity(city)) {
-            cityErrorLabel.setText("La ville est requise.");
-            valid = false;
-        }
-
-        // Validation du numéro de téléphone
-        if (!ValidationUtils.isValidPhoneNumber(phoneNumber)) {
-            phoneNumberErrorLabel.setText("Numéro de téléphone invalide.");
-            valid = false;
-        }
-
-        // Validation de l'email
-        if (!ValidationUtils.isValidEmail(email)) {
-            emailErrorLabel.setText("Email invalide.");
-            valid = false;
-        }
-
-        // Validation du numéro de sécurité sociale
-        if (!ValidationUtils.isValidSocialSecurityNumber(socialSecurityNumber)) {
-            socialSecurityNumberErrorLabel.setText("Numéro de sécurité sociale invalide.");
-            valid = false;
-        }
-
-        // Validation de la date de naissance
-        if (birthDatePicker.getValue() == null) {
-            birthDateErrorLabel.setText("La date de naissance est requise.");
-            valid = false;
-        }
-
-        // Validation des champs facultatifs
-        if (mutualComboBox.getValue() == null || mutualComboBox.getValue().trim().isEmpty()) {
-            mutualErrorLabel.setText(""); // Pas d'erreur si facultatif
-        }
-        if (primaryDoctorComboBox.getValue() == null || primaryDoctorComboBox.getValue().trim().isEmpty()) {
-            referringDoctorErrorLabel.setText(""); // Pas d'erreur si facultatif
-        }
-
-        return valid;
+        return true;
     }
 
     private void clearErrorLabels() {
-        firstNameErrorLabel.setText("");
-        lastNameErrorLabel.setText("");
-        streetErrorLabel.setText("");
-        postalCodeErrorLabel.setText("");
-        cityErrorLabel.setText("");
-        phoneNumberErrorLabel.setText("");
-        emailErrorLabel.setText("");
-        socialSecurityNumberErrorLabel.setText("");
+        fieldErrorMap.values().forEach(label -> label.setText(""));
         birthDateErrorLabel.setText("");
         mutualErrorLabel.setText("");
         referringDoctorErrorLabel.setText("");

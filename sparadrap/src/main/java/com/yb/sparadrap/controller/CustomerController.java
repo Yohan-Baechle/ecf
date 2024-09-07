@@ -186,7 +186,7 @@ public class CustomerController {
             // Vérifier les entrées lors de la validation
             Button saveButton = (Button) dialogPane.lookupButton(ButtonType.OK);
             saveButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
-                if (!controller.validateInputs()) {
+                if (!controller.validateInputs()) { // Correction ici, on vérifie si la validation échoue
                     event.consume(); // Empêche la fermeture de la boîte de dialogue si les entrées ne sont pas valides
                 }
             });
@@ -213,6 +213,7 @@ public class CustomerController {
     }
 
 
+
     @FXML
     private void handleEditCustomer(Customer customer) {
         try {
@@ -234,7 +235,7 @@ public class CustomerController {
             // Vérifier les entrées lors de la validation
             Button saveButton = (Button) dialogPane.lookupButton(ButtonType.OK);
             saveButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
-                if (!controller.validateInputs()) {
+                if (!controller.validateInputs()) { // Correction ici également
                     event.consume(); // Empêche la fermeture de la boîte de dialogue si les entrées ne sont pas valides
                 }
             });
@@ -253,6 +254,7 @@ public class CustomerController {
             e.printStackTrace();
         }
     }
+
 
 
     /**

@@ -5,7 +5,7 @@ import javafx.animation.Timeline;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
 
-public class AlertUtils {
+public class AlertUtil {
 
     /**
      * Met à jour le statut de l'application avec un message et un type d'alerte (success, info, warning, error).
