@@ -25,12 +25,13 @@ public class MainController implements Initializable {
         // Écoute les changements dans l'élément de menu sélectionné et met à jour la vue en conséquence
         AppModel.getInstance().getViewFactory().getSelectedMenuItem().addListener((observable, oldValue, newValue) -> {
             switch (newValue) {
+                case "purchase" -> mainPane.setCenter(AppModel.getInstance().getViewFactory().getPurchaseView());
                 case "customer" -> mainPane.setCenter(AppModel.getInstance().getViewFactory().getCustomerView());
-                default -> mainPane.setCenter(AppModel.getInstance().getViewFactory().getCustomerView());
+                default -> mainPane.setCenter(AppModel.getInstance().getViewFactory().getPurchaseView());
             }
         });
 
         // Définit la vue par défaut sur la page d'accueil lorsque l'application démarre
-        mainPane.setCenter(AppModel.getInstance().getViewFactory().getCustomerView());
+        mainPane.setCenter(AppModel.getInstance().getViewFactory().getPurchaseView());
     }
 }

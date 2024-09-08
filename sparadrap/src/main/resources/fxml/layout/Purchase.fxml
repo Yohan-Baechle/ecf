@@ -11,16 +11,16 @@
 <?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="800" prefWidth="920" styleClass="main-container" stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yb.sparadrap.controller.CustomerController">
+<AnchorPane prefHeight="800" prefWidth="920" styleClass="main-container" stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yb.sparadrap.controller.PurchaseController">
 
     <!-- Titre de la page -->
     <HBox alignment="CENTER_LEFT" spacing="10.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
-        <FontIcon iconLiteral="fas-users" iconSize="24" />
-        <Text styleClass="page-title" text="Gestion des clients" />
+        <FontIcon iconLiteral="fas-shopping-cart" iconSize="24" />
+        <Text styleClass="page-title" text="Gestion des achats" />
         <Region HBox.hgrow="ALWAYS" />
-        <Button fx:id="addCustomerBtn" onAction="#handleAddCustomer" prefWidth="120.0" styleClass="button-success" text="Nouveau">
+        <Button fx:id="addPurchaseBtn" onAction="#handleAddPurchase" prefWidth="120.0" styleClass="button-success" text="Nouveau">
             <graphic>
-                <FontIcon iconLiteral="fas-user-plus" iconSize="20" />
+                <FontIcon iconLiteral="fas-cart-plus" iconSize="20" />
             </graphic>
         </Button>
     </HBox>
@@ -31,15 +31,14 @@
     </HBox>
 
     <!-- TableView pour les clients au centre -->
-    <TableView fx:id="customersTable" layoutX="20.0" layoutY="130.0" prefHeight="560.0" prefWidth="860.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="160.0">
+    <TableView fx:id="purchaseTable" layoutX="20.0" layoutY="130.0" prefHeight="560.0" prefWidth="860.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="160.0">
         <columns>
-            <TableColumn fx:id="lastNameColumn" text="Nom" />
-            <TableColumn fx:id="firstNameColumn" text="Prénom" />
-            <TableColumn fx:id="addressColumn" text="Adresse" />
-            <TableColumn fx:id="phoneNumberColumn" text="Téléphone" />
-            <TableColumn fx:id="emailColumn" text="Email" />
-            <TableColumn fx:id="socialSecurityNumberColumn" text="N° de Sécurité Sociale" />
-            <TableColumn fx:id="birthDateColumn" text="Date de Naissance" />
+            <TableColumn fx:id="medicationColumn" text="Médicament" />
+            <TableColumn fx:id="medicationCategoryColumn" text="Catégorie" />
+            <TableColumn fx:id="quantityColumn" text="Quantité" />
+            <TableColumn fx:id="unitPriceColumn" text="Prix unitaire" />
+            <TableColumn fx:id="purchaseDateColumn" text="Date d'achat" />
+            <TableColumn fx:id="totalPriceColumn" text="Prix total" />
             <TableColumn fx:id="actionColumn" text="Actions" />
         </columns>
     </TableView>

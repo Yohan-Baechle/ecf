@@ -23,15 +23,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Controller for managing users in the application.
- * Handles interactions with the user list and manages user addition, editing, and deletion.
+ * Controller for managing customer in the application.
+ * Handles interactions with the customer list and manages customer addition, editing, and deletion.
  */
 public class CustomerController {
 
     @FXML
     private Button addCustomerBtn;
     @FXML
-    private TableView<Customer> customersTable;
+    private TableView<Customer> customerTable;
     @FXML
     private TableColumn<Customer, String> lastNameColumn;
     @FXML
@@ -54,7 +54,7 @@ public class CustomerController {
     private Label statusLabel;
 
     /**
-     * Initializes the controller by setting up columns, user data, search functionality, and action buttons.
+     * Initializes the controller by setting up columns, customer data, search functionality, and action buttons.
      */
     @FXML
     public void initialize() {
@@ -86,26 +86,26 @@ public class CustomerController {
         );
 
         // Set column widths as percentages of the TableView width
-        firstNameColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.10));
-        lastNameColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.10));
-        addressColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.15));
-        emailColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.15));
-        phoneNumberColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.10));
-        socialSecurityNumberColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.15));
-        addressColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.25));
-        actionColumn.prefWidthProperty().bind(customersTable.widthProperty().multiply(0.10));
+        firstNameColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.10));
+        lastNameColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.10));
+        addressColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.15));
+        emailColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.15));
+        phoneNumberColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.10));
+        socialSecurityNumberColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.15));
+        addressColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.25));
+        actionColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.10));
     }
 
     /**
-     * Initializes the user data for the TableView with some example customers.
+     * Initializes the customer data for the TableView with some example customers.
      */
     private void initializeCustomerData() {
         // Utiliser les clients depuis CustomerDataStore
-        customersTable.setItems(CustomerDataStore.getInstance().getCustomers());
+        customerTable.setItems(CustomerDataStore.getInstance().getCustomers());
     }
 
     /**
-     * Sets up the search functionality for filtering users in the TableView.
+     * Sets up the search functionality for filtering customers in the TableView.
      */
     private void initializeSearchField() {
         FilteredList<Customer> filteredData = new FilteredList<>(CustomerDataStore.getInstance().getCustomers(), b -> true);
@@ -127,8 +127,8 @@ public class CustomerController {
         });
 
         SortedList<Customer> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(customersTable.comparatorProperty());
-        customersTable.setItems(sortedData);
+        sortedData.comparatorProperty().bind(customerTable.comparatorProperty());
+        customerTable.setItems(sortedData);
     }
 
 
@@ -243,10 +243,10 @@ public class CustomerController {
             dialog.setResultConverter(dialogButton -> dialogButton == ButtonType.OK ? controller.getCustomer() : null);
 
             Optional<Customer> result = dialog.showAndWait();
-            result.ifPresent(updatedUser -> {
+            result.ifPresent(updatedCustomer -> {
                 int index = CustomerDataStore.getInstance().getCustomers().indexOf(customer);
                 if (index >= 0) {
-                    CustomerDataStore.getInstance().getCustomers().set(index, updatedUser);
+                    CustomerDataStore.getInstance().getCustomers().set(index, updatedCustomer);
                     updateStatusLabel("Personne modifiée avec succès.");
                 }
             });
@@ -258,10 +258,10 @@ public class CustomerController {
 
 
     /**
-     * Opens a confirmation dialog to delete the selected user.
-     * If confirmed, the user is removed from the list.
+     * Opens a confirmation dialog to delete the selected customer.
+     * If confirmed, the customer is removed from the list.
      *
-     * @param customer The user to be deleted.
+     * @param customer The customer to be deleted.
      */
     private void handleDeleteCustomer(Customer customer) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

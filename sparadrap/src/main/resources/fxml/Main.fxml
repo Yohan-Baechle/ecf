@@ -13,7 +13,7 @@
 
     <!-- Vue principale du tableau de bord incluse au centre -->
     <center>
-        <fx:include source="layout/Customer.fxml"/>
+        <fx:include source="layout/Purchase.fxml"/>
     </center>
 
 </BorderPane>

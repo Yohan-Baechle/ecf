@@ -89,4 +89,17 @@ public class ValidationUtil {
         if (!birthDate.isBefore(today.minusYears(18))) return "Le client doit avoir plus de 18 ans.";
         return null;
     }
+
+    // Validation de la quantité
+    public static String validateQuantity(String quantity) {
+        if (isEmpty(quantity)) return "La quantité ne peut pas être vide.";
+        try {
+            int qty = Integer.parseInt(quantity);
+            if (qty <= 0) return "La quantité doit être un nombre positif.";
+        } catch (NumberFormatException e) {
+            return "La quantité doit être un nombre valide.";
+        }
+        return null;
+    }
+
 }

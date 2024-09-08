@@ -79,4 +79,10 @@ public class Customer extends Person {
     public void setReferringDoctor(String referringDoctor) {
         this.referringDoctor.set(referringDoctor);
     }
+
+    @Override
+    public String toString() {
+        return getFirstName() + " " + getLastName() + " " + getSocialSecurityNumber();
+    }
+
 }

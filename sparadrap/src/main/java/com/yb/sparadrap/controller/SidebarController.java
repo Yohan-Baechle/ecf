@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
  * Il gère les interactions de l'utilisateur avec les boutons du menu et met à jour la vue principale en conséquence.
  */
 public class SidebarController implements Initializable {
+    public Button purchaseBtn;
     public Button customerBtn;
 
     /**
@@ -36,7 +37,15 @@ public class SidebarController implements Initializable {
      * Chaque écouteur met à jour l'élément de menu sélectionné dans le ViewFactory.
      */
     private void addListeners() {
+        purchaseBtn.setOnAction(event -> onPurchase());
         customerBtn.setOnAction(event -> onCustomer());
+    }
+
+    /**
+     * Définit l'élément de menu sélectionné sur "purchase", ce qui déclenche l'affichage de la vue de gestion des achats.
+     */
+    private void onPurchase() {
+        AppModel.getInstance().getViewFactory().getSelectedMenuItem().set("purchase");
     }
 
     /**
@@ -53,10 +62,14 @@ public class SidebarController implements Initializable {
      */
     private void updateSelectedMenu(String selectedMenu) {
         // Supprime la classe 'button-selected' de tous les boutons
+        purchaseBtn.getStyleClass().remove("button-selected");
         customerBtn.getStyleClass().remove("button-selected");
 
         // Ajoute la classe 'button-selected' au bouton correspondant
         switch (selectedMenu) {
+            case "purchase":
+                purchaseBtn.getStyleClass().add("button-selected");
+                break;
             case "customer":
                 customerBtn.getStyleClass().add("button-selected");
                 break;

@@ -14,6 +14,7 @@ import java.io.IOException;
  */
 public class ViewFactory {
     private final StringProperty selectedMenuItem;
+    private AnchorPane purchaseView;
     private AnchorPane customerView;
 
     /**
@@ -32,6 +33,22 @@ public class ViewFactory {
         return selectedMenuItem;
     }
 
+    /**
+     * Charge et retourne la vue de gestion des clients.
+     * Si la vue a déjà été chargée, retourne la vue mise en cache.
+     *
+     * @return la vue de gestion des achats.
+     */
+    public AnchorPane getPurchaseView() {
+        if (purchaseView == null) {
+            try {
+                purchaseView = new FXMLLoader(getClass().getResource("/fxml/layout/Purchase.fxml")).load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return purchaseView;
+    }
 
     /**
      * Charge et retourne la vue de gestion des clients.
@@ -55,18 +72,15 @@ public class ViewFactory {
      */
     public void showMainWindow() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml"));
-        createStage(loader, true, 1200, 800);
+        createStage(loader);
     }
 
     /**
      * Crée et configure une nouvelle fenêtre (stage) avec les paramètres spécifiés.
      *
-     * @param loader    l'instance de FXMLLoader utilisée pour charger le fichier FXML.
-     * @param resizable si la fenêtre doit être redimensionnable.
-     * @param width     la largeur de la fenêtre.
-     * @param height    la hauteur de la fenêtre.
+     * @param loader l'instance de FXMLLoader utilisée pour charger le fichier FXML.
      */
-    private void createStage(FXMLLoader loader, boolean resizable, double width, double height) {
+    private void createStage(FXMLLoader loader) {
         Scene scene = null;
         try {
             scene = new Scene(loader.load());
@@ -77,19 +91,10 @@ public class ViewFactory {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("SPARADRAP");
-        stage.setResizable(resizable);
+        stage.setResizable(true);
         stage.sizeToScene();
-        stage.setWidth(width);
-        stage.setHeight(height);
+        stage.setWidth(1200);
+        stage.setHeight(800);
         stage.show();
-    }
-
-    /**
-     * Ferme la fenêtre (stage) fournie.
-     *
-     * @param stage la fenêtre à fermer.
-     */
-    public void closeStage(Stage stage) {
-        stage.close();
     }
 }
