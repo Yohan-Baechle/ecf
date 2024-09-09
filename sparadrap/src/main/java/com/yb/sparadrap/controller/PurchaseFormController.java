@@ -7,6 +7,7 @@ import com.yb.sparadrap.model.Purchase;
 import com.yb.sparadrap.model.store.CustomerDataStore;
 import com.yb.sparadrap.model.store.DoctorDataStore;
 import com.yb.sparadrap.model.store.MedicationDataStore;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -68,11 +69,15 @@ public class PurchaseFormController {
         // Charger les médicaments dans la ComboBox
         medicationComboBox.setItems(MedicationDataStore.getInstance().getMedications());
 
-        // Mettre à jour le prix unitaire et le prix total lors de la sélection du médicament
-        medicationComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue != null) {
-                unitPriceField.setText(String.format("%.2f", newValue.getPrice()));
-                updateTotalPrice();
+        // Différer la sélection du premier médicament jusqu'à ce que tous les éléments de l'UI soient chargés
+        Platform.runLater(() -> {
+            if (!medicationComboBox.getItems().isEmpty()) {
+                medicationComboBox.getSelectionModel().selectFirst();  // Sélectionner le premier médicament
+                Medication selectedMedication = medicationComboBox.getSelectionModel().getSelectedItem();
+                if (selectedMedication != null) {
+                    unitPriceField.setText(String.format("%.2f", selectedMedication.getPrice()));
+                    updateTotalPrice();
+                }
             }
         });
 
@@ -113,6 +118,7 @@ public class PurchaseFormController {
         fieldErrorMap = new HashMap<>();
         fieldErrorMap.put(quantityField, quantityErrorLabel);
     }
+
 
     public void setPurchase(Purchase purchase) {
         if (purchase != null) {
