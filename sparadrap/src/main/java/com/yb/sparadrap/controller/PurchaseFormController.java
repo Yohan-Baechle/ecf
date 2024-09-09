@@ -158,12 +158,6 @@ public class PurchaseFormController {
     public boolean validateInputs() {
         clearErrorLabels();
 
-        // Validation du médicament
-        boolean isMedicationValid = medicationComboBox.getValue() != null;
-        if (!isMedicationValid) {
-            medicationErrorLabel.setText("Sélectionnez un médicament.");
-        }
-
         // Validation de la quantité avec ValidationUtil
         String quantityError = ValidationUtil.validateQuantity(quantityField.getText());
         boolean isQuantityValid = quantityError == null;
@@ -171,10 +165,12 @@ public class PurchaseFormController {
             quantityErrorLabel.setText(quantityError);
         }
 
-        // Validation de la prescription si "Avec ordonnance" est sélectionné
+        // Validation des champs supplémentaires si "Avec ordonnance" est sélectionné
         boolean isPrescriptionValid = true;
         if ("Avec ordonnance".equals(purchaseTypeComboBox.getValue())) {
-            boolean isCustomerValid = customerComboBox.getValue() != null;
+            // Validation du client avec ValidationUtil
+            String customerError = ValidationUtil.validateCustomer(customerComboBox.getValue());
+            boolean isCustomerValid = customerError == null;
             if (!isCustomerValid) {
                 customerErrorLabel.setText(customerError);
                 isPrescriptionValid = false;
@@ -196,8 +192,10 @@ public class PurchaseFormController {
             }
         }
 
-        return !isMedicationValid || !isQuantityValid || !isPrescriptionValid;
+        // Retourner vrai si une erreur existe
+        return !isQuantityValid || !isPrescriptionValid;
     }
+
 
 
 
