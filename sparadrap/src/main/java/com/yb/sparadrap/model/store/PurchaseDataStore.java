@@ -3,7 +3,7 @@ package com.yb.sparadrap.model.store;
 import com.yb.sparadrap.model.Customer;
 import com.yb.sparadrap.model.Medication;
 import com.yb.sparadrap.model.Purchase;
-import com.yb.sparadrap.model.enums.MedicationCategory;
+import com.yb.sparadrap.model.Doctor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -40,21 +40,23 @@ public class PurchaseDataStore {
 
     // Méthode pour initialiser quelques achats fictifs
     private void initializeSampleData() {
-        Customer customer1 = new Customer("Jean", "Dupont", null, "0612345678", "jean.dupont@example.com", "192073409812345", LocalDate.of(1980, 5, 12), "Mutuelle A", "Dr. Bernard Martin");
-        Customer customer2 = new Customer("Marie", "Lefevre", null, "0623456789", "marie.lefevre@example.com", "283067509825674", LocalDate.of(1975, 3, 22), "Mutuelle B", "Dr. Anne Dupuis");
+        // Récupérer les instances de Customer et Medication à partir de leur store respectif
+        Customer customer1 = CustomerDataStore.getInstance().getCustomers().get(0);
+        Customer customer2 = CustomerDataStore.getInstance().getCustomers().get(1);
+        Medication medication1 = MedicationDataStore.getInstance().getMedications().get(0);
+        Medication medication2 = MedicationDataStore.getInstance().getMedications().get(1);
+        Medication medication3 = MedicationDataStore.getInstance().getMedications().get(2);
 
-        // Création de médicaments
-        Medication medication1 = new Medication("Paracétamol", MedicationCategory.ANALGESIQUE, 2.5, 500);
-        Medication medication2 = new Medication("Ibuprofène", MedicationCategory.ANTI_INFLAMMATOIRE, 3.0, 400);
-        Medication medication3 = new Medication("Amoxicilline", MedicationCategory.ANTIBIOTIQUE, 7.5, 1000);
+        // Récupérer les instances de Doctor à partir de DoctorDataStore
+        Doctor doctor1 = DoctorDataStore.getInstance().getDoctors().get(0); // Dr. Bernard Martin
+        Doctor doctor2 = DoctorDataStore.getInstance().getDoctors().get(1); // Dr. Anne Dupuis
 
         // Ajout des achats fictifs
         purchases.addAll(
-                new Purchase(customer1, LocalDate.of(2024, 1, 15), medication1, 2),
-                new Purchase(customer1, LocalDate.of(2024, 1, 20), medication2, 1),
-                new Purchase(customer2, LocalDate.of(2024, 2, 10), medication3, 3),
-                new Purchase(customer2, LocalDate.of(2024, 3, 5), medication1, 5)
+                new Purchase(customer1, LocalDate.of(2024, 1, 15), medication1, 2, null, null), // Achat direct
+                new Purchase(customer1, LocalDate.of(2024, 1, 20), medication2, 1, doctor2, LocalDate.of(2024, 1, 19)), // Avec ordonnance (Dr. Dupuis)
+                new Purchase(customer2, LocalDate.of(2024, 2, 10), medication3, 3, null, null), // Achat direct
+                new Purchase(customer2, LocalDate.of(2024, 3, 5), medication1, 5, doctor1, LocalDate.of(2024, 3, 3)) // Avec ordonnance (Dr. Martin)
         );
     }
-
 }

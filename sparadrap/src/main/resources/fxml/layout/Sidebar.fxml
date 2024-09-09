@@ -23,7 +23,7 @@
             </HBox>
         </VBox>
 
-        <!-- Section de navigation pour différentes vues -->
+        <!-- Section de navigation pour les différentes vues -->
         <VBox styleClass="menu-container">
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NAVIGATION">
             <VBox.margin>

@@ -136,12 +136,18 @@ public class PurchaseController {
                 }
 
                 String lowerCaseFilter = newValue.toLowerCase();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-                boolean matchesMedicationName = purchase.getMedication().getName().toLowerCase().contains(lowerCaseFilter);
-                boolean matchesMedicationCategory = purchase.getMedication().getCategory().getDisplayName().toLowerCase().contains(lowerCaseFilter);
-                boolean matchesPurchaseDate = purchase.getPurchaseDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).contains(lowerCaseFilter);
+                // Comparaison du médicament, catégorie et date
+                boolean matchesMedication = purchase.getMedication() != null && purchase.getMedication().getName().toLowerCase().contains(lowerCaseFilter);
+                boolean matchesCategory = purchase.getMedication().getCategory() != null && purchase.getMedication().getCategory().getDisplayName().toLowerCase().contains(lowerCaseFilter);
 
-                return matchesMedicationName || matchesMedicationCategory || matchesPurchaseDate;
+                // Formatage de la date de prescription ou de la date d'achat pour la comparaison
+                boolean matchesDate = (purchase.getPrescriptionDate() != null && purchase.getPrescriptionDate().format(formatter).contains(lowerCaseFilter)) ||
+                        (purchase.getPurchaseDate() != null && purchase.getPurchaseDate().format(formatter).contains(lowerCaseFilter));
+
+                // Renvoie 'true' si l'une des conditions est remplie
+                return matchesMedication || matchesCategory || matchesDate;
             });
         });
 
@@ -149,6 +155,10 @@ public class PurchaseController {
         sortedData.comparatorProperty().bind(purchaseTable.comparatorProperty());
         purchaseTable.setItems(sortedData);
     }
+
+
+
+
 
 
     /**
@@ -187,46 +197,39 @@ public class PurchaseController {
     @FXML
     private void handleAddPurchase() {
         try {
-            // Charger le fichier FXML du formulaire d'achat
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/layout/PurchaseForm.fxml"));
             DialogPane dialogPane = loader.load();
 
-            // Obtenir le contrôleur du formulaire d'achat
             PurchaseFormController controller = loader.getController();
-            // Créer un nouvel achat vide et le passer au contrôleur
-            controller.setPurchase(new Purchase(
-                    new Customer(), // Client vide
-                    LocalDate.now(), // Date actuelle
-                    new Medication(), // Médicament vide
-                    1 // Quantité par défaut
-            ));
+            controller.setPurchase(new Purchase(new Customer(), LocalDate.now(), new Medication(), 1, null, null));
 
-            // Créer une boîte de dialogue pour le formulaire
             Dialog<Purchase> dialog = new Dialog<>();
             dialog.setDialogPane(dialogPane);
             dialog.setTitle("Ajouter un achat");
             dialog.getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
 
-            // Vérifier les entrées lors de la validation
             Button saveButton = (Button) dialogPane.lookupButton(ButtonType.OK);
             saveButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
-                if (controller.validateInputs()) { // Correction ici, on vérifie si la validation échoue
-                    event.consume(); // Empêche la fermeture de la boîte de dialogue si les entrées ne sont pas valides
+                System.out.println("Validation du formulaire...");
+                if (controller.validateInputs()) {
+                    event.consume();
+                    System.out.println("Validation échouée.");
+                } else {
+                    System.out.println("Validation réussie.");
                 }
             });
 
-            // Définir le résultat de la boîte de dialogue si le bouton OK est cliqué
             dialog.setResultConverter(dialogButton -> {
                 if (dialogButton == ButtonType.OK) {
-                    return controller.getPurchase(); // Obtenir l'achat du contrôleur si les données sont valides
+                    System.out.println("Formulaire validé, création de l'achat...");
+                    return controller.getPurchase();
                 }
                 return null;
             });
 
-            // Afficher la boîte de dialogue et attendre l'action de l'utilisateur
             Optional<Purchase> result = dialog.showAndWait();
             result.ifPresent(newPurchase -> {
-                // Ajouter le nouvel achat à PurchaseDataStore
+                System.out.println("Ajout de l'achat au data store...");
                 PurchaseDataStore.getInstance().addPurchase(newPurchase);
                 updateStatusLabel("Achat effectué avec succès.");
             });
@@ -238,16 +241,18 @@ public class PurchaseController {
 
 
 
-
     @FXML
     private void handleEditPurchase(Purchase purchase) {
         try {
+            System.out.println("Début de la modification de l'achat...");
+
             // Charger le fichier FXML du formulaire client
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/layout/PurchaseForm.fxml"));
             DialogPane dialogPane = loader.load();
 
             // Obtenir le contrôleur du formulaire client
             PurchaseFormController controller = loader.getController();
+
             // Passer l'achat sélectionné au contrôleur pour le pré-remplissage du formulaire
             controller.setPurchase(purchase);
 
@@ -260,25 +265,36 @@ public class PurchaseController {
             // Vérifier les entrées lors de la validation
             Button saveButton = (Button) dialogPane.lookupButton(ButtonType.OK);
             saveButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
+                System.out.println("Validation des champs avant sauvegarde...");
                 if (controller.validateInputs()) { // Correction ici également
+                    System.out.println("Validation échouée. Empêche la fermeture de la boîte de dialogue.");
                     event.consume(); // Empêche la fermeture de la boîte de dialogue si les entrées ne sont pas valides
                 }
             });
 
-            dialog.setResultConverter(dialogButton -> dialogButton == ButtonType.OK ? controller.getPurchase() : null);
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == ButtonType.OK) {
+                    return controller.getPurchase();
+                }
+                return null;
+            });
 
+            // Afficher la boîte de dialogue et attendre la validation ou l'annulation
             Optional<Purchase> result = dialog.showAndWait();
             result.ifPresent(updatedPurchase -> {
                 int index = PurchaseDataStore.getInstance().getPurchases().indexOf(purchase);
                 if (index >= 0) {
                     PurchaseDataStore.getInstance().getPurchases().set(index, updatedPurchase);
                     updateStatusLabel("Achat modifié avec succès.");
+                    System.out.println("Achat mis à jour avec succès.");
                 }
             });
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
 
 

@@ -46,7 +46,7 @@
                   <Insets bottom="10.0" />
                </GridPane.margin></Label>
 
-                <Label text="Numéro de Sécurité Sociale :" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                <Label text="N° de Sécurité Sociale :" GridPane.columnIndex="0" GridPane.rowIndex="8" />
                 <TextField fx:id="socialSecurityNumberField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" />
                 <Label fx:id="socialSecurityNumberErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="9">
                <GridPane.margin>
@@ -94,8 +94,8 @@
                 <ComboBox fx:id="primaryDoctorComboBox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="23" />
                 <Label fx:id="referringDoctorErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="24" />
             <columnConstraints>
-               <ColumnConstraints />
-               <ColumnConstraints />
+               <ColumnConstraints minWidth="170.0" />
+               <ColumnConstraints maxWidth="365.0" minWidth="345.0" prefWidth="360.0" />
             </columnConstraints>
             <rowConstraints>
                <RowConstraints />

@@ -1,34 +1,39 @@
 package com.yb.sparadrap.model;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.property.SimpleStringProperty;
 import java.time.LocalDate;
 
 public class Customer extends Person {
     private final StringProperty socialSecurityNumber;
     private final ObjectProperty<LocalDate> birthDate;
-    private final StringProperty mutual;
-    private final StringProperty referringDoctor;
+    private final ObjectProperty<Mutual> mutual;
+    private final ObjectProperty<Doctor> referringDoctor;
 
     // Constructeur par défaut
     public Customer() {
         super("", "", new Address("", "", ""), "", "");
         this.socialSecurityNumber = new SimpleStringProperty("");
         this.birthDate = new SimpleObjectProperty<>(LocalDate.now());
-        this.mutual = new SimpleStringProperty("");
-        this.referringDoctor = new SimpleStringProperty("");
+
+        // Initialisation de mutual et referringDoctor avec des valeurs par défaut
+        Address mutualAddress = new Address("Rue de la Mutualité", "75000", "Paris");
+        this.mutual = new SimpleObjectProperty<>(new Mutual("Mutuelle par défaut", mutualAddress, "0102030405", "contact@mutuelle.fr", "Finance", 75.0));
+
+        Address doctorAddress = new Address("Rue des Médecins", "75001", "Paris");
+        this.referringDoctor = new SimpleObjectProperty<>(new Doctor("Docteur", "Martin", doctorAddress, "0102030406", "docteur.martin@medecin.fr", "123456"));
     }
 
     // Constructeur avec paramètres
     public Customer(String firstName, String lastName, Address address, String phoneNumber, String email,
-                    String socialSecurityNumber, LocalDate birthDate, String mutual, String referringDoctor) {
+                    String socialSecurityNumber, LocalDate birthDate, Mutual mutual, Doctor referringDoctor) {
         super(firstName, lastName, address, phoneNumber, email);
         this.socialSecurityNumber = new SimpleStringProperty(socialSecurityNumber);
         this.birthDate = new SimpleObjectProperty<>(birthDate);
-        this.mutual = new SimpleStringProperty(mutual);
-        this.referringDoctor = new SimpleStringProperty(referringDoctor);
+        this.mutual = new SimpleObjectProperty<>(mutual);
+        this.referringDoctor = new SimpleObjectProperty<>(referringDoctor);
     }
 
     // Getters et setters
@@ -56,27 +61,27 @@ public class Customer extends Person {
         this.birthDate.set(birthDate);
     }
 
-    public StringProperty mutualProperty() {
+    public ObjectProperty<Mutual> mutualProperty() {
         return mutual;
     }
 
-    public String getMutual() {
+    public Mutual getMutual() {
         return mutual.get();
     }
 
-    public void setMutual(String mutual) {
+    public void setMutual(Mutual mutual) {
         this.mutual.set(mutual);
     }
 
-    public StringProperty referringDoctorProperty() {
+    public ObjectProperty<Doctor> referringDoctorProperty() {
         return referringDoctor;
     }
 
-    public String getReferringDoctor() {
+    public Doctor getReferringDoctor() {
         return referringDoctor.get();
     }
 
-    public void setReferringDoctor(String referringDoctor) {
+    public void setReferringDoctor(Doctor referringDoctor) {
         this.referringDoctor.set(referringDoctor);
     }
 
@@ -84,5 +89,4 @@ public class Customer extends Person {
     public String toString() {
         return getFirstName() + " " + getLastName() + " " + getSocialSecurityNumber();
     }
-
 }

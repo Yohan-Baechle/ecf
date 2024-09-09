@@ -26,7 +26,7 @@ public class Medication {
         this.quantity = new SimpleIntegerProperty(quantity);
     }
 
-    // Getters et Setters pour les propriétés observables
+    // Getters et Setters
     public StringProperty nameProperty() {
         return name;
     }

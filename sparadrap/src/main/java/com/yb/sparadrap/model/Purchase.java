@@ -11,6 +11,10 @@ public class Purchase {
     private final IntegerProperty quantity;
     private final DoubleProperty totalAmount;
 
+    // Champs pour l'ordonnance
+    private final ObjectProperty<Doctor> prescribingDoctor; // Médecin prescripteur
+    private final ObjectProperty<LocalDate> prescriptionDate; // Date de prescription
+
     // Constructeur par défaut
     public Purchase() {
         this.customer = new SimpleObjectProperty<>();
@@ -18,18 +22,23 @@ public class Purchase {
         this.medication = new SimpleObjectProperty<>();
         this.quantity = new SimpleIntegerProperty(0);
         this.totalAmount = new SimpleDoubleProperty(0.0);
+        this.prescribingDoctor = new SimpleObjectProperty<>();
+        this.prescriptionDate = new SimpleObjectProperty<>();
     }
 
     // Constructeur avec paramètres
-    public Purchase(Customer customer, LocalDate purchaseDate, Medication medication, int quantity) {
+    public Purchase(Customer customer, LocalDate purchaseDate, Medication medication, int quantity,
+                    Doctor prescribingDoctor, LocalDate prescriptionDate) {
         this.customer = new SimpleObjectProperty<>(customer);
         this.purchaseDate = new SimpleObjectProperty<>(purchaseDate);
         this.medication = new SimpleObjectProperty<>(medication);
         this.quantity = new SimpleIntegerProperty(quantity);
         this.totalAmount = new SimpleDoubleProperty(medication.getPrice() * quantity);
+        this.prescribingDoctor = new SimpleObjectProperty<>(prescribingDoctor);
+        this.prescriptionDate = new SimpleObjectProperty<>(prescriptionDate);
     }
 
-    // Propriétés observables
+    // Propriétés observables pour le client, la date d'achat, le médicament, la quantité et le montant total
     public ObjectProperty<Customer> customerProperty() {
         return customer;
     }
@@ -92,6 +101,31 @@ public class Purchase {
         this.totalAmount.set(totalAmount);
     }
 
+    // Propriétés pour l'ordonnance
+    public ObjectProperty<Doctor> prescribingDoctorProperty() {
+        return prescribingDoctor;
+    }
+
+    public Doctor getPrescribingDoctor() {
+        return prescribingDoctor.get();
+    }
+
+    public void setPrescribingDoctor(Doctor prescribingDoctor) {
+        this.prescribingDoctor.set(prescribingDoctor);
+    }
+
+    public ObjectProperty<LocalDate> prescriptionDateProperty() {
+        return prescriptionDate;
+    }
+
+    public LocalDate getPrescriptionDate() {
+        return prescriptionDate.get();
+    }
+
+    public void setPrescriptionDate(LocalDate prescriptionDate) {
+        this.prescriptionDate.set(prescriptionDate);
+    }
+
     // Méthode pour recalculer le montant total basé sur le prix du médicament et la quantité
     public void calculateTotalAmount() {
         if (medication.get() != null) {
@@ -107,6 +141,8 @@ public class Purchase {
                 ", medication=" + medication.get() +
                 ", quantity=" + quantity.get() +
                 ", totalAmount=" + totalAmount.get() +
+                ", prescribingDoctor=" + (prescribingDoctor.get() != null ? prescribingDoctor.get().getFirstName() + " " + prescribingDoctor.get().getLastName() + " " + prescribingDoctor.get().getRegistrationNumber(): "Aucun") +
+                ", prescriptionDate=" + prescriptionDate.get() +
                 '}';
     }
 }

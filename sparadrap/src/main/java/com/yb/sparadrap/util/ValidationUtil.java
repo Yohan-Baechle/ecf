@@ -1,5 +1,7 @@
 package com.yb.sparadrap.util;
 
+import com.yb.sparadrap.model.Medication;
+
 import java.time.LocalDate;
 
 public class ValidationUtil {
@@ -65,8 +67,8 @@ public class ValidationUtil {
 
     // Validation du numéro de sécurité sociale
     public static String validateSocialSecurityNumber(String ssn) {
-        if (isEmpty(ssn)) return "Le numéro de sécurité sociale ne peut pas être vide.";
-        if (!ssn.matches("\\d{15}")) return "Le numéro de sécurité sociale est invalide.";
+        if (isEmpty(ssn)) return "Le n° de sécurité sociale ne peut pas être vide.";
+        if (!ssn.matches("\\d{15}")) return "Le n°de sécurité sociale est invalide.";
 
         String numberWithoutKey = ssn.substring(0, 13);
         try {
@@ -77,7 +79,7 @@ public class ValidationUtil {
                 return "La clé de sécurité sociale est invalide.";
             }
         } catch (NumberFormatException e) {
-            return "Le numéro de sécurité sociale est invalide.";
+            return "Le n° de sécurité sociale est invalide.";
         }
         return null;
     }
@@ -101,5 +103,26 @@ public class ValidationUtil {
         }
         return null;
     }
+
+    // Validation de la saisie d'un médicament
+    public static String validateMedication(Medication medication) {
+        if (medication == null) {
+            return "Le médicament ne peut pas être vide.";
+        }
+        return null;
+    }
+
+    // Validation de la saisie de la date de prescription
+    public static String validatePrescriptionDate(LocalDate prescriptionDate) {
+        if (prescriptionDate == null) {
+            return "La date de prescription ne peut pas être vide.";
+        }
+        if (prescriptionDate.isAfter(LocalDate.now())) {
+            return "La date de prescription est invalide.";
+        }
+        return null;
+    }
+
+
 
 }

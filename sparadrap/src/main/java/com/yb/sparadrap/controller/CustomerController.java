@@ -2,6 +2,8 @@ package com.yb.sparadrap.controller;
 
 import com.yb.sparadrap.model.Address;
 import com.yb.sparadrap.model.Customer;
+import com.yb.sparadrap.model.Doctor;
+import com.yb.sparadrap.model.Mutual;
 import com.yb.sparadrap.model.store.CustomerDataStore;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -175,7 +177,18 @@ public class CustomerController {
             // Obtenir le contrôleur du formulaire client
             CustomerFormController controller = loader.getController();
             // Créer un nouveau client vide et le passer au contrôleur
-            controller.setCustomer(new Customer("", "", new Address("", "", ""), "", "", "", LocalDate.now(), "", ""));
+            controller.setCustomer(new Customer(
+                    "", // Prénom
+                    "", // Nom
+                    new Address("", "", ""), // Adresse vide
+                    "", // Numéro de téléphone
+                    "", // Email
+                    "", // Numéro de sécurité sociale
+                    LocalDate.now(), // Date de naissance par défaut
+                    new Mutual("Mutuelle par défaut", new Address("", "", ""), "", "", "", 0.0), // Objet Mutual par défaut
+                    new Doctor("Docteur par défaut", "Nom", new Address("", "", ""), "", "", "12345") // Objet Doctor par défaut
+            ));
+
 
             // Créer une boîte de dialogue pour le formulaire
             Dialog<Customer> dialog = new Dialog<>();
@@ -186,15 +199,15 @@ public class CustomerController {
             // Vérifier les entrées lors de la validation
             Button saveButton = (Button) dialogPane.lookupButton(ButtonType.OK);
             saveButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
-                if (!controller.validateInputs()) { // Correction ici, on vérifie si la validation échoue
-                    event.consume(); // Empêche la fermeture de la boîte de dialogue si les entrées ne sont pas valides
+                if (controller.validateInputs()) {
+                    event.consume();
                 }
             });
 
             // Définir le résultat de la boîte de dialogue si le bouton OK est cliqué
             dialog.setResultConverter(dialogButton -> {
                 if (dialogButton == ButtonType.OK) {
-                    return controller.getCustomer(); // Obtenir le client du contrôleur si les données sont valides
+                    return controller.getCustomer();
                 }
                 return null;
             });
@@ -235,7 +248,7 @@ public class CustomerController {
             // Vérifier les entrées lors de la validation
             Button saveButton = (Button) dialogPane.lookupButton(ButtonType.OK);
             saveButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
-                if (!controller.validateInputs()) { // Correction ici également
+                if (controller.validateInputs()) { // Correction ici également
                     event.consume(); // Empêche la fermeture de la boîte de dialogue si les entrées ne sont pas valides
                 }
             });

@@ -92,4 +92,9 @@ public class Mutual {
     public void setReimbursementRate(double reimbursementRate) {
         this.reimbursementRate.set(reimbursementRate);
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

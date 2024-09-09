@@ -2,12 +2,14 @@ package com.yb.sparadrap.controller;
 
 import com.yb.sparadrap.model.Address;
 import com.yb.sparadrap.model.Customer;
+import com.yb.sparadrap.model.Doctor;
+import com.yb.sparadrap.model.Mutual;
+import com.yb.sparadrap.model.store.DoctorDataStore;
 import com.yb.sparadrap.model.store.MutualDataStore;
 import com.yb.sparadrap.util.ValidationUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.StringConverter;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -38,10 +40,9 @@ public class CustomerFormController {
     @FXML
     private DatePicker birthDatePicker;
     @FXML
-    private ComboBox<String> mutualComboBox;
+    private ComboBox<Mutual> mutualComboBox;
     @FXML
-    private ComboBox<String> primaryDoctorComboBox;
-
+    private ComboBox<Doctor> primaryDoctorComboBox;
     @FXML
     private Label firstNameErrorLabel;
     @FXML
@@ -69,7 +70,9 @@ public class CustomerFormController {
 
     @FXML
     public void initialize() {
+        // Charger les données dans les comboBox
         mutualComboBox.setItems(MutualDataStore.getInstance().getMutuals());
+        primaryDoctorComboBox.setItems(DoctorDataStore.getInstance().getDoctors());
 
         // Configuration du DatePicker
         birthDatePicker.setConverter(new StringConverter<>() {
@@ -116,29 +119,32 @@ public class CustomerFormController {
             emailField.setText(customer.getEmail());
             socialSecurityNumberField.setText(customer.getSocialSecurityNumber());
             birthDatePicker.setValue(customer.getBirthDate());
-            mutualComboBox.setValue(customer.getMutual());
-            primaryDoctorComboBox.setValue(customer.getReferringDoctor());
+            mutualComboBox.setValue(customer.getMutual());  // Modification : Objet Mutual
+            primaryDoctorComboBox.setValue(customer.getReferringDoctor());  // Modification : Objet Doctor
         }
     }
 
     public Customer getCustomer() {
-        return new Customer(
-                firstNameField.getText().trim(),
-                lastNameField.getText().trim(),
-                new Address(streetField.getText().trim(), zipCodeField.getText().trim(), cityField.getText().trim()),
-                phoneNumberField.getText().trim(),
-                emailField.getText().trim(),
-                socialSecurityNumberField.getText().trim(),
-                birthDatePicker.getValue(),
-                mutualComboBox.getValue(),
-                primaryDoctorComboBox.getValue()
-        );
+        // Récupérer les valeurs des champs du formulaire
+        String firstName = firstNameField.getText().trim();
+        String lastName = lastNameField.getText().trim();
+        Address address = new Address(streetField.getText().trim(), zipCodeField.getText().trim(), cityField.getText().trim());
+        String phoneNumber = phoneNumberField.getText().trim();
+        String email = emailField.getText().trim();
+        String socialSecurityNumber = socialSecurityNumberField.getText().trim();
+        LocalDate birthDate = birthDatePicker.getValue();
+        Mutual selectedMutual = mutualComboBox.getValue();
+        Doctor selectedDoctor = primaryDoctorComboBox.getValue();
+
+        // Créer et retourner un objet Customer avec les données du formulaire
+        return new Customer(firstName, lastName, address, phoneNumber, email, socialSecurityNumber, birthDate, selectedMutual, selectedDoctor);
     }
+
 
     public boolean validateInputs() {
         clearErrorLabels();
 
-        // Validation des champs TextField en utilisant la classe utilitaire
+        // Validation des champs
         boolean isFirstNameValid = validateField(firstNameField, ValidationUtil.validateFirstName(firstNameField.getText().trim()));
         boolean isLastNameValid = validateField(lastNameField, ValidationUtil.validateLastName(lastNameField.getText().trim()));
         boolean isStreetValid = validateField(streetField, ValidationUtil.validateStreet(streetField.getText().trim()));
@@ -154,12 +160,9 @@ public class CustomerFormController {
         }
 
         // Retourne 'true' uniquement si toutes les validations sont correctes
-        return isFirstNameValid && isLastNameValid && isStreetValid && isZipCodeValid && isCityValid
-                && isPhoneNumberValid && isEmailValid && isSSNValid && isBirthDateValid;
+        return !isFirstNameValid || !isLastNameValid || !isStreetValid || !isZipCodeValid || !isCityValid
+                || !isPhoneNumberValid || !isEmailValid || !isSSNValid || !isBirthDateValid;
     }
-
-
-
 
     private boolean validateField(TextField field, String error) {
         if (error != null) {

@@ -23,4 +23,9 @@ public class Doctor extends Person {
     public void setRegistrationNumber(String registrationNumber) {
         this.registrationNumber.set(registrationNumber);
     }
+
+    @Override
+    public String toString() {
+        return getFirstName() + " " + getLastName() + " " + getRegistrationNumber();
+    }
 }
