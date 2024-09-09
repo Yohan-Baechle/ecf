@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<DialogPane prefHeight="600.0" prefWidth="600.0" stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yb.sparadrap.controller.PurchaseFormController">
+<DialogPane prefHeight="600.0" prefWidth="600.0" stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yb.sparadrap.controller.PurchaseFormController">
 
     <content>
         <VBox prefHeight="432.0" prefWidth="448.0">

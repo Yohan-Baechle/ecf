@@ -11,7 +11,7 @@ public class Specialist extends Doctor {
         this.specialty = new SimpleStringProperty(specialty);
     }
 
-    // Getters et setters
+    // Propriétés observables + Getters et Setters
     public StringProperty specialtyProperty() {
         return specialty;
     }

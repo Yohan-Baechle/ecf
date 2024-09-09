@@ -7,6 +7,7 @@ import com.yb.sparadrap.model.Purchase;
 import com.yb.sparadrap.model.store.CustomerDataStore;
 import com.yb.sparadrap.model.store.DoctorDataStore;
 import com.yb.sparadrap.model.store.MedicationDataStore;
+import com.yb.sparadrap.util.ValidationUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -69,15 +70,18 @@ public class PurchaseFormController {
         // Charger les médicaments dans la ComboBox
         medicationComboBox.setItems(MedicationDataStore.getInstance().getMedications());
 
-        // Différer la sélection du premier médicament jusqu'à ce que tous les éléments de l'UI soient chargés
+        // Utiliser Platform.runLater pour différer la sélection après la mise à jour de l'UI
         Platform.runLater(() -> {
             if (!medicationComboBox.getItems().isEmpty()) {
-                medicationComboBox.getSelectionModel().selectFirst();  // Sélectionner le premier médicament
-                Medication selectedMedication = medicationComboBox.getSelectionModel().getSelectedItem();
-                if (selectedMedication != null) {
-                    unitPriceField.setText(String.format("%.2f", selectedMedication.getPrice()));
-                    updateTotalPrice();
-                }
+                medicationComboBox.getSelectionModel().selectFirst();
+            }
+        });
+
+        // Mettre à jour le prix unitaire et le prix total lors de la sélection du médicament
+        medicationComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                unitPriceField.setText(String.format("%.2f", newValue.getPrice()));
+                updateTotalPrice();
             }
         });
 
@@ -119,7 +123,6 @@ public class PurchaseFormController {
         fieldErrorMap.put(quantityField, quantityErrorLabel);
     }
 
-
     public void setPurchase(Purchase purchase) {
         if (purchase != null) {
             medicationComboBox.setValue(purchase.getMedication());
@@ -155,39 +158,48 @@ public class PurchaseFormController {
     public boolean validateInputs() {
         clearErrorLabels();
 
+        // Validation du médicament
         boolean isMedicationValid = medicationComboBox.getValue() != null;
         if (!isMedicationValid) {
             medicationErrorLabel.setText("Sélectionnez un médicament.");
         }
 
-        boolean isQuantityValid = !quantityField.getText().trim().isEmpty();
+        // Validation de la quantité avec ValidationUtil
+        String quantityError = ValidationUtil.validateQuantity(quantityField.getText());
+        boolean isQuantityValid = quantityError == null;
         if (!isQuantityValid) {
-            quantityErrorLabel.setText("La quantité est obligatoire.");
+            quantityErrorLabel.setText(quantityError);
         }
 
-        // Si "Avec ordonnance" est sélectionné, valider les champs supplémentaires
+        // Validation de la prescription si "Avec ordonnance" est sélectionné
         boolean isPrescriptionValid = true;
         if ("Avec ordonnance".equals(purchaseTypeComboBox.getValue())) {
             boolean isCustomerValid = customerComboBox.getValue() != null;
             if (!isCustomerValid) {
-                customerErrorLabel.setText("Sélectionnez un client.");
+                customerErrorLabel.setText(customerError);
                 isPrescriptionValid = false;
             }
 
-            boolean isDoctorValid = prescribingDoctorComboBox.getValue() != null;
+            // Validation du médecin avec ValidationUtil
+            String doctorError = ValidationUtil.validateDoctor(prescribingDoctorComboBox.getValue());
+            boolean isDoctorValid = doctorError == null;
             if (!isDoctorValid) {
-                prescribingDoctorErrorLabel.setText("Sélectionnez un médecin.");
+                prescribingDoctorErrorLabel.setText(doctorError);
                 isPrescriptionValid = false;
             }
 
-            if (prescriptionDatePicker.getValue() == null) {
-                prescriptionDateErrorLabel.setText("La date de prescription est obligatoire.");
+            // Validation de la date de prescription avec ValidationUtil
+            String prescriptionDateError = ValidationUtil.validatePrescriptionDate(prescriptionDatePicker.getValue());
+            if (prescriptionDateError != null) {
+                prescriptionDateErrorLabel.setText(prescriptionDateError);
                 isPrescriptionValid = false;
             }
         }
 
         return !isMedicationValid || !isQuantityValid || !isPrescriptionValid;
     }
+
+
 
     private boolean validateField(TextField field, String error) {
         if (error != null) {

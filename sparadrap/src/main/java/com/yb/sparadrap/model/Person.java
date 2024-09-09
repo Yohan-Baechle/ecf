@@ -3,13 +3,19 @@ package com.yb.sparadrap.model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Classe abstraite représentant une personne, utilisée comme base pour les classes
+ * telles que Customer ou Doctor dans l'application.
+ * Chaque personne possède un prénom, un nom, une adresse, un numéro de téléphone et un email.
+ */
 public abstract class Person {
     private final StringProperty firstName;
     private final StringProperty lastName;
-    private final Address address;  // Utilisation de l'objet Address
+    private final Address address;  // Utilisation de l'objet Address pour représenter l'adresse de la personne
     private final StringProperty phoneNumber;
     private final StringProperty email;
 
+    // Constructeur par défaut
     public Person(String firstName, String lastName, Address address, String phoneNumber, String email) {
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
@@ -18,7 +24,7 @@ public abstract class Person {
         this.email = new SimpleStringProperty(email);
     }
 
-    // Getters et setters
+    // Propriétés observables + Getters et Setters
     public StringProperty firstNameProperty() {
         return firstName;
     }

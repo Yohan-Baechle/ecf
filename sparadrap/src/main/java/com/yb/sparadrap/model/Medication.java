@@ -3,6 +3,10 @@ package com.yb.sparadrap.model;
 import com.yb.sparadrap.model.enums.MedicationCategory;
 import javafx.beans.property.*;
 
+/**
+ * Classe représentant un médicament dans l'application.
+ * Chaque médicament a un nom, une catégorie, un prix unitaire et une quantité en stock.
+ */
 public class Medication {
 
     private final StringProperty name;
@@ -26,7 +30,7 @@ public class Medication {
         this.quantity = new SimpleIntegerProperty(quantity);
     }
 
-    // Getters et Setters
+    // Propriétés observables + Getters et Setters
     public StringProperty nameProperty() {
         return name;
     }
@@ -75,7 +79,6 @@ public class Medication {
         this.quantity.set(quantity);
     }
 
-    // Méthode pour calculer le coût total pour ce médicament
     public double calculateTotalCost() {
         return getPrice() * getQuantity();
     }

@@ -5,18 +5,29 @@ import com.yb.sparadrap.model.enums.MedicationCategory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * Singleton gérant le stockage des médicaments dans l'application.
+ * Utilise une liste observable pour stocker et manipuler les médicaments.
+ */
 public class MedicationDataStore {
     private static MedicationDataStore instance;
     private final ObservableList<Medication> medications;
 
-    // Constructeur privé pour le pattern Singleton
+    /**
+     * Constructeur privé pour le pattern Singleton.
+     * Initialise la liste des médicaments et ajoute des données fictives.
+     */
     private MedicationDataStore() {
         medications = FXCollections.observableArrayList();
-        // Initialiser des données d'exemple
-        initializeSampleData();
+        initializeSampleData(); // Initialiser des données fictives
     }
 
-    // Méthode pour obtenir l'instance unique
+    /**
+     * Retourne l'instance unique de MedicationDataStore.
+     * Si l'instance n'existe pas encore, elle est créée.
+     *
+     * @return L'instance unique de MedicationDataStore.
+     */
     public static MedicationDataStore getInstance() {
         if (instance == null) {
             instance = new MedicationDataStore();
@@ -24,22 +35,36 @@ public class MedicationDataStore {
         return instance;
     }
 
-    // Méthode pour récupérer la liste des médicaments
+    /**
+     * Retourne la liste observable des médicaments.
+     *
+     * @return La liste observable des médicaments.
+     */
     public ObservableList<Medication> getMedications() {
         return medications;
     }
 
-    // Méthode pour ajouter un médicament
+    /**
+     * Ajoute un médicament à la liste.
+     *
+     * @param medication Le médicament à ajouter.
+     */
     public void addMedication(Medication medication) {
         medications.add(medication);
     }
 
-    // Méthode pour supprimer un médicament
+    /**
+     * Supprime un médicament de la liste.
+     *
+     * @param medication Le médicament à supprimer.
+     */
     public void removeMedication(Medication medication) {
         medications.remove(medication);
     }
 
-    // Méthode pour initialiser quelques médicaments fictifs
+    /**
+     * Initialise quelques médicaments fictifs pour le stockage.
+     */
     private void initializeSampleData() {
         medications.addAll(
                 new Medication("Paracétamol", MedicationCategory.ANALGESIQUE, 2.5, 10),

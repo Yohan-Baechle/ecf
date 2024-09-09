@@ -1,11 +1,19 @@
 package com.yb.sparadrap.model;
 
+import com.yb.sparadrap.model.store.MutualDataStore;
+import com.yb.sparadrap.model.store.DoctorDataStore;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleStringProperty;
+
 import java.time.LocalDate;
 
+/**
+ * Classe représentant un client dans l'application.
+ * Hérite de la classe Person et ajoute des propriétés spécifiques aux clients
+ * telles que le numéro de sécurité sociale, la date de naissance, la mutuelle et le médecin référent.
+ */
 public class Customer extends Person {
     private final StringProperty socialSecurityNumber;
     private final ObjectProperty<LocalDate> birthDate;
@@ -18,15 +26,24 @@ public class Customer extends Person {
         this.socialSecurityNumber = new SimpleStringProperty("");
         this.birthDate = new SimpleObjectProperty<>(LocalDate.now());
 
-        // Initialisation de mutual et referringDoctor avec des valeurs par défaut
-        Address mutualAddress = new Address("Rue de la Mutualité", "75000", "Paris");
-        this.mutual = new SimpleObjectProperty<>(new Mutual("Mutuelle par défaut", mutualAddress, "0102030405", "contact@mutuelle.fr", "Finance", 75.0));
-
-        Address doctorAddress = new Address("Rue des Médecins", "75001", "Paris");
-        this.referringDoctor = new SimpleObjectProperty<>(new Doctor("Docteur", "Martin", doctorAddress, "0102030406", "docteur.martin@medecin.fr", "123456"));
+        // Initialisation de la mutuelle et du médecin à partir des données existantes
+        this.mutual = new SimpleObjectProperty<>(MutualDataStore.getInstance().getMutualByName("Mutuelle Alpha"));
+        this.referringDoctor = new SimpleObjectProperty<>(DoctorDataStore.getInstance().getDoctorByName("Dr. Bernard Martin"));
     }
 
-    // Constructeur avec paramètres
+    /**
+     * Constructeur avec paramètres pour créer un client avec des informations spécifiques.
+     *
+     * @param firstName            Prénom du client.
+     * @param lastName             Nom du client.
+     * @param address              Adresse du client.
+     * @param phoneNumber          Numéro de téléphone du client.
+     * @param email                Email du client.
+     * @param socialSecurityNumber Numéro de sécurité sociale du client.
+     * @param birthDate            Date de naissance du client.
+     * @param mutual               Mutuelle associée au client.
+     * @param referringDoctor      Médecin référent du client.
+     */
     public Customer(String firstName, String lastName, Address address, String phoneNumber, String email,
                     String socialSecurityNumber, LocalDate birthDate, Mutual mutual, Doctor referringDoctor) {
         super(firstName, lastName, address, phoneNumber, email);
@@ -36,7 +53,7 @@ public class Customer extends Person {
         this.referringDoctor = new SimpleObjectProperty<>(referringDoctor);
     }
 
-    // Getters et setters
+    // Propriétés observables + Getters et Setters
     public StringProperty socialSecurityNumberProperty() {
         return socialSecurityNumber;
     }

@@ -5,15 +5,29 @@ import com.yb.sparadrap.model.Address;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * Singleton gérant le stockage des médecins dans l'application.
+ * Utilise une liste observable pour stocker et manipuler les médecins.
+ */
 public class DoctorDataStore {
     private static DoctorDataStore instance;
     private final ObservableList<Doctor> doctors;
 
+    /**
+     * Constructeur privé pour le singleton.
+     * Initialise la liste des médecins et ajoute des données fictives.
+     */
     private DoctorDataStore() {
         doctors = FXCollections.observableArrayList();
-        initializeSampleData();
+        initializeSampleData(); // Ajouter des données fictives
     }
 
+    /**
+     * Retourne l'instance du singleton DoctorDataStore.
+     * Si l'instance n'existe pas encore, elle est créée.
+     *
+     * @return L'instance unique de DoctorDataStore.
+     */
     public static DoctorDataStore getInstance() {
         if (instance == null) {
             instance = new DoctorDataStore();
@@ -21,10 +35,21 @@ public class DoctorDataStore {
         return instance;
     }
 
+    /**
+     * Retourne la liste observable des médecins.
+     *
+     * @return La liste observable des médecins.
+     */
     public ObservableList<Doctor> getDoctors() {
         return doctors;
     }
 
+    /**
+     * Recherche un médecin par son nom complet (prénom + nom).
+     *
+     * @param name Le nom complet du médecin (prénom + nom).
+     * @return Le médecin correspondant, ou null si aucune correspondance n'est trouvée.
+     */
     public Doctor getDoctorByName(String name) {
         for (Doctor doctor : doctors) {
             String fullName = doctor.getFirstName() + " " + doctor.getLastName();
@@ -35,6 +60,9 @@ public class DoctorDataStore {
         return null;
     }
 
+    /**
+     * Initialise les données fictives pour le stockage des médecins.
+     */
     private void initializeSampleData() {
         doctors.addAll(
                 new Doctor("Bernard", "Martin",

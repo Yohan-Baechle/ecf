@@ -1,5 +1,8 @@
 package com.yb.sparadrap.model.enums;
 
+/**
+ * Énumération représentant les départements avec leur code associé.
+ */
 public enum Department {
     AIN("01"),
     AISNE("02"),
@@ -105,17 +108,29 @@ public enum Department {
 
     private final String code;
 
-    // Constructeur de l'enum
+    /**
+     * Constructeur de l'énumération Department.
+     *
+     * @param code Le code du département.
+     */
     Department(String code) {
         this.code = code;
     }
 
-    // Getter pour accéder au code
+    /**
+     * Retourne le code du département.
+     *
+     * @return Le code associé au département.
+     */
     public String getCode() {
         return code;
     }
 
-    // Méthode pour obtenir le nom formaté
+    /**
+     * Retourne le nom formaté du département, remplaçant les underscores par des espaces et capitalisant chaque mot.
+     *
+     * @return Le nom formaté du département.
+     */
     public String getFormattedName() {
         String name = name().replace("_", " ");
         String[] parts = name.split(" ");
@@ -130,6 +145,26 @@ public enum Department {
         return formattedName.toString().trim();
     }
 
+    /**
+     * Recherche un département par son code.
+     *
+     * @param code Le code du département à rechercher.
+     * @return Le département correspondant, ou null si aucun département ne correspond au code.
+     */
+    public static Department fromCode(String code) {
+        for (Department department : Department.values()) {
+            if (department.getCode().equalsIgnoreCase(code)) {
+                return department;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Retourne le nom formaté du département lorsque la méthode toString() est appelée.
+     *
+     * @return Le nom formaté du département.
+     */
     @Override
     public String toString() {
         return getFormattedName();

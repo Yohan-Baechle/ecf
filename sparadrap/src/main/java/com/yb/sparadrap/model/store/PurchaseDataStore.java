@@ -9,16 +9,29 @@ import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
 
+/**
+ * Singleton gérant le stockage des achats dans l'application.
+ * Utilise une liste observable pour stocker et manipuler les achats.
+ */
 public class PurchaseDataStore {
     private static PurchaseDataStore instance;
     private final ObservableList<Purchase> purchases;
 
+    /**
+     * Constructeur privé pour le pattern Singleton.
+     * Initialise la liste des achats et ajoute des données fictives.
+     */
     private PurchaseDataStore() {
         purchases = FXCollections.observableArrayList();
-        // Ajouter des données initiales au démarrage
-        initializeSampleData();
+        initializeSampleData(); // Initialiser des données fictives
     }
 
+    /**
+     * Retourne l'instance unique de PurchaseDataStore.
+     * Si l'instance n'existe pas encore, elle est créée.
+     *
+     * @return L'instance unique de PurchaseDataStore.
+     */
     public static PurchaseDataStore getInstance() {
         if (instance == null) {
             instance = new PurchaseDataStore();
@@ -26,21 +39,38 @@ public class PurchaseDataStore {
         return instance;
     }
 
+    /**
+     * Retourne la liste observable des achats.
+     *
+     * @return La liste observable des achats.
+     */
     public ObservableList<Purchase> getPurchases() {
         return purchases;
     }
 
+    /**
+     * Ajoute un achat à la liste.
+     *
+     * @param purchase L'achat à ajouter.
+     */
     public void addPurchase(Purchase purchase) {
         purchases.add(purchase);
     }
 
+    /**
+     * Supprime un achat de la liste.
+     *
+     * @param purchase L'achat à supprimer.
+     */
     public void removePurchase(Purchase purchase) {
         purchases.remove(purchase);
     }
 
-    // Méthode pour initialiser quelques achats fictifs
+    /**
+     * Initialise quelques achats fictifs pour le stockage.
+     */
     private void initializeSampleData() {
-        // Récupérer les instances de Customer et Medication à partir de leur store respectif
+        // Récupérer les instances de Customer et Medication à partir de leurs stores respectifs
         Customer customer1 = CustomerDataStore.getInstance().getCustomers().get(0);
         Customer customer2 = CustomerDataStore.getInstance().getCustomers().get(1);
         Medication medication1 = MedicationDataStore.getInstance().getMedications().get(0);

@@ -2,31 +2,23 @@ package com.yb.sparadrap.controller;
 
 import com.yb.sparadrap.model.Address;
 import com.yb.sparadrap.model.Customer;
-import com.yb.sparadrap.model.Doctor;
-import com.yb.sparadrap.model.Mutual;
 import com.yb.sparadrap.model.store.CustomerDataStore;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import com.yb.sparadrap.util.AlertUtil;
+import com.yb.sparadrap.util.ActionButtonUtil;
+import com.yb.sparadrap.util.DeleteUtil;
+import com.yb.sparadrap.util.EntityDialogUtil;
 import javafx.beans.binding.Bindings;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.util.Duration;
-import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
-import org.kordamp.ikonli.javafx.FontIcon;
-import java.io.IOException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
- * Controller for managing customer in the application.
- * Handles interactions with the customer list and manages customer addition, editing, and deletion.
+ * Contrôleur pour la gestion des clients dans l'application.
+ * Gère les interactions avec la liste des clients et les actions d'ajout, d'édition et de suppression.
  */
 public class CustomerController {
 
@@ -56,7 +48,8 @@ public class CustomerController {
     private Label statusLabel;
 
     /**
-     * Initializes the controller by setting up columns, customer data, search functionality, and action buttons.
+     * Initialise le contrôleur : configuration des colonnes, des données clients,
+     * de la barre de recherche et des boutons d'action.
      */
     @FXML
     public void initialize() {
@@ -64,50 +57,51 @@ public class CustomerController {
         initializeCustomerData();
         initializeSearchField();
         initializeActionsColumn();
+
+        customerTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_NEXT_COLUMN);
     }
 
     /**
-     * Configures the columns of the TableView.
-     * Sets up columns to use observable properties and adjusts their widths.
+     * Configure les colonnes du TableView avec les propriétés observables des clients.
      */
     private void initializeColumns() {
-        // Configure columns to use observable properties
         firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
         addressColumn.setCellValueFactory(cellData ->
-                Bindings.createStringBinding(() -> cellData.getValue().getAddress().toString(), cellData.getValue().getAddress().streetProperty(), cellData.getValue().getAddress().postalCodeProperty(), cellData.getValue().getAddress().cityProperty())
+                Bindings.createStringBinding(() -> cellData.getValue().getAddress().toString(),
+                        cellData.getValue().getAddress().streetProperty(),
+                        cellData.getValue().getAddress().postalCodeProperty(),
+                        cellData.getValue().getAddress().cityProperty())
         );
-
         emailColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
         phoneNumberColumn.setCellValueFactory(cellData -> cellData.getValue().phoneNumberProperty());
         socialSecurityNumberColumn.setCellValueFactory(cellData -> cellData.getValue().socialSecurityNumberProperty());
         birthDateColumn.setCellValueFactory(cellData ->
                 Bindings.createStringBinding(() ->
-                                cellData.getValue().getBirthDate() != null ? cellData.getValue().getBirthDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "",
+                                cellData.getValue().getBirthDate() != null ?
+                                        cellData.getValue().getBirthDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "",
                         cellData.getValue().birthDateProperty())
         );
 
-        // Set column widths as percentages of the TableView width
+        // Configuration des largeurs des colonnes
         firstNameColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.10));
         lastNameColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.10));
-        addressColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.15));
-        emailColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.15));
+        addressColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.20));
+        emailColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.20));
         phoneNumberColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.10));
-        socialSecurityNumberColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.15));
-        addressColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.25));
+        socialSecurityNumberColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.20));
         actionColumn.prefWidthProperty().bind(customerTable.widthProperty().multiply(0.10));
     }
 
     /**
-     * Initializes the customer data for the TableView with some example customers.
+     * Initialise les données clients à partir de CustomerDataStore.
      */
     private void initializeCustomerData() {
-        // Utiliser les clients depuis CustomerDataStore
         customerTable.setItems(CustomerDataStore.getInstance().getCustomers());
     }
 
     /**
-     * Sets up the search functionality for filtering customers in the TableView.
+     * Initialise la barre de recherche pour filtrer les clients dans le TableView.
      */
     private void initializeSearchField() {
         FilteredList<Customer> filteredData = new FilteredList<>(CustomerDataStore.getInstance().getCustomers(), b -> true);
@@ -115,11 +109,10 @@ public class CustomerController {
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(customer -> {
                 if (newValue == null || newValue.isEmpty()) {
-                    return true;
+                    return true; // Affiche tous les clients si le champ de recherche est vide
                 }
 
                 String lowerCaseFilter = newValue.toLowerCase();
-
                 return customer.getFirstName().toLowerCase().contains(lowerCaseFilter)
                         || customer.getLastName().toLowerCase().contains(lowerCaseFilter)
                         || customer.getEmail().toLowerCase().contains(lowerCaseFilter)
@@ -133,194 +126,84 @@ public class CustomerController {
         customerTable.setItems(sortedData);
     }
 
-
     /**
-     * Configures the action buttons (edit and delete) in the TableView.
+     * Configure les boutons d'action (édition et suppression) pour chaque ligne du TableView.
      */
     private void initializeActionsColumn() {
+        // Capturer une référence explicite au contrôleur parent
+        CustomerController controller = this;
+
         actionColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button editButton = new Button();
-            private final Button deleteButton = new Button();
-
-            {
-                editButton.setGraphic(new FontIcon("fas-pen"));
-                deleteButton.setGraphic(new FontIcon("fas-trash"));
-
-                editButton.getStyleClass().add("button-warning");
-                deleteButton.getStyleClass().add("button-destructive");
-
-                editButton.setOnAction(event -> handleEditCustomer(getTableView().getItems().get(getIndex())));
-                deleteButton.setOnAction(event -> handleDeleteCustomer(getTableView().getItems().get(getIndex())));
-            }
-
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty) {
-                    setGraphic(null);
+                    setGraphic(null); // Si la cellule est vide, ne rien afficher
                 } else {
-                    HBox hBox = new HBox(5);
-                    hBox.getChildren().addAll(editButton, deleteButton);
-                    setGraphic(hBox);
+                    Customer customer = getTableView().getItems().get(getIndex());
+                    // Utiliser la référence explicite au contrôleur parent pour accéder aux méthodes
+                    setGraphic(ActionButtonUtil.createEditDeleteButtons(customer,
+                            controller::handleEditCustomer,
+                            controller::handleDeleteCustomer));
                 }
             }
         });
     }
 
+    /**
+     * Gère l'ajout d'un nouveau client à l'aide d'une boîte de dialogue.
+     */
     @FXML
     private void handleAddCustomer() {
-        try {
-            // Charger le fichier FXML du formulaire client
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/layout/CustomerForm.fxml"));
-            DialogPane dialogPane = loader.load();
-
-            // Obtenir le contrôleur du formulaire client
-            CustomerFormController controller = loader.getController();
-            // Créer un nouveau client vide et le passer au contrôleur
-            controller.setCustomer(new Customer(
-                    "", // Prénom
-                    "", // Nom
-                    new Address("", "", ""), // Adresse vide
-                    "", // Numéro de téléphone
-                    "", // Email
-                    "", // Numéro de sécurité sociale
-                    LocalDate.now(), // Date de naissance par défaut
-                    new Mutual("Mutuelle par défaut", new Address("", "", ""), "", "", "", 0.0), // Objet Mutual par défaut
-                    new Doctor("Docteur par défaut", "Nom", new Address("", "", ""), "", "", "12345") // Objet Doctor par défaut
-            ));
-
-
-            // Créer une boîte de dialogue pour le formulaire
-            Dialog<Customer> dialog = new Dialog<>();
-            dialog.setDialogPane(dialogPane);
-            dialog.setTitle("Ajouter un nouveau client");
-            dialog.getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
-
-            // Vérifier les entrées lors de la validation
-            Button saveButton = (Button) dialogPane.lookupButton(ButtonType.OK);
-            saveButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
-                if (controller.validateInputs()) {
-                    event.consume();
-                }
-            });
-
-            // Définir le résultat de la boîte de dialogue si le bouton OK est cliqué
-            dialog.setResultConverter(dialogButton -> {
-                if (dialogButton == ButtonType.OK) {
-                    return controller.getCustomer();
-                }
-                return null;
-            });
-
-            // Afficher la boîte de dialogue et attendre l'action de l'utilisateur
-            Optional<Customer> result = dialog.showAndWait();
-            result.ifPresent(newCustomer -> {
-                // Ajouter le nouveau client à CustomerDataStore
-                CustomerDataStore.getInstance().addCustomer(newCustomer);
-                updateStatusLabel("Le client a été créé avec succès.");
-            });
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Customer newCustomer = new Customer("", "", new Address("", "", ""), "", "", "", LocalDate.now(), null, null);
+        openCustomerForm(newCustomer, "Ajouter un nouveau client");
     }
 
-
-
+    /**
+     * Gère la modification d'un client existant.
+     *
+     * @param customer Le client à modifier.
+     */
     @FXML
     private void handleEditCustomer(Customer customer) {
-        try {
-            // Charger le fichier FXML du formulaire client
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/layout/CustomerForm.fxml"));
-            DialogPane dialogPane = loader.load();
-
-            // Obtenir le contrôleur du formulaire client
-            CustomerFormController controller = loader.getController();
-            // Passer le client sélectionné au contrôleur pour le pré-remplissage du formulaire
-            controller.setCustomer(customer);
-
-            // Créer une boîte de dialogue pour le formulaire
-            Dialog<Customer> dialog = new Dialog<>();
-            dialog.setDialogPane(dialogPane);
-            dialog.setTitle("Modification client");
-            dialog.getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
-
-            // Vérifier les entrées lors de la validation
-            Button saveButton = (Button) dialogPane.lookupButton(ButtonType.OK);
-            saveButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
-                if (controller.validateInputs()) { // Correction ici également
-                    event.consume(); // Empêche la fermeture de la boîte de dialogue si les entrées ne sont pas valides
-                }
-            });
-
-            dialog.setResultConverter(dialogButton -> dialogButton == ButtonType.OK ? controller.getCustomer() : null);
-
-            Optional<Customer> result = dialog.showAndWait();
-            result.ifPresent(updatedCustomer -> {
-                int index = CustomerDataStore.getInstance().getCustomers().indexOf(customer);
-                if (index >= 0) {
-                    CustomerDataStore.getInstance().getCustomers().set(index, updatedCustomer);
-                    updateStatusLabel("Personne modifiée avec succès.");
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        openCustomerForm(customer, "Modification client");
     }
 
 
+    /**
+     * Ouvre un formulaire de client pour ajouter ou éditer un client.
+     *
+     * @param customer    Le client à ajouter ou modifier.
+     * @param dialogTitle Le titre de la boîte de dialogue.
+     */
+    private void openCustomerForm(Customer customer, String dialogTitle) {
+        EntityDialogUtil.openEntityFormDialog("/fxml/layout/CustomerForm.fxml", dialogTitle,
+                controller -> {
+                    CustomerFormController customerController = (CustomerFormController) controller;
+                    customerController.setCustomer(customer);
+                },
+                controller -> ((CustomerFormController) controller).getCustomer()
+        ).ifPresent(updatedCustomer -> {
+            if (customerTable.getItems().contains(customer)) {
+                int index = CustomerDataStore.getInstance().getCustomers().indexOf(customer);
+                CustomerDataStore.getInstance().getCustomers().set(index, updatedCustomer);
+                AlertUtil.updateStatusLabel(statusLabel, "Le client a été modifié avec succès.", "success");
+            } else {
+                CustomerDataStore.getInstance().addCustomer(updatedCustomer);
+                AlertUtil.updateStatusLabel(statusLabel, "Le client a été créé avec succès.", "success");
+            }
+        });
+    }
 
     /**
-     * Opens a confirmation dialog to delete the selected customer.
-     * If confirmed, the customer is removed from the list.
+     * Gère la suppression d'un client avec confirmation.
      *
-     * @param customer The customer to be deleted.
+     * @param customer Le client à supprimer.
      */
     private void handleDeleteCustomer(Customer customer) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation de suppression");
-        alert.setHeaderText("Êtes-vous sûr de vouloir supprimer cette personne ?");
-        alert.setContentText("Cette action est irréversible.");
-
-        DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/global.css")).toExternalForm());
-        dialogPane.getStyleClass().add("dialog-pane");
-
-        FontIcon icon = new FontIcon(FontAwesomeSolid.INFO_CIRCLE);
-        icon.setIconSize(48);
-        icon.setIconColor(Color.web("#E53935"));
-        alert.setGraphic(icon);
-
-        ButtonType yesButton = new ButtonType("Oui", ButtonBar.ButtonData.OK_DONE);
-        ButtonType noButton = new ButtonType("Non", ButtonBar.ButtonData.CANCEL_CLOSE);
-        alert.getButtonTypes().setAll(yesButton, noButton);
-
-        Button yesBtn = (Button) dialogPane.lookupButton(yesButton);
-        yesBtn.setStyle("-fx-background-color: #F44336;");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == yesButton) {
-            CustomerDataStore.getInstance().removeCustomer(customer);
-            updateStatusLabel("Personne supprimée avec succès.");
-        }
-    }
-
-    /**
-     * Updates the status label with a message and a CSS class.
-     * The message is cleared after 3 seconds.
-     *
-     * @param message The message to display.
-     */
-    private void updateStatusLabel(String message) {
-        statusLabel.setText(message);
-        statusLabel.getStyleClass().setAll("alert", "alert-success");
-        Timeline timeline = new Timeline(new KeyFrame(
-                Duration.seconds(3),
-                ae -> {
-                    statusLabel.setText("");
-                    statusLabel.getStyleClass().clear();
-                }
-        ));
-        timeline.play();
+        DeleteUtil.handleDelete(customer,
+                CustomerDataStore.getInstance()::removeCustomer,
+                "Le client a été supprimé avec succès.",
+                statusLabel);
     }
 }

@@ -1,5 +1,7 @@
 package com.yb.sparadrap.util;
 
+import com.yb.sparadrap.model.Customer;
+import com.yb.sparadrap.model.Doctor;
 import com.yb.sparadrap.model.Medication;
 
 import java.time.LocalDate;
@@ -92,6 +94,24 @@ public class ValidationUtil {
         return null;
     }
 
+    // Validation du client
+    public static String validateCustomer(Customer customer) {
+        if (customer == null) {
+            return "Veuillez sélectionner un client.";
+        }
+        // Tu peux ajouter d'autres règles spécifiques si nécessaire
+        return null;
+    }
+
+    // Validation du médecin
+    public static String validateDoctor(Doctor doctor) {
+        if (doctor == null) {
+            return "Veuillez sélectionner un prescripteur";
+        }
+        // Tu peux ajouter d'autres règles spécifiques si nécessaire
+        return null;
+    }
+
     // Validation de la quantité
     public static String validateQuantity(String quantity) {
         if (isEmpty(quantity)) return "La quantité ne peut pas être vide.";
@@ -100,14 +120,6 @@ public class ValidationUtil {
             if (qty <= 0) return "La quantité doit être un nombre positif.";
         } catch (NumberFormatException e) {
             return "La quantité doit être un nombre valide.";
-        }
-        return null;
-    }
-
-    // Validation de la saisie d'un médicament
-    public static String validateMedication(Medication medication) {
-        if (medication == null) {
-            return "Le médicament ne peut pas être vide.";
         }
         return null;
     }

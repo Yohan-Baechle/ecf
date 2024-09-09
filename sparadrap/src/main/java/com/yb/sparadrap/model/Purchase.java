@@ -3,6 +3,10 @@ package com.yb.sparadrap.model;
 import javafx.beans.property.*;
 import java.time.LocalDate;
 
+/**
+ * Classe représentant un achat dans l'application. Chaque achat est associé à un client, un médicament,
+ * une quantité, un montant total, et éventuellement une ordonnance prescrite par un médecin.
+ */
 public class Purchase {
 
     private final ObjectProperty<Customer> customer;
@@ -15,7 +19,9 @@ public class Purchase {
     private final ObjectProperty<Doctor> prescribingDoctor; // Médecin prescripteur
     private final ObjectProperty<LocalDate> prescriptionDate; // Date de prescription
 
-    // Constructeur par défaut
+    /**
+     * Constructeur par défaut initialisant les propriétés avec des valeurs par défaut.
+     */
     public Purchase() {
         this.customer = new SimpleObjectProperty<>();
         this.purchaseDate = new SimpleObjectProperty<>();
@@ -26,7 +32,16 @@ public class Purchase {
         this.prescriptionDate = new SimpleObjectProperty<>();
     }
 
-    // Constructeur avec paramètres
+    /**
+     * Constructeur permettant d'initialiser un achat avec toutes les informations nécessaires.
+     *
+     * @param customer          Le client associé à cet achat.
+     * @param purchaseDate      La date de l'achat.
+     * @param medication        Le médicament acheté.
+     * @param quantity          La quantité de médicament achetée.
+     * @param prescribingDoctor Le médecin prescripteur (si applicable).
+     * @param prescriptionDate  La date de prescription (si applicable).
+     */
     public Purchase(Customer customer, LocalDate purchaseDate, Medication medication, int quantity,
                     Doctor prescribingDoctor, LocalDate prescriptionDate) {
         this.customer = new SimpleObjectProperty<>(customer);
@@ -38,7 +53,7 @@ public class Purchase {
         this.prescriptionDate = new SimpleObjectProperty<>(prescriptionDate);
     }
 
-    // Propriétés observables pour le client, la date d'achat, le médicament, la quantité et le montant total
+    // Propriétés observables + Getters et Setters
     public ObjectProperty<Customer> customerProperty() {
         return customer;
     }
@@ -73,7 +88,7 @@ public class Purchase {
 
     public void setMedication(Medication medication) {
         this.medication.set(medication);
-        calculateTotalAmount();
+        calculateTotalAmount(); // Recalculer le total lorsqu'un nouveau médicament est défini
     }
 
     public IntegerProperty quantityProperty() {
@@ -86,7 +101,7 @@ public class Purchase {
 
     public void setQuantity(int quantity) {
         this.quantity.set(quantity);
-        calculateTotalAmount();
+        calculateTotalAmount(); // Recalculer le total lorsqu'une nouvelle quantité est définie
     }
 
     public DoubleProperty totalAmountProperty() {
@@ -101,7 +116,8 @@ public class Purchase {
         this.totalAmount.set(totalAmount);
     }
 
-    // Propriétés pour l'ordonnance
+    // Propriétés liées à l'ordonnance (prescription)
+
     public ObjectProperty<Doctor> prescribingDoctorProperty() {
         return prescribingDoctor;
     }
@@ -126,7 +142,9 @@ public class Purchase {
         this.prescriptionDate.set(prescriptionDate);
     }
 
-    // Méthode pour recalculer le montant total basé sur le prix du médicament et la quantité
+    /**
+     * Méthode pour recalculer le montant total basé sur le prix du médicament et la quantité achetée.
+     */
     public void calculateTotalAmount() {
         if (medication.get() != null) {
             this.totalAmount.set(medication.get().getPrice() * quantity.get());
@@ -135,14 +153,23 @@ public class Purchase {
 
     @Override
     public String toString() {
-        return "Purchase{" +
-                "customer=" + customer.get() +
-                ", purchaseDate=" + purchaseDate.get() +
-                ", medication=" + medication.get() +
-                ", quantity=" + quantity.get() +
-                ", totalAmount=" + totalAmount.get() +
-                ", prescribingDoctor=" + (prescribingDoctor.get() != null ? prescribingDoctor.get().getFirstName() + " " + prescribingDoctor.get().getLastName() + " " + prescribingDoctor.get().getRegistrationNumber(): "Aucun") +
-                ", prescriptionDate=" + prescriptionDate.get() +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Achat effectué par ")
+                .append(customer.get().getFirstName()).append(" ").append(customer.get().getLastName())
+                .append(" le ").append(purchaseDate.get())
+                .append(".\nMédicament : ").append(medication.get().getName())
+                .append(", Quantité : ").append(quantity.get())
+                .append(", Montant total : ").append(String.format("%.2f €", totalAmount.get()));
+
+        if (prescribingDoctor.get() != null) {
+            sb.append("\nPrescrit par le Dr. ")
+                    .append(prescribingDoctor.get().getFirstName()).append(" ").append(prescribingDoctor.get().getLastName())
+                    .append(" (Numéro d'inscription : ").append(prescribingDoctor.get().getRegistrationNumber()).append(")")
+                    .append(" le ").append(prescriptionDate.get());
+        } else {
+            sb.append("\nAucune prescription médicale.");
+        }
+
+        return sb.toString();
     }
 }
