@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 public class SidebarController implements Initializable {
     public Button purchaseBtn;
     public Button customerBtn;
+    public Button doctorBtn;
 
     /**
      * Initialise le contrôleur du menu en configurant les écouteurs d'événements pour les boutons du menu.
@@ -39,6 +40,7 @@ public class SidebarController implements Initializable {
     private void addListeners() {
         purchaseBtn.setOnAction(event -> onPurchase());
         customerBtn.setOnAction(event -> onCustomer());
+        doctorBtn.setOnAction(event -> onDoctor());
     }
 
     /**
@@ -56,6 +58,13 @@ public class SidebarController implements Initializable {
     }
 
     /**
+     * Définit l'élément de menu sélectionné sur "customer", ce qui déclenche l'affichage de la vue de gestion des clients.
+     */
+    private void onDoctor() {
+        AppModel.getInstance().getViewFactory().getSelectedMenuItem().set("doctor");
+    }
+
+    /**
      * Met à jour le style des boutons du menu en fonction de l'élément de menu sélectionné.
      *
      * @param selectedMenu L'identifiant de l'élément de menu sélectionné.
@@ -64,6 +73,7 @@ public class SidebarController implements Initializable {
         // Supprime la classe 'button-selected' de tous les boutons
         purchaseBtn.getStyleClass().remove("button-selected");
         customerBtn.getStyleClass().remove("button-selected");
+        doctorBtn.getStyleClass().remove("button-selected");
 
         // Ajoute la classe 'button-selected' au bouton correspondant
         switch (selectedMenu) {
@@ -72,6 +82,9 @@ public class SidebarController implements Initializable {
                 break;
             case "customer":
                 customerBtn.getStyleClass().add("button-selected");
+                break;
+            case "doctor":
+                doctorBtn.getStyleClass().add("button-selected");
                 break;
             default:
                 break;

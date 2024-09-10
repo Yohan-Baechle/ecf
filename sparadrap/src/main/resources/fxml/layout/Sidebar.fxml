@@ -42,7 +42,7 @@
             </graphic>
          </Button>
          <Line endX="240.0" layoutX="31.0" layoutY="164.0" styleClass="separator" />
-         <Button fx:id="customerBtn1" layoutX="30.0" layoutY="174.0" maxWidth="Infinity" mnemonicParsing="false" text="Médecins">
+         <Button fx:id="doctorBtn" layoutX="30.0" layoutY="174.0" maxWidth="Infinity" mnemonicParsing="false" text="Médecins">
             <graphic>
                <FontIcon iconLiteral="fas-user-md" iconSize="24" />
             </graphic>

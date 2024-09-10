@@ -134,4 +134,17 @@ public class ValidationUtil {
         }
         return null;
     }
+
+    // Validation du numéro d'agrément du médecin
+    public static String validateRegistrationNumber(String registrationNumber) {
+        if (isEmpty(registrationNumber)) {
+            return "Le numéro d'agrément ne peut pas être vide.";
+        }
+        // Un numéro d'agrément de médecin en France est généralement composé de chiffres (15 caractères)
+        if (!registrationNumber.matches("\\d{11}")) {
+            return "Le numéro d'agrément est invalide. Il doit contenir 11 chiffres.";
+        }
+        return null;
+    }
+
 }

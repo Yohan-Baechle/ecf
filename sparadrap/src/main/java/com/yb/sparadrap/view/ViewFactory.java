@@ -16,6 +16,7 @@ public class ViewFactory {
     private final StringProperty selectedMenuItem;
     private AnchorPane purchaseView;
     private AnchorPane customerView;
+    private AnchorPane doctorView;
 
     /**
      * Initialise la ViewFactory avec une propriété de menu sélectionné.
@@ -65,6 +66,23 @@ public class ViewFactory {
             }
         }
         return customerView;
+    }
+
+    /**
+     * Charge et retourne la vue de gestion des prescripteurs.
+     * Si la vue a déjà été chargée, retourne la vue mise en cache.
+     *
+     * @return la vue de gestion des prescripteurs.
+     */
+    public AnchorPane getDoctorView() {
+        if (doctorView == null) {
+            try {
+                doctorView = new FXMLLoader(getClass().getResource("/fxml/layout/Doctor.fxml")).load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return doctorView;
     }
 
     /**

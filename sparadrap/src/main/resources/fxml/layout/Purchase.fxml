@@ -27,7 +27,7 @@
 
     <!-- Barre de recherche en haut -->
     <HBox alignment="CENTER" spacing="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="110.0">
-        <TextField fx:id="searchField" promptText="Rechercher un client..." styleClass="search-bar" HBox.hgrow="ALWAYS" />
+        <TextField fx:id="searchField" promptText="Rechercher un achat..." styleClass="search-bar" HBox.hgrow="ALWAYS" />
     </HBox>
 
     <!-- TableView pour les clients au centre -->
