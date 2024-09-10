@@ -179,8 +179,8 @@ public class CustomerController {
     private void openCustomerForm(Customer customer, String dialogTitle) {
         EntityDialogUtil.openEntityFormDialog("/fxml/layout/CustomerForm.fxml", dialogTitle,
                 controller -> {
-                    CustomerFormController customerController = (CustomerFormController) controller;
-                    customerController.setCustomer(customer);
+                    CustomerFormController customerFormController = (CustomerFormController) controller;
+                    customerFormController.setCustomer(customer);
                 },
                 controller -> ((CustomerFormController) controller).getCustomer()
         ).ifPresent(updatedCustomer -> {

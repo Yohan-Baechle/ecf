@@ -2,7 +2,7 @@ package com.yb.sparadrap.util;
 
 import com.yb.sparadrap.model.Customer;
 import com.yb.sparadrap.model.Doctor;
-import com.yb.sparadrap.model.Medication;
+import com.yb.sparadrap.model.enums.Department;
 
 import java.time.LocalDate;
 
@@ -181,4 +181,28 @@ public class ValidationUtil {
         if (launchDate.isAfter(LocalDate.now())) return "La date est invalide.";
         return null;
     }
+    // Validation du département
+    public static String validateDepartment(Department department) {
+        if (department == null) {
+            return "Le département ne peut pas être vide.";
+        }
+        return null;
+    }
+
+    // Validation du taux de remboursement
+    public static String validateReimbursementRate(String reimbursementRate) {
+        if (isEmpty(reimbursementRate)) {
+            return "Le taux de remboursement ne peut pas être vide.";
+        }
+        try {
+            double rate = Double.parseDouble(reimbursementRate);
+            if (rate < 0 || rate > 100) {
+                return "Le taux de remboursement doit être compris entre 0 et 100.";
+            }
+        } catch (NumberFormatException e) {
+            return "Le taux de remboursement doit être un nombre valide.";
+        }
+        return null;
+    }
+
 }

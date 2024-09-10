@@ -16,6 +16,7 @@ public class SidebarController implements Initializable {
     public Button customerBtn;
     public Button doctorBtn;
     public Button medicationBtn;
+    public Button mutualBtn;
 
     /**
      * Initialise le contrôleur du menu en configurant les écouteurs d'événements pour les boutons du menu.
@@ -43,6 +44,7 @@ public class SidebarController implements Initializable {
         customerBtn.setOnAction(event -> onCustomer());
         doctorBtn.setOnAction(event -> onDoctor());
         medicationBtn.setOnAction(event -> onMedication());
+        mutualBtn.setOnAction(event -> onMutual());
     }
 
     /**
@@ -60,17 +62,24 @@ public class SidebarController implements Initializable {
     }
 
     /**
-     * Définit l'élément de menu sélectionné sur "customer", ce qui déclenche l'affichage de la vue de gestion des clients.
+     * Définit l'élément de menu sélectionné sur "customer", ce qui déclenche l'affichage de la vue de gestion des prescripteurs.
      */
     private void onDoctor() {
         AppModel.getInstance().getViewFactory().getSelectedMenuItem().set("doctor");
     }
 
     /**
-     * Définit l'élément de menu sélectionné sur "customer", ce qui déclenche l'affichage de la vue de gestion des clients.
+     * Définit l'élément de menu sélectionné sur "customer", ce qui déclenche l'affichage de la vue de gestion des médicaments.
      */
     private void onMedication() {
         AppModel.getInstance().getViewFactory().getSelectedMenuItem().set("medication");
+    }
+
+    /**
+     * Définit l'élément de menu sélectionné sur "mutual", ce qui déclenche l'affichage de la vue de gestion des mutuelles.
+     */
+    private void onMutual() {
+        AppModel.getInstance().getViewFactory().getSelectedMenuItem().set("mutual");
     }
 
 
@@ -85,6 +94,7 @@ public class SidebarController implements Initializable {
         customerBtn.getStyleClass().remove("button-selected");
         doctorBtn.getStyleClass().remove("button-selected");
         medicationBtn.getStyleClass().remove("button-selected");
+        mutualBtn.getStyleClass().remove("button-selected");
 
         // Ajoute la classe 'button-selected' au bouton correspondant
         switch (selectedMenu) {
@@ -99,6 +109,9 @@ public class SidebarController implements Initializable {
                 break;
             case "medication":
                 medicationBtn.getStyleClass().add("button-selected");
+                break;
+            case "mutual":
+                mutualBtn.getStyleClass().add("button-selected");
                 break;
             default:
                 break;

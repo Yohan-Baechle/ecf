@@ -28,6 +28,7 @@ public class MainController implements Initializable {
                 case "customer" -> mainPane.setCenter(AppModel.getInstance().getViewFactory().getCustomerView());
                 case "doctor" -> mainPane.setCenter(AppModel.getInstance().getViewFactory().getDoctorView());
                 case "medication" -> mainPane.setCenter(AppModel.getInstance().getViewFactory().getMedicationView());
+                case "mutual" -> mainPane.setCenter(AppModel.getInstance().getViewFactory().getMutualView());
                 default -> mainPane.setCenter(AppModel.getInstance().getViewFactory().getPurchaseView());
             }
         });

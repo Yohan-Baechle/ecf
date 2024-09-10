@@ -1,7 +1,9 @@
 package com.yb.sparadrap.model.store;
 
 import com.yb.sparadrap.model.Address;
+import com.yb.sparadrap.model.Doctor;
 import com.yb.sparadrap.model.Mutual;
+import com.yb.sparadrap.model.enums.Department;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -44,6 +46,24 @@ public class MutualDataStore {
     }
 
     /**
+     * Ajoute une nouvelle mutuelle à la liste.
+     *
+     * @param mutual La mutuelle à ajouter.
+     */
+    public void addMutual(Mutual mutual) {
+        mutuals.add(mutual);
+    }
+
+    /**
+     * Supprime une mutuelle de la liste.
+     *
+     * @param mutual La mutuelle à supprimer.
+     */
+    public void removeMutual(Mutual mutual) {
+        mutuals.remove(mutual);
+    }
+
+    /**
      * Recherche une mutuelle par son nom.
      *
      * @param name Le nom de la mutuelle à rechercher.
@@ -65,29 +85,28 @@ public class MutualDataStore {
         mutuals.addAll(
                 new Mutual("Mutuelle MGEN",
                         new Address("3 Square Max Hymans", "75748", "Paris Cedex 15"),
-                        "0140621220", "contact@mgen.fr",
-                        "Enseignement et Recherche", 80.0),
+                        Department.PARIS,  // Département avant le numéro de téléphone
+                        "0140621220", "contact@mgen.fr", 80.0),
 
                 new Mutual("Mutuelle Harmonie",
                         new Address("143 Rue Blomet", "75015", "Paris"),
-                        "0144885555", "contact@harmonie.fr",
-                        "Santé et Prévention", 85.0),
+                        Department.PARIS,
+                        "0144885555", "contact@harmonie.fr", 85.0),
 
                 new Mutual("Mutuelle MACIF",
                         new Address("17-21 Place Etienne Pernet", "75015", "Paris"),
-                        "0970809809", "contact@macif.fr",
-                        "Assurances", 78.0),
+                        Department.PARIS,
+                        "0970809809", "contact@macif.fr", 78.0),
 
                 new Mutual("Mutuelle AG2R La Mondiale",
                         new Address("104-110 Boulevard Haussmann", "75008", "Paris"),
-                        "0144218800", "contact@ag2rlamondiale.fr",
-                        "Retraite et Santé", 82.0),
+                        Department.PARIS,
+                        "0144218800", "contact@ag2rlamondiale.fr", 82.0),
 
                 new Mutual("Mutuelle AÉSIO",
                         new Address("37 Rue de Villeneuve", "94200", "Ivry-sur-Seine"),
-                        "0149225000", "contact@aesio.fr",
-                        "Santé et Prévoyance", 88.0)
+                        Department.VAL_DE_MARNE,
+                        "0149225000", "contact@aesio.fr", 88.0)
         );
     }
-
 }

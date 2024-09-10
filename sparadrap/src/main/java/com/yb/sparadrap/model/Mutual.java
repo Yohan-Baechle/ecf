@@ -1,7 +1,10 @@
 package com.yb.sparadrap.model;
 
+import com.yb.sparadrap.model.enums.Department;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -12,18 +15,18 @@ import javafx.beans.property.StringProperty;
 public class Mutual {
     private final StringProperty name;
     private final Address address;
+    private final ObjectProperty<Department> department;
     private final StringProperty phoneNumber;
-    private final StringProperty email;
-    private final StringProperty department;
+    private final StringProperty email;// Changement du type StringProperty à ObjectProperty<Department>
     private final DoubleProperty reimbursementRate;
 
-    // Constructeur par défaut
-    public Mutual(String name, Address address, String phoneNumber, String email, String department, double reimbursementRate) {
+    // Constructeur avec paramètres
+    public Mutual(String name, Address address, Department department, String phoneNumber, String email, double reimbursementRate) {
         this.name = new SimpleStringProperty(name);
         this.address = address;
         this.phoneNumber = new SimpleStringProperty(phoneNumber);
         this.email = new SimpleStringProperty(email);
-        this.department = new SimpleStringProperty(department);
+        this.department = new SimpleObjectProperty<>(department);  // Utilisation de Department
         this.reimbursementRate = new SimpleDoubleProperty(reimbursementRate);
     }
 
@@ -74,15 +77,16 @@ public class Mutual {
         this.email.set(email);
     }
 
-    public StringProperty departmentProperty() {
+    // Propriété et méthodes pour Department
+    public ObjectProperty<Department> departmentProperty() {
         return department;
     }
 
-    public String getDepartment() {
+    public Department getDepartment() {
         return department.get();
     }
 
-    public void setDepartment(String department) {
+    public void setDepartment(Department department) {
         this.department.set(department);
     }
 

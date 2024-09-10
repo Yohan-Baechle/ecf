@@ -13,11 +13,11 @@
 
     <content>
         <VBox>
-            <GridPane>
+            <GridPane hgap="10" vgap="10">
 
                 <!-- Informations générales -->
                 <Label text="Nom :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" />
                 <Label fx:id="nameErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets bottom="10.0" />
@@ -25,7 +25,7 @@
                 </Label>
 
                 <Label text="Catégorie :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <ComboBox fx:id="categoryComboBox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                <ComboBox fx:id="categoryComboBox" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.hgrow="ALWAYS" />
                 <Label fx:id="categoryErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
                 <Label text="Date de mise en service :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
@@ -37,22 +37,23 @@
                 </Label>
 
                 <Label text="Quantité :" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                <TextField fx:id="quantityField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" />
+                <TextField fx:id="quantityField" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.hgrow="ALWAYS" />
                 <Label fx:id="quantityErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="7">
                     <GridPane.margin>
                         <Insets bottom="10.0" />
                     </GridPane.margin>
                 </Label>
 
-                <Label text="Prix :" GridPane.columnIndex="0" GridPane.rowIndex="9" />
-                <TextField fx:id="priceField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" />
-                <Label fx:id="priceErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                <Label text="Prix :" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                <TextField fx:id="priceField" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.hgrow="ALWAYS" />
+                <Label fx:id="priceErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="9">
                     <GridPane.margin>
                         <Insets bottom="10.0" />
                     </GridPane.margin>
                 </Label>
 
             </GridPane>
+
         </VBox>
     </content>
     <padding>

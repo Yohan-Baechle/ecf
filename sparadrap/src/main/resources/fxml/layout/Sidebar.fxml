@@ -53,6 +53,12 @@
                <FontIcon iconLiteral="fas-pills" iconSize="24" />
             </graphic>
          </Button>
+         <Line endX="240.0" styleClass="separator" />
+         <Button fx:id="mutualBtn" maxWidth="Infinity" mnemonicParsing="false" text="Mutuelles">
+            <graphic>
+               <FontIcon iconLiteral="fas-heartbeat" iconSize="24" />
+            </graphic>
+         </Button>
         </VBox>
     </VBox>
 </AnchorPane>

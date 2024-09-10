@@ -18,6 +18,7 @@ public class ViewFactory {
     private AnchorPane customerView;
     private AnchorPane doctorView;
     private AnchorPane medicationView;
+    private AnchorPane mutualView;
 
     /**
      * Initialise la ViewFactory avec une propriété de menu sélectionné.
@@ -101,6 +102,23 @@ public class ViewFactory {
             }
         }
         return medicationView;
+    }
+
+    /**
+     * Charge et retourne la vue de gestion des mutuelles.
+     * Si la vue a déjà été chargée, retourne la vue mise en cache.
+     *
+     * @return la vue de gestion des mutuelles.
+     */
+    public AnchorPane getMutualView() {
+        if (mutualView == null) {
+            try {
+                mutualView = new FXMLLoader(getClass().getResource("/fxml/layout/Mutual.fxml")).load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return mutualView;
     }
 
     /**

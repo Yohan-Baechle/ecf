@@ -180,8 +180,8 @@ public class PurchaseController {
     private void openPurchaseForm(Purchase purchase, String dialogTitle) {
         EntityDialogUtil.openEntityFormDialog("/fxml/layout/PurchaseForm.fxml", dialogTitle,
                 controller -> {
-                    PurchaseFormController purchaseController = (PurchaseFormController) controller;
-                    purchaseController.setPurchase(purchase);
+                    PurchaseFormController purchaseFormController = (PurchaseFormController) controller;
+                    purchaseFormController.setPurchase(purchase);
                 },
                 controller -> ((PurchaseFormController) controller).getPurchase()
         ).ifPresent(updatedPurchase -> {
