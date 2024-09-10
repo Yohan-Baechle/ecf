@@ -5,6 +5,8 @@ import com.yb.sparadrap.model.enums.MedicationCategory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.time.LocalDate;
+
 /**
  * Singleton gérant le stockage des médicaments dans l'application.
  * Utilise une liste observable pour stocker et manipuler les médicaments.
@@ -67,11 +69,12 @@ public class MedicationDataStore {
      */
     private void initializeSampleData() {
         medications.addAll(
-                new Medication("Paracétamol", MedicationCategory.ANALGESIQUE, 2.5, 10),
-                new Medication("Ibuprofène", MedicationCategory.ANTI_INFLAMMATOIRE, 3.0, 20),
-                new Medication("Amoxicilline", MedicationCategory.ANTIBIOTIQUE, 7.5, 15),
-                new Medication("Vaccin grippe", MedicationCategory.VACCIN, 25.0, 5),
-                new Medication("Statine", MedicationCategory.STATINE, 12.0, 30)
+                new Medication("Paracétamol", MedicationCategory.ANALGESIQUE, LocalDate.of(2010, 5, 1), 10, 2.5),
+                new Medication("Ibuprofène", MedicationCategory.ANTI_INFLAMMATOIRE, LocalDate.of(2012, 8, 15), 20, 3.0),
+                new Medication("Amoxicilline", MedicationCategory.ANTIBIOTIQUE, LocalDate.of(2005, 3, 10), 15, 7.5),
+                new Medication("Vaccin grippe", MedicationCategory.VACCIN, LocalDate.of(2018, 9, 20), 5, 25.0),
+                new Medication("Statine", MedicationCategory.STATINE, LocalDate.of(2015, 11, 30), 30, 12.0)
         );
     }
+
 }

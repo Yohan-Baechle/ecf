@@ -147,4 +147,38 @@ public class ValidationUtil {
         return null;
     }
 
+    // Validation du nom du médicament
+    public static String validateName(String name) {
+        if (isEmpty(name)) return "Le nom ne peut pas être vide.";
+        if (!name.matches(NAME_REGEX)) return "Le nom du médicament est invalide.";
+        return null;
+    }
+
+    // Validation de la catégorie du médicament
+    public static String validateCategory(Object category) {
+        if (category == null) {
+            return "La catégorie ne peut pas être vide.";
+        }
+        // Vous pouvez ajouter des validations spécifiques à la catégorie si nécessaire
+        return null;
+    }
+
+    // Validation du prix du médicament
+    public static String validatePrice(String price) {
+        if (isEmpty(price)) return "Le prix ne peut pas être vide.";
+        try {
+            double parsedPrice = Double.parseDouble(price);
+            if (parsedPrice < 0) return "Le prix doit être un nombre positif.";
+        } catch (NumberFormatException e) {
+            return "Le prix doit être un nombre valide.";
+        }
+        return null;
+    }
+
+    // Validation de la date de mise en service du médicament
+    public static String validateLaunchDate(LocalDate launchDate) {
+        if (launchDate == null) return "La date ne peut pas être vide.";
+        if (launchDate.isAfter(LocalDate.now())) return "La date est invalide.";
+        return null;
+    }
 }

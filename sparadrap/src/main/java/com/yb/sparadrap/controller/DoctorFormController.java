@@ -101,7 +101,6 @@ public class DoctorFormController {
         boolean isEmailValid = validateField(emailField, ValidationUtil.validateEmail(emailField.getText().trim()));
         boolean isRegistrationNumberValid = validateField(registrationNumberField, ValidationUtil.validateRegistrationNumber(registrationNumberField.getText().trim()));
 
-        // Retourne 'true' uniquement si toutes les validations sont correctes
         return !isFirstNameValid || !isLastNameValid || !isStreetValid || !isZipCodeValid || !isCityValid
                 || !isPhoneNumberValid || !isEmailValid || !isRegistrationNumberValid;
     }

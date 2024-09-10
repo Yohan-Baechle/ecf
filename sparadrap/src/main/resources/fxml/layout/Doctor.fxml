@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="800" prefWidth="920" styleClass="main-container" stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yb.sparadrap.controller.DoctorController">
+<AnchorPane prefHeight="800" prefWidth="920" styleClass="main-container" stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yb.sparadrap.controller.DoctorController">
 
     <!-- Titre de la page -->
     <HBox alignment="CENTER_LEFT" spacing="10.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
@@ -30,7 +30,7 @@
         <TextField fx:id="searchField" promptText="Rechercher un prescripteur..." styleClass="search-bar" HBox.hgrow="ALWAYS" />
     </HBox>
 
-    <!-- TableView pour les clients au centre -->
+    <!-- TableView pour les prescripteurs au centre -->
     <TableView fx:id="doctorTable" layoutX="20.0" layoutY="130.0" prefHeight="560.0" prefWidth="860.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="160.0">
         <columns>
                 <TableColumn fx:id="lastNameColumn" text="Nom" />

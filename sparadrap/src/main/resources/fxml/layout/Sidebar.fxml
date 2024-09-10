@@ -47,6 +47,12 @@
                <FontIcon iconLiteral="fas-user-md" iconSize="24" />
             </graphic>
          </Button>
+         <Line endX="240.0" styleClass="separator" />
+         <Button fx:id="medicationBtn" maxWidth="Infinity" mnemonicParsing="false" text="Médicaments">
+            <graphic>
+               <FontIcon iconLiteral="fas-pills" iconSize="24" />
+            </graphic>
+         </Button>
         </VBox>
     </VBox>
 </AnchorPane>

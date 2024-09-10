@@ -19,9 +19,6 @@ import java.util.HashMap;
 public class CustomerFormController {
 
     @FXML
-    private DialogPane dialogPane;
-
-    @FXML
     private TextField firstNameField;
     @FXML
     private TextField lastNameField;

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<DialogPane fx:id="dialogPane" prefHeight="780.0" prefWidth="600.0" stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yb.sparadrap.controller.CustomerFormController">
+<DialogPane prefHeight="780.0" prefWidth="600.0" stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yb.sparadrap.controller.CustomerFormController">
 
     <content>
         <VBox>
@@ -93,37 +93,6 @@
                 <Label text="Médecin Référent :" GridPane.columnIndex="0" GridPane.rowIndex="23" />
                 <ComboBox fx:id="primaryDoctorComboBox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="23" />
                 <Label fx:id="referringDoctorErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="24" />
-            <columnConstraints>
-               <ColumnConstraints minWidth="170.0" />
-               <ColumnConstraints maxWidth="365.0" minWidth="345.0" prefWidth="360.0" />
-            </columnConstraints>
-            <rowConstraints>
-               <RowConstraints />
-               <RowConstraints minHeight="20.0" />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-            </rowConstraints>
 
             </GridPane>
         </VBox>

@@ -17,6 +17,7 @@ public class ViewFactory {
     private AnchorPane purchaseView;
     private AnchorPane customerView;
     private AnchorPane doctorView;
+    private AnchorPane medicationView;
 
     /**
      * Initialise la ViewFactory avec une propriété de menu sélectionné.
@@ -83,6 +84,23 @@ public class ViewFactory {
             }
         }
         return doctorView;
+    }
+
+    /**
+     * Charge et retourne la vue de gestion des médicaments.
+     * Si la vue a déjà été chargée, retourne la vue mise en cache.
+     *
+     * @return la vue de gestion des médicments.
+     */
+    public AnchorPane getMedicationView() {
+        if (medicationView == null) {
+            try {
+                medicationView = new FXMLLoader(getClass().getResource("/fxml/layout/Medication.fxml")).load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return medicationView;
     }
 
     /**

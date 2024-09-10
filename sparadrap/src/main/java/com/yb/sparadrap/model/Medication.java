@@ -2,10 +2,11 @@ package com.yb.sparadrap.model;
 
 import com.yb.sparadrap.model.enums.MedicationCategory;
 import javafx.beans.property.*;
+import java.time.LocalDate;
 
 /**
  * Classe représentant un médicament dans l'application.
- * Chaque médicament a un nom, une catégorie, un prix unitaire et une quantité en stock.
+ * Chaque médicament a un nom, une catégorie,une date de mise en service, une quantité en stock et un prix unitaire.
  */
 public class Medication {
 
@@ -13,6 +14,7 @@ public class Medication {
     private final ObjectProperty<MedicationCategory> category;
     private final DoubleProperty price;
     private final IntegerProperty quantity;
+    private final ObjectProperty<LocalDate> launchDate;
 
     // Constructeur par défaut
     public Medication() {
@@ -20,12 +22,14 @@ public class Medication {
         this.category = new SimpleObjectProperty<>();
         this.price = new SimpleDoubleProperty();
         this.quantity = new SimpleIntegerProperty();
+        this.launchDate = new SimpleObjectProperty<>();
     }
 
     // Constructeur avec paramètres
-    public Medication(String name, MedicationCategory category, double price, int quantity) {
+    public Medication(String name, MedicationCategory category, LocalDate launchDate, int quantity, double price) {
         this.name = new SimpleStringProperty(name);
         this.category = new SimpleObjectProperty<>(category);
+        this.launchDate = new SimpleObjectProperty<>(launchDate);
         this.price = new SimpleDoubleProperty(price);
         this.quantity = new SimpleIntegerProperty(quantity);
     }
@@ -55,6 +59,18 @@ public class Medication {
         this.category.set(category);
     }
 
+    public ObjectProperty<LocalDate> launchDateProperty() {
+        return launchDate;
+    }
+
+    public LocalDate getLaunchDate() {
+        return launchDate.get();
+    }
+
+    public void setLaunchDate(LocalDate launchDate) {
+        this.launchDate.set(launchDate);
+    }
+
     public DoubleProperty priceProperty() {
         return price;
     }
@@ -77,10 +93,6 @@ public class Medication {
 
     public void setQuantity(int quantity) {
         this.quantity.set(quantity);
-    }
-
-    public double calculateTotalCost() {
-        return getPrice() * getQuantity();
     }
 
     @Override

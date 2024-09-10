@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<DialogPane fx:id="dialogPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yb.sparadrap.controller.MedicationFormController">
+
+    <content>
+        <VBox>
+            <GridPane>
+
+                <!-- Informations générales -->
+                <Label text="Nom :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                <Label fx:id="nameErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </Label>
+
+                <Label text="Catégorie :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <ComboBox fx:id="categoryComboBox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                <Label fx:id="categoryErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                <Label text="Date de mise en service :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <DatePicker fx:id="launchDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Label fx:id="launchDateErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </Label>
+
+                <Label text="Quantité :" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                <TextField fx:id="quantityField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" />
+                <Label fx:id="quantityErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </Label>
+
+                <Label text="Prix :" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+                <TextField fx:id="priceField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" />
+                <Label fx:id="priceErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </Label>
+
+            </GridPane>
+        </VBox>
+    </content>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</DialogPane>
