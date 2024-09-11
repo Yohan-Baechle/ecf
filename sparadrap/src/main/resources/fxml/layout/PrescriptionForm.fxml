@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<DialogPane prefHeight="600.0" prefWidth="800.0" stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yb.sparadrap.controller.PrescriptionFormController">
+
+    <content>
+        <VBox>
+            <GridPane hgap="10" vgap="10">
+                <!-- Date de prescription -->
+                <Label text="Date de prescription :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <DatePicker fx:id="prescriptionDatePicker" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" />
+                <Label fx:id="prescriptionDateErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </Label>
+
+                <!-- Nom du patient -->
+                <ComboBox fx:id="patientComboBox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                <Label fx:id="patientNameErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </Label>
+
+
+                <!-- Nom du médecin -->
+                <Label text="Médecin :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <ComboBox fx:id="doctorComboBox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
+                <Label fx:id="doctorNameErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </Label>
+
+                <!-- Liste des médicaments -->
+                <Label text="Liste médicaments :" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                <TextArea fx:id="medicationsField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" />
+                <Label fx:id="medicationsErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </Label>
+
+                <!-- Spécialité -->
+                <Label text="Spécialité :" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                <ComboBox fx:id="specialtyComboBox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" />
+                <Label fx:id="specialtyErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </Label>
+            <columnConstraints>
+               <ColumnConstraints />
+               <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+
+            </GridPane>
+
+        </VBox>
+    </content>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</DialogPane>

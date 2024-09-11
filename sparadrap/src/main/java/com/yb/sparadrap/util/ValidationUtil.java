@@ -205,4 +205,11 @@ public class ValidationUtil {
         return null;
     }
 
+    // Validation de la liste des médicaments
+    public static String validateMedicationsList(String medications) {
+        if (isEmpty(medications)) {
+            return "La liste des médicaments ne peut pas être vide.";
+        }
+        return null;
+    }
 }

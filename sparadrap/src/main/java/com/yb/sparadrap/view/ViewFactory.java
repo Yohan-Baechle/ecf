@@ -19,6 +19,7 @@ public class ViewFactory {
     private AnchorPane doctorView;
     private AnchorPane medicationView;
     private AnchorPane mutualView;
+    private AnchorPane prescriptionView;
 
     /**
      * Initialise la ViewFactory avec une propriété de menu sélectionné.
@@ -119,6 +120,23 @@ public class ViewFactory {
             }
         }
         return mutualView;
+    }
+
+    /**
+     * Charge et retourne la vue de gestion des ordonnances.
+     * Si la vue a déjà été chargée, retourne la vue mise en cache.
+     *
+     * @return la vue de gestion des orodnnances.
+     */
+    public AnchorPane getPrescriptionView() {
+        if (prescriptionView == null) {
+            try {
+                prescriptionView = new FXMLLoader(getClass().getResource("/fxml/layout/Prescription.fxml")).load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return prescriptionView;
     }
 
     /**
