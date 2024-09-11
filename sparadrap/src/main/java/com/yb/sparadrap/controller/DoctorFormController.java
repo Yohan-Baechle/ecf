@@ -2,11 +2,16 @@ package com.yb.sparadrap.controller;
 
 import com.yb.sparadrap.model.Address;
 import com.yb.sparadrap.model.Doctor;
+import com.yb.sparadrap.model.Specialist;
+import com.yb.sparadrap.model.enums.Specialty;
 import com.yb.sparadrap.util.ValidationUtil;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import java.util.Map;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+
 import java.util.HashMap;
+import java.util.Map;
 
 public class DoctorFormController {
 
@@ -26,6 +31,10 @@ public class DoctorFormController {
     private TextField emailField;
     @FXML
     private TextField registrationNumberField;
+    @FXML
+    private ComboBox<Specialty> specialtyComboBox;  // ComboBox pour la spécialité
+    @FXML
+    private Label specialtyErrorLabel;
     @FXML
     private Label firstNameErrorLabel;
     @FXML
@@ -57,6 +66,27 @@ public class DoctorFormController {
         fieldErrorMap.put(phoneNumberField, phoneNumberErrorLabel);
         fieldErrorMap.put(emailField, emailErrorLabel);
         fieldErrorMap.put(registrationNumberField, registrationNumberErrorLabel);
+
+        // Initialiser la ComboBox avec les spécialités
+        specialtyComboBox.getItems().addAll(Specialty.values());
+        specialtyComboBox.setValue(Specialty.GENERALISTE); // Sélectionner Généraliste par défaut
+    }
+
+    public Doctor getDoctor() {
+        String firstName = firstNameField.getText().trim();
+        String lastName = lastNameField.getText().trim();
+        Address address = new Address(streetField.getText().trim(), zipCodeField.getText().trim(), cityField.getText().trim());
+        String phoneNumber = phoneNumberField.getText().trim();
+        String email = emailField.getText().trim();
+        String registrationNumber = registrationNumberField.getText().trim();
+        Specialty specialty = specialtyComboBox.getValue();
+
+        // Crée un Specialist si une spécialité est choisie, sinon un Doctor (Généraliste)
+        if (specialty != Specialty.GENERALISTE) {
+            return new Specialist(firstName, lastName, address, phoneNumber, email, registrationNumber, specialty);
+        } else {
+            return new Doctor(firstName, lastName, address, phoneNumber, email, registrationNumber);
+        }
     }
 
     public void setDoctor(Doctor doctor) {
@@ -71,27 +101,18 @@ public class DoctorFormController {
             phoneNumberField.setText(doctor.getPhoneNumber());
             emailField.setText(doctor.getEmail());
             registrationNumberField.setText(doctor.getRegistrationNumber());
+
+            if (doctor instanceof Specialist) {
+                specialtyComboBox.setValue(((Specialist) doctor).getSpecialty());
+            } else {
+                specialtyComboBox.setValue(Specialty.GENERALISTE);
+            }
         }
     }
-
-    public Doctor getDoctor() {
-        // Récupérer les valeurs des champs du formulaire
-        String firstName = firstNameField.getText().trim();
-        String lastName = lastNameField.getText().trim();
-        Address address = new Address(streetField.getText().trim(), zipCodeField.getText().trim(), cityField.getText().trim());
-        String phoneNumber = phoneNumberField.getText().trim();
-        String email = emailField.getText().trim();
-        String registrationNumber = registrationNumberField.getText().trim();
-
-        // Créer et retourner un objet Doctor avec les données du formulaire
-        return new Doctor(firstName, lastName, address, phoneNumber, email, registrationNumber);
-    }
-
 
     public boolean validateInputs() {
         clearErrorLabels();
 
-        // Validation des champs
         boolean isFirstNameValid = validateField(firstNameField, ValidationUtil.validateFirstName(firstNameField.getText().trim()));
         boolean isLastNameValid = validateField(lastNameField, ValidationUtil.validateLastName(lastNameField.getText().trim()));
         boolean isStreetValid = validateField(streetField, ValidationUtil.validateStreet(streetField.getText().trim()));
@@ -114,7 +135,6 @@ public class DoctorFormController {
     }
 
     private void clearErrorLabels() {
-        // Réinitialiser tous les labels d'erreur associés aux champs de saisie
         fieldErrorMap.values().forEach(label -> label.setText(""));
     }
 }

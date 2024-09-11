@@ -1,10 +1,8 @@
 package com.yb.sparadrap.store;
 
-import com.yb.sparadrap.model.Customer;
-import com.yb.sparadrap.model.Doctor;
-import com.yb.sparadrap.model.Medication;
-import com.yb.sparadrap.model.Prescription;
+import com.yb.sparadrap.model.*;
 import com.yb.sparadrap.model.enums.MedicationCategory;
+import com.yb.sparadrap.model.enums.Specialty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -79,8 +77,14 @@ public class PrescriptionDataStore {
         Customer patient1 = customerStore.getCustomers().get(0); // Jean Dupont
         Customer patient2 = customerStore.getCustomers().get(1); // Marie Lefevre
 
-        Doctor doctor1 = doctorStore.getDoctors().get(0); // Bernard Martin
-        Doctor doctor2 = doctorStore.getDoctors().get(1); // Anne Dupuis
+        // Création de médecins spécialistes avec spécialités
+        Specialist specialist1 = new Specialist("Bernard", "Martin",
+                new Address("10 rue de la Santé", "75001", "Paris"),
+                "0612345678", "bernard.martin@example.com", "10123456789", Specialty.GENERALISTE);
+
+        Specialist specialist2 = new Specialist("Anne", "Dupuis",
+                new Address("5 avenue des Hôpitaux", "75002", "Paris"),
+                "0623456789", "anne.dupuis@example.com", "10234567890", Specialty.CARDIOLOGIE);
 
         // Création de quelques exemples de médicaments
         Medication med1 = new Medication("Paracétamol", MedicationCategory.ANALGESIQUE, LocalDate.of(2010, 5, 1), 10, 2.5);
@@ -88,8 +92,9 @@ public class PrescriptionDataStore {
 
         // Ajout des prescriptions fictives
         prescriptions.addAll(
-                new Prescription(LocalDate.now(), doctor1, patient1, List.of(med1, med2)), // Ordonnance pour Jean Dupont
-                new Prescription(LocalDate.now().minusDays(10), doctor2, patient2, List.of(med2)) // Ordonnance pour Marie Lefevre
+                new Prescription(LocalDate.now(), specialist1, patient1, List.of(med1, med2)), // Ordonnance pour Jean Dupont
+                new Prescription(LocalDate.now().minusDays(10), specialist2, patient2, List.of(med2)) // Ordonnance pour Marie Lefevre
         );
     }
+
 }

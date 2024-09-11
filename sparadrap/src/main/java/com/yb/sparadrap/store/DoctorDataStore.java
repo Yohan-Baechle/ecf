@@ -2,6 +2,8 @@ package com.yb.sparadrap.store;
 
 import com.yb.sparadrap.model.Address;
 import com.yb.sparadrap.model.Doctor;
+import com.yb.sparadrap.model.Specialist;
+import com.yb.sparadrap.model.enums.Specialty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -91,17 +93,21 @@ public class DoctorDataStore {
                         new Address("5 avenue des Hôpitaux", "75002", "Paris"),
                         "0623456789", "anne.dupuis@example.com", "10234567890"),
 
-                new Doctor("Sophie", "Girard",
+                // Ajout de spécialistes avec leurs spécialités
+                new Specialist("Sophie", "Girard",
                         new Address("3 rue des Médecins", "69001", "Lyon"),
-                        "0634567890", "sophie.girard@example.com", "10345678901"),
+                        "0634567890", "sophie.girard@example.com", "10345678901",
+                        Specialty.CARDIOLOGIE),
 
-                new Doctor("Pierre", "Lefevre",
+                new Specialist("Pierre", "Lefevre",
                         new Address("8 boulevard des Cliniques", "06000", "Nice"),
-                        "0645678901", "pierre.lefevre@example.com", "10456789012"),
+                        "0645678901", "pierre.lefevre@example.com", "10456789012",
+                        Specialty.DERMATOLOGIE),
 
-                new Doctor("Jacques", "Bernard",
+                new Specialist("Jacques", "Bernard",
                         new Address("12 rue de la Médecine", "13001", "Marseille"),
-                        "0656789012", "jacques.bernard@example.com", "10567890123")
+                        "0656789012", "jacques.bernard@example.com", "10567890123",
+                        Specialty.PEDIATRIE)
         );
     }
 }

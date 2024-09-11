@@ -2,6 +2,7 @@ package com.yb.sparadrap.controller;
 
 import com.yb.sparadrap.model.Medication;
 import com.yb.sparadrap.model.Prescription;
+import com.yb.sparadrap.model.enums.Specialty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -15,22 +16,17 @@ import java.util.stream.Collectors;
  */
 public class PrescriptionDetailsController {
 
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     @FXML
     private TextField prescriptionDateField;
-
     @FXML
     private TextField patientField;
-
     @FXML
     private TextField doctorField;
-
     @FXML
     private TextArea medicationsArea;
-
     @FXML
     private TextField specialtyField;
-
-    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     /**
      * Initialise les détails de l'ordonnance en fonction de l'objet Prescription.
@@ -69,11 +65,12 @@ public class PrescriptionDetailsController {
                 medicationsArea.setText("Aucun médicament");
             }
 
-            // Met à jour la spécialité (si applicable)
-            if (prescription.getSpecialist() != null && prescription.getSpecialist().getSpecialty() != null) {
+            // Met à jour la spécialité : afficher "GÉNÉRALE" par défaut si le médecin n'est pas un spécialiste
+            if (prescription.getSpecialist() != null) {
                 specialtyField.setText(prescription.getSpecialist().getSpecialty().getDisplayName());
             } else {
-                specialtyField.setText("Aucune spécialité");
+                // Si ce n'est pas un spécialiste, définir la spécialité comme "GÉNÉRALE"
+                specialtyField.setText(Specialty.GENERALISTE.getDisplayName());
             }
         }
     }

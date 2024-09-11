@@ -34,8 +34,6 @@ public class PrescriptionController {
     @FXML
     private TableColumn<Prescription, String> medicationsColumn;
     @FXML
-    private TableColumn<Prescription, String> specialistColumn;
-    @FXML
     private TableColumn<Prescription, Void> actionColumn;
     @FXML
     private TextField searchField;
@@ -72,16 +70,12 @@ public class PrescriptionController {
                         .map(Medication::getName)
                         .collect(Collectors.joining(", "))
         ));
-        specialistColumn.setCellValueFactory(cellData -> cellData.getValue().specialistProperty().isNull().get() ?
-                new SimpleStringProperty("Aucun") :
-                new SimpleStringProperty(cellData.getValue().getSpecialist().getSpecialty().getDisplayName()));
-
         // Configuration des largeurs des colonnes
-        dateColumn.prefWidthProperty().bind(prescriptionTable.widthProperty().multiply(0.10));
-        doctorColumn.prefWidthProperty().bind(prescriptionTable.widthProperty().multiply(0.10));
+        dateColumn.prefWidthProperty().bind(prescriptionTable.widthProperty().multiply(0.20));
+        doctorColumn.prefWidthProperty().bind(prescriptionTable.widthProperty().multiply(0.20));
         patientColumn.prefWidthProperty().bind(prescriptionTable.widthProperty().multiply(0.20));
-        medicationsColumn.prefWidthProperty().bind(prescriptionTable.widthProperty().multiply(0.40));
-        specialistColumn.prefWidthProperty().bind(prescriptionTable.widthProperty().multiply(0.10));
+        medicationsColumn.prefWidthProperty().bind(prescriptionTable.widthProperty().multiply(0.30));
+        actionColumn.prefWidthProperty().bind(prescriptionTable.widthProperty().multiply(0.10));
     }
 
 

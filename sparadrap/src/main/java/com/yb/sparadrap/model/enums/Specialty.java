@@ -4,7 +4,7 @@ package com.yb.sparadrap.model.enums;
  * Énumération représentant les spécialités médicales avec leur nom affichable.
  */
 public enum Specialty {
-    GENERALE("Générale"),
+    GENERALISTE("Générale"),
     CARDIOLOGIE("Cardiologie"),
     DERMATOLOGIE("Dermatologie"),
     GYNECOLOGIE("Gynécologie"),
@@ -39,15 +39,6 @@ public enum Specialty {
     }
 
     /**
-     * Retourne le nom affichable de la spécialité.
-     *
-     * @return Le nom affichable.
-     */
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    /**
      * Recherche une spécialité par son nom affichable.
      *
      * @param displayName Le nom affichable de la spécialité à rechercher.
@@ -60,6 +51,15 @@ public enum Specialty {
             }
         }
         return null;
+    }
+
+    /**
+     * Retourne le nom affichable de la spécialité.
+     *
+     * @return Le nom affichable.
+     */
+    public String getDisplayName() {
+        return displayName;
     }
 
     /**

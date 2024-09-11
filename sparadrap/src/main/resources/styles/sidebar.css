@@ -1,6 +1,6 @@
 @import url('global.css');
 
-
+/* Conteneurs principaux */
 .main-menu-container {
     -fx-background-color: white;
     -fx-alignment: center;
@@ -23,16 +23,19 @@
     -fx-fill: #002B36;
 }
 
+/* Styles pour les icônes dans le conteneur titre */
 .title-container FontIcon {
     -fx-fill: #23dfa5;
 }
 
+/* Styles pour le texte dans le conteneur titre */
 .title-container Text {
     -fx-fill: #002B36;
     -fx-font-size: 1.6em;
     -fx-font-family: "Poppins Bold";
 }
 
+/* Conteneur de menu */
 .menu-container {
     -fx-padding: 60 20;
     -fx-spacing: 10;
@@ -54,20 +57,26 @@
     -fx-pref-width: 100%;
 }
 
+/* Icônes dans les boutons du menu */
 .menu-container Button FontIcon {
     -fx-fill: #002B36;
 }
 
+/* État survolé des boutons du menu */
 .menu-container Button:hover {
     -fx-cursor: hand;
     -fx-text-fill: #23dfa5;
 }
 
+.menu-container Button:hover FontIcon {
+    -fx-fill: #23dfa5;
+}
+
+/* État sélectionné des boutons du menu */
 .menu-container Button.button-selected {
     -fx-background-color: #002B36;
     -fx-text-fill: white;
 }
-
 
 .menu-container Button.button-selected FontIcon {
     -fx-fill: #23dfa5;
@@ -78,15 +87,8 @@
     -fx-text-fill: white;
 }
 
-.menu-container Button:hover FontIcon {
-    -fx-fill: #23dfa5;
-}
-
-.menu-container Button:selected FontIcon {
-    -fx-fill: white;
-}
-
+/* Séparateur */
 .separator {
-    -fx-stroke: #EFFCF6;
+    -fx-stroke: #ececec;
     -fx-vgrow: ALWAYS;
 }

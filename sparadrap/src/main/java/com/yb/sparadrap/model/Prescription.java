@@ -1,9 +1,13 @@
 package com.yb.sparadrap.model;
 
-import javafx.beans.property.*;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+
 import java.time.LocalDate;
 import java.util.List;
-import javafx.collections.FXCollections;
 
 public class Prescription {
 
@@ -94,12 +98,17 @@ public class Prescription {
 
     @Override
     public String toString() {
+        Doctor doctorValue = doctor.get();
+        String specialty = doctorValue instanceof Specialist
+                ? ((Specialist) doctorValue).getSpecialty().getDisplayName()
+                : "Généraliste";
+
         return "Prescription{" +
                 "date=" + prescriptionDate.get() +
-                ", médecin=" + doctor.get() +
-                ", patient=" + patient.get() +
+                ", médecin=" + doctorValue.getFirstName() + " " + doctorValue.getLastName() +
+                " (spécialité : " + specialty + ")" +
+                ", patient=" + patient.get().getFirstName() + " " + patient.get().getLastName() +
                 ", médicaments=" + medications.get() +
-                ", spécialiste=" + (specialist.get() != null ? specialist.get() : "Aucun") +
                 '}';
     }
 }

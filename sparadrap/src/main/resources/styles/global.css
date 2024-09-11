@@ -1,3 +1,4 @@
+/* Déclaration des différentes polices utilisées dans l'application */
 @font-face {
     font-family: 'Poppins Light';
     src: url('../fonts/Poppins-Light.ttf');
@@ -28,7 +29,7 @@
     src: url('../fonts/Poppins-ExtraBold.ttf');
 }
 
-
+/* Styles généraux pour les principaux composants de l'interface */
 Label, TextField, TextArea, Text, Button, ComboBox, ListView, TableView, CheckBox, RadioButton, MenuItem {
     -fx-font-family: 'Poppins Regular';
     -fx-text-fill: #00374f;
@@ -48,6 +49,7 @@ Button {
     -fx-background-color: #F0F0F0;
 }
 
+/* Styles pour les boutons principaux (ex. valider, soumettre) */
 .button-primary {
     -fx-background-color: #006a60;
     -fx-text-fill: white;
@@ -208,7 +210,7 @@ Button {
 }
 
 
-/* Style général du tableau */
+/* Style général des tableaux */
 .table-view .virtual-flow .scroll-bar:vertical,
 .table-view .virtual-flow .scroll-bar:vertical .track,
 .table-view .virtual-flow .scroll-bar:vertical .track-background,
@@ -305,7 +307,7 @@ Button {
 }
 
 
-/* Style général de l'alerte */
+/* Style général pour les panneaux de dialogue */
 .dialog-pane {
     -fx-background-color: #F0F0F0;
     -fx-border-color: white;
@@ -367,6 +369,7 @@ Button {
     -fx-text-fill: red;
 }
 
+/* Zone de texte */
 .text-area {
     -fx-background-color: white;
     -fx-font-size: 1.2em;
@@ -387,6 +390,7 @@ Button {
     -fx-background-color: #aaa;
 }
 
+/* Style des listes déroulantes (ComboBox) */
 .combo-box {
     -fx-background-color: #FFF;
     -fx-font-size: 1.2em;
@@ -394,6 +398,20 @@ Button {
     -fx-background-radius: 5;
     -fx-border-color: transparent;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 10, 0, 0, 0.5);
+}
+
+.combo-box-popup .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #00374f;
+}
+
+.combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: #EDE6FF;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
 }
 
 /* Style général pour les alertes */
@@ -435,28 +453,9 @@ Button {
     -fx-text-fill: #721c24;
 }
 
-/* Optionnel : style pour le texte gras (par exemple, les titres dans l'alerte) */
 .alert .alert-heading {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
     -fx-padding: 0 0 10 0;
     -fx-text-fill: inherit;
-}
-
-
-/* Style pour la liste déroulante */
-.combo-box-popup .list-cell {
-    -fx-background-color: transparent;
-    -fx-text-fill: #00374f;
-}
-
-/* Style pour un élément sélectionné dans la liste */
-.combo-box-popup .list-cell:filled:selected {
-    -fx-background-color: #EDE6FF;
-}
-
-/* Style pour la partie du bouton de la ComboBox */
-.combo-box .arrow-button {
-    -fx-background-color: transparent;
-    -fx-text-fill: #ffffff;
 }

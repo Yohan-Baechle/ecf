@@ -1,18 +1,17 @@
 package com.yb.sparadrap.controller;
 
-import com.yb.sparadrap.model.Customer;
-import com.yb.sparadrap.model.Doctor;
-import com.yb.sparadrap.model.Medication;
-import com.yb.sparadrap.model.Purchase;
+import com.yb.sparadrap.model.*;
 import com.yb.sparadrap.store.CustomerDataStore;
 import com.yb.sparadrap.store.DoctorDataStore;
 import com.yb.sparadrap.store.MedicationDataStore;
+import com.yb.sparadrap.store.PrescriptionDataStore;
 import com.yb.sparadrap.util.ValidationUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PurchaseFormController {
@@ -160,6 +159,19 @@ public class PurchaseFormController {
         Doctor prescribingDoctor = prescribingDoctorComboBox.getValue();
         LocalDate prescriptionDate = prescriptionDatePicker.getValue();
 
+        // Si c'est une vente avec ordonnance, créer et ajouter l'ordonnance
+        if ("Avec ordonnance".equals(purchaseTypeComboBox.getValue())) {
+            Prescription newPrescription = new Prescription(
+                    prescriptionDate,
+                    prescribingDoctor,
+                    selectedCustomer,
+                    List.copyOf(medicationBasket.keySet()) // Liste des médicaments
+            );
+
+            // Ajouter l'ordonnance dans le PrescriptionDataStore
+            PrescriptionDataStore.getInstance().addPrescription(newPrescription);
+        }
+
         return new Purchase(
                 selectedCustomer,
                 LocalDate.now(),
@@ -168,6 +180,7 @@ public class PurchaseFormController {
                 prescriptionDate
         );
     }
+
 
     /**
      * Initialise les données du formulaire avec les informations d'un achat existant.

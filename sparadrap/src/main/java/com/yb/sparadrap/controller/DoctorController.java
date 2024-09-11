@@ -2,6 +2,7 @@ package com.yb.sparadrap.controller;
 
 import com.yb.sparadrap.model.Address;
 import com.yb.sparadrap.model.Doctor;
+import com.yb.sparadrap.model.Specialist;
 import com.yb.sparadrap.store.DoctorDataStore;
 import com.yb.sparadrap.util.ActionButtonUtil;
 import com.yb.sparadrap.util.AlertUtil;
@@ -33,6 +34,8 @@ public class DoctorController {
     private TableColumn<Doctor, String> phoneNumberColumn;
     @FXML
     private TableColumn<Doctor, String> emailColumn;
+    @FXML
+    private TableColumn<Doctor, String> specialtyColumn;
     @FXML
     private TableColumn<Doctor, String> registrationNumberColumn;
     @FXML
@@ -72,6 +75,14 @@ public class DoctorController {
         phoneNumberColumn.setCellValueFactory(cellData -> cellData.getValue().phoneNumberProperty());
         registrationNumberColumn.setCellValueFactory(cellData -> cellData.getValue().registrationNumberProperty());
 
+        // Configuration de la colonne Spécialité pour afficher uniquement si c'est un Specialist
+        specialtyColumn.setCellValueFactory(cellData -> {
+            if (cellData.getValue() instanceof Specialist specialist) {
+                return Bindings.createStringBinding(() -> specialist.getSpecialty().getDisplayName());
+            }
+            return Bindings.createStringBinding(() -> "Généraliste"); // Si pas de spécialité, afficher "Généraliste"
+        });
+
         // Configuration des largeurs des colonnes
         firstNameColumn.prefWidthProperty().bind(doctorTable.widthProperty().multiply(0.15));
         lastNameColumn.prefWidthProperty().bind(doctorTable.widthProperty().multiply(0.15));
@@ -79,6 +90,7 @@ public class DoctorController {
         emailColumn.prefWidthProperty().bind(doctorTable.widthProperty().multiply(0.20));
         phoneNumberColumn.prefWidthProperty().bind(doctorTable.widthProperty().multiply(0.10));
         registrationNumberColumn.prefWidthProperty().bind(doctorTable.widthProperty().multiply(0.10));
+        specialtyColumn.prefWidthProperty().bind(doctorTable.widthProperty().multiply(0.10));
         actionColumn.prefWidthProperty().bind(doctorTable.widthProperty().multiply(0.10));
     }
 
@@ -107,7 +119,8 @@ public class DoctorController {
                         || doctor.getEmail().toLowerCase().contains(lowerCaseFilter)
                         || doctor.getPhoneNumber().toLowerCase().contains(lowerCaseFilter)
                         || doctor.getAddress().toString().toLowerCase().contains(lowerCaseFilter)
-                        || doctor.getRegistrationNumber().toLowerCase().contains(lowerCaseFilter);
+                        || doctor.getRegistrationNumber().toLowerCase().contains(lowerCaseFilter)
+                        || (doctor instanceof Specialist && ((Specialist) doctor).getSpecialty().getDisplayName().toLowerCase().contains(lowerCaseFilter));
             });
         });
 

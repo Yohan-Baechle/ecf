@@ -83,7 +83,7 @@ public class MutualDataStore {
     private void initializeSampleData() {
         mutuals.addAll(
                 new Mutual("Mutuelle MGEN",
-                        new Address("3 Square Max Hymans", "75748", "Paris Cedex 15"),
+                        new Address("3 Square Max Hymans", "75748", "Paris"),
                         Department.PARIS,  // Département avant le numéro de téléphone
                         "0140621220", "contact@mgen.fr", 80.0),
 
