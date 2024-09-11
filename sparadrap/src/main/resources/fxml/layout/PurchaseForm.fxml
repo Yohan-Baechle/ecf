@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<DialogPane prefHeight="600.0" prefWidth="600.0" stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yb.sparadrap.controller.PurchaseFormController">
+<DialogPane prefHeight="800.0" prefWidth="600.0" stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yb.sparadrap.controller.PurchaseFormController">
 
     <content>
         <VBox prefHeight="432.0" prefWidth="448.0">
@@ -17,41 +22,70 @@
 
                 <!-- Type d'achat -->
                 <Label text="Type d'achat :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                <ComboBox fx:id="purchaseTypeComboBox" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                <Label fx:id="purchaseTypeErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                <!-- Médicament -->
-                <Label text="Médicament :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <ComboBox fx:id="medicationComboBox" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <Label fx:id="medicationErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <ComboBox fx:id="purchaseTypeComboBox" GridPane.columnIndex="1" />
+                <Label styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                 <!-- Client -->
-                <Label text="Client :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                <ComboBox fx:id="customerComboBox" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <Label fx:id="customerErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Label text="Client :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <ComboBox fx:id="customerComboBox" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label fx:id="customerErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
                 <!-- Médecin -->
-                <Label text="Médecin :" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                <ComboBox fx:id="prescribingDoctorComboBox" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                <Label fx:id="prescribingDoctorErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                <Label text="Médecin :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <ComboBox fx:id="prescribingDoctorComboBox" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Label fx:id="prescribingDoctorErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
                 <!-- Date de prescription -->
-                <Label text="Date de prescription :" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-                <DatePicker fx:id="prescriptionDatePicker" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                <Label fx:id="prescriptionDateErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                <Label text="Date de prescription :" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                <DatePicker fx:id="prescriptionDatePicker" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                <Label fx:id="prescriptionDateErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+                <!-- Médicament -->
+                <Label text="Médicament :" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                <ComboBox fx:id="medicationComboBox" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                <Label fx:id="medicationErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 
                 <!-- Quantité -->
                 <Label text="Quantité :" GridPane.columnIndex="0" GridPane.rowIndex="10" />
                 <TextField fx:id="quantityField" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                 <Label fx:id="quantityErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="11" />
 
-                <!-- Prix unitaire -->
-                <Label text="Prix unitaire TTC :" GridPane.columnIndex="0" GridPane.rowIndex="12" />
-                <TextField fx:id="unitPriceField" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+                <!-- Bouton pour ajouter le médicament au panier -->
+                <Button onAction="#handleAddMedicationToBasket" styleClass="basket-btn" text="Ajouter au panier" GridPane.columnIndex="1" GridPane.rowIndex="12">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-cart-plus" iconSize="16" />
+                    </graphic>
+                </Button>
+
+                <!-- Panier de médicaments -->
+                <Label text="Panier :" GridPane.columnIndex="0" GridPane.rowIndex="13" />
+                <TextArea fx:id="medicationBasketArea" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="13" />
 
                 <!-- Prix total -->
                 <Label text="Prix total TTC :" GridPane.columnIndex="0" GridPane.rowIndex="14" />
-                <TextField fx:id="totalPriceField" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+                <TextField fx:id="totalPriceField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+
+                <columnConstraints>
+                    <ColumnConstraints maxWidth="234.0" minWidth="63.0" prefWidth="165.0" />
+                    <ColumnConstraints maxWidth="459.0" minWidth="288.0" prefWidth="357.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                </rowConstraints>
 
             </GridPane>
 

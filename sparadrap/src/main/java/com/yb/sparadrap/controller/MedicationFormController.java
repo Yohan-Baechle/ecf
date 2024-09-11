@@ -1,19 +1,18 @@
 package com.yb.sparadrap.controller;
 
-import com.yb.sparadrap.model.*;
+import com.yb.sparadrap.model.Medication;
 import com.yb.sparadrap.model.enums.MedicationCategory;
-import com.yb.sparadrap.model.store.DoctorDataStore;
-import com.yb.sparadrap.model.store.MutualDataStore;
 import com.yb.sparadrap.util.ValidationUtil;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.StringConverter;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MedicationFormController {
 
@@ -97,7 +96,6 @@ public class MedicationFormController {
 
         return new Medication(name, category, launchDate, quantity, price);
     }
-
 
 
     public boolean validateInputs() {

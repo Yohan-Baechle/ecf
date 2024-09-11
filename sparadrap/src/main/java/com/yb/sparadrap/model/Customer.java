@@ -1,11 +1,11 @@
 package com.yb.sparadrap.model;
 
-import com.yb.sparadrap.model.store.MutualDataStore;
-import com.yb.sparadrap.model.store.DoctorDataStore;
+import com.yb.sparadrap.store.DoctorDataStore;
+import com.yb.sparadrap.store.MutualDataStore;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.time.LocalDate;
 

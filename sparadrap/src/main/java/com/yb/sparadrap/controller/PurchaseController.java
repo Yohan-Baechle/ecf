@@ -3,9 +3,9 @@ package com.yb.sparadrap.controller;
 import com.yb.sparadrap.model.Customer;
 import com.yb.sparadrap.model.Medication;
 import com.yb.sparadrap.model.Purchase;
-import com.yb.sparadrap.model.store.PurchaseDataStore;
-import com.yb.sparadrap.util.AlertUtil;
+import com.yb.sparadrap.store.PurchaseDataStore;
 import com.yb.sparadrap.util.ActionButtonUtil;
+import com.yb.sparadrap.util.AlertUtil;
 import com.yb.sparadrap.util.DeleteUtil;
 import com.yb.sparadrap.util.EntityDialogUtil;
 import javafx.beans.binding.Bindings;
@@ -13,8 +13,12 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Contrôleur pour la gestion des achats dans l'application.
@@ -22,14 +26,15 @@ import java.time.format.DateTimeFormatter;
  */
 public class PurchaseController {
 
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     @FXML
     private Button addPurchaseBtn;
     @FXML
     private TableView<Purchase> purchaseTable;
     @FXML
-    private TableColumn<Purchase, String> medicationColumn;
+    private TableColumn<Purchase, String> medicationBasketColumn;
     @FXML
-    private TableColumn<Purchase, String> medicationCategoryColumn;
+    private TableColumn<Purchase, String> purchaseTypeColumn;
     @FXML
     private TableColumn<Purchase, String> quantityColumn;
     @FXML
@@ -63,32 +68,56 @@ public class PurchaseController {
      * Configure les colonnes du TableView avec les propriétés observables des achats.
      */
     private void initializeColumns() {
-        medicationColumn.setCellValueFactory(cellData ->
+        // Colonne du panier de médicaments
+        medicationBasketColumn.setCellValueFactory(cellData ->
                 Bindings.createStringBinding(() ->
-                                cellData.getValue().getMedication() != null ? cellData.getValue().getMedication().getName() : "",
-                        cellData.getValue().medicationProperty())
+                        cellData.getValue().getMedicationBasket().entrySet().stream()
+                                .map(entry -> entry.getKey().getName() + " (x" + entry.getValue() + ")")
+                                .collect(Collectors.joining(", "))
+                )
         );
-        medicationCategoryColumn.setCellValueFactory(cellData ->
-                Bindings.createStringBinding(() -> cellData.getValue().getMedication().getCategory().getDisplayName())
+
+        // Colonne pour le type d'achat (direct ou avec ordonnance)
+        purchaseTypeColumn.setCellValueFactory(cellData ->
+                Bindings.createStringBinding(() ->
+                        cellData.getValue().getPrescribingDoctor() == null ? "Direct" : "Avec ordonnance"
+                )
         );
+
+        // Quantité : la somme des quantités dans le panier
         quantityColumn.setCellValueFactory(cellData ->
-                Bindings.createStringBinding(() -> String.valueOf(cellData.getValue().getQuantity()), cellData.getValue().quantityProperty())
+                Bindings.createStringBinding(() ->
+                        String.valueOf(cellData.getValue().getMedicationBasket().values().stream()
+                                .mapToInt(Integer::intValue)
+                                .sum())
+                )
         );
+
         unitPriceColumn.setCellValueFactory(cellData ->
-                Bindings.createStringBinding(() -> String.format("%.2f €", cellData.getValue().getMedication().getPrice()), cellData.getValue().getMedication().priceProperty())
+                Bindings.createStringBinding(() ->
+                        cellData.getValue().getMedicationBasket().entrySet().stream()
+                                .map(entry -> String.format("%s: %.2f €", entry.getKey().getName(), entry.getKey().getPrice()))
+                                .collect(Collectors.joining(", "))
+                )
         );
+
         totalPriceColumn.setCellValueFactory(cellData ->
-                Bindings.createStringBinding(() -> String.format("%.2f €", cellData.getValue().getTotalAmount()), cellData.getValue().totalAmountProperty())
+                Bindings.createStringBinding(() ->
+                        String.format("%.2f €", cellData.getValue().getTotalAmount())
+                )
         );
+
         purchaseDateColumn.setCellValueFactory(cellData ->
-                Bindings.createStringBinding(() -> cellData.getValue().getPurchaseDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), cellData.getValue().purchaseDateProperty())
+                Bindings.createStringBinding(() ->
+                        cellData.getValue().getPurchaseDate().format(dateFormatter)
+                )
         );
 
         // Configuration des largeurs des colonnes
-        medicationColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.30));
-        medicationCategoryColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.15));
+        medicationBasketColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.25));
+        purchaseTypeColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
         quantityColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
-        unitPriceColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
+        unitPriceColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.15));
         totalPriceColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
         purchaseDateColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.15));
         actionColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
@@ -116,12 +145,12 @@ public class PurchaseController {
                 String lowerCaseFilter = newValue.toLowerCase();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-                // Comparaison du médicament, catégorie et date
-                boolean matchesMedication = purchase.getMedication() != null && purchase.getMedication().getName().toLowerCase().contains(lowerCaseFilter);
-                boolean matchesCategory = purchase.getMedication().getCategory() != null && purchase.getMedication().getCategory().getDisplayName().toLowerCase().contains(lowerCaseFilter);
+                // Comparaison du panier et de la date
+                boolean matchesMedication = purchase.getMedicationBasket().keySet().stream()
+                        .anyMatch(medication -> medication.getName().toLowerCase().contains(lowerCaseFilter));
                 boolean matchesDate = purchase.getPurchaseDate() != null && purchase.getPurchaseDate().format(formatter).contains(lowerCaseFilter);
 
-                return matchesMedication || matchesCategory || matchesDate;
+                return matchesMedication || matchesDate;
             });
         });
 
@@ -157,7 +186,13 @@ public class PurchaseController {
      */
     @FXML
     private void handleAddPurchase() {
-        Purchase newPurchase = new Purchase(new Customer(), LocalDate.now(), new Medication(), 1, null, null);
+        // Créer un panier vide pour les médicaments
+        Map<Medication, Integer> medicationBasket = new HashMap<>();
+
+        // Créer un nouvel achat avec un panier vide et les autres valeurs par défaut
+        Purchase newPurchase = new Purchase(new Customer(), LocalDate.now(), medicationBasket, null, null);
+
+        // Ouvrir le formulaire d'ajout/modification
         openPurchaseForm(newPurchase, "Ajouter un nouvel achat");
     }
 
@@ -174,7 +209,7 @@ public class PurchaseController {
     /**
      * Ouvre un formulaire d'achat pour ajouter ou éditer un achat.
      *
-     * @param purchase   L'achat à ajouter ou modifier.
+     * @param purchase    L'achat à ajouter ou modifier.
      * @param dialogTitle Le titre de la boîte de dialogue.
      */
     private void openPurchaseForm(Purchase purchase, String dialogTitle) {

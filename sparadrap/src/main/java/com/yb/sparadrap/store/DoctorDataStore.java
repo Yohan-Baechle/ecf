@@ -1,8 +1,7 @@
-package com.yb.sparadrap.model.store;
+package com.yb.sparadrap.store;
 
-import com.yb.sparadrap.model.Customer;
-import com.yb.sparadrap.model.Doctor;
 import com.yb.sparadrap.model.Address;
+import com.yb.sparadrap.model.Doctor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

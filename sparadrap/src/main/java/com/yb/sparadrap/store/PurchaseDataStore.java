@@ -1,13 +1,15 @@
-package com.yb.sparadrap.model.store;
+package com.yb.sparadrap.store;
 
 import com.yb.sparadrap.model.Customer;
+import com.yb.sparadrap.model.Doctor;
 import com.yb.sparadrap.model.Medication;
 import com.yb.sparadrap.model.Purchase;
-import com.yb.sparadrap.model.Doctor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Singleton gérant le stockage des achats dans l'application.
@@ -81,12 +83,25 @@ public class PurchaseDataStore {
         Doctor doctor1 = DoctorDataStore.getInstance().getDoctors().get(0); // Dr. Bernard Martin
         Doctor doctor2 = DoctorDataStore.getInstance().getDoctors().get(1); // Dr. Anne Dupuis
 
+        // Créer des paniers de médicaments
+        Map<Medication, Integer> basket1 = new HashMap<>();
+        basket1.put(medication1, 2);
+
+        Map<Medication, Integer> basket2 = new HashMap<>();
+        basket2.put(medication2, 1);
+
+        Map<Medication, Integer> basket3 = new HashMap<>();
+        basket3.put(medication3, 3);
+
+        Map<Medication, Integer> basket4 = new HashMap<>();
+        basket4.put(medication1, 5);
+
         // Ajout des achats fictifs
         purchases.addAll(
-                new Purchase(customer1, LocalDate.of(2024, 1, 15), medication1, 2, null, null), // Achat direct
-                new Purchase(customer1, LocalDate.of(2024, 1, 20), medication2, 1, doctor2, LocalDate.of(2024, 1, 19)), // Avec ordonnance (Dr. Dupuis)
-                new Purchase(customer2, LocalDate.of(2024, 2, 10), medication3, 3, null, null), // Achat direct
-                new Purchase(customer2, LocalDate.of(2024, 3, 5), medication1, 5, doctor1, LocalDate.of(2024, 3, 3)) // Avec ordonnance (Dr. Martin)
+                new Purchase(customer1, LocalDate.of(2024, 1, 15), basket1, null, null), // Achat direct
+                new Purchase(customer1, LocalDate.of(2024, 1, 20), basket2, doctor2, LocalDate.of(2024, 1, 19)), // Avec ordonnance (Dr. Dupuis)
+                new Purchase(customer2, LocalDate.of(2024, 2, 10), basket3, null, null), // Achat direct
+                new Purchase(customer2, LocalDate.of(2024, 3, 5), basket4, doctor1, LocalDate.of(2024, 3, 3)) // Avec ordonnance (Dr. Martin)
         );
     }
 }

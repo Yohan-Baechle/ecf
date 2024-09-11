@@ -2,8 +2,7 @@ package com.yb.sparadrap.controller;
 
 import com.yb.sparadrap.model.Medication;
 import com.yb.sparadrap.model.Prescription;
-import com.yb.sparadrap.model.store.PrescriptionDataStore;
-import com.yb.sparadrap.util.ActionButtonUtil;
+import com.yb.sparadrap.store.PrescriptionDataStore;
 import com.yb.sparadrap.util.EntityDialogUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.transformation.FilteredList;
@@ -137,32 +136,29 @@ public class PrescriptionController {
      */
     private void initializeActionsColumn() {
         actionColumn.setCellFactory(param -> new TableCell<>() {
-            Button viewButton = new Button();
+            final Button viewButton = new Button();
 
             {
-                // Définir l'icône et la classe CSS
-                viewButton.setGraphic(new FontIcon(FontAwesomeSolid.EYE)); // Icône de visualisation
-                viewButton.getStyleClass().add("button-info"); // Ajouter la classe CSS button-info
+                viewButton.setGraphic(new FontIcon(FontAwesomeSolid.EYE));
+                viewButton.getStyleClass().add("button-info");
             }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty) {
-                    setGraphic(null); // Si la cellule est vide, ne rien afficher
+                    setGraphic(null);
                 } else {
                     Prescription prescription = getTableView().getItems().get(getIndex());
                     viewButton.setOnAction(event -> handleViewPrescription(prescription));
 
-                    // Utiliser un HBox pour centrer le bouton
                     HBox hbox = new HBox(viewButton);
-                    hbox.setStyle("-fx-alignment: center;"); // Centrer le contenu
+                    hbox.setStyle("-fx-alignment: center;");
                     setGraphic(hbox);
                 }
             }
         });
     }
-
 
 
     /**

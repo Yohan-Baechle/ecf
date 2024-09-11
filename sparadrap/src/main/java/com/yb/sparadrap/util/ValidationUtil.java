@@ -2,9 +2,11 @@ package com.yb.sparadrap.util;
 
 import com.yb.sparadrap.model.Customer;
 import com.yb.sparadrap.model.Doctor;
+import com.yb.sparadrap.model.Medication;
 import com.yb.sparadrap.model.enums.Department;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 public class ValidationUtil {
 
@@ -181,6 +183,7 @@ public class ValidationUtil {
         if (launchDate.isAfter(LocalDate.now())) return "La date est invalide.";
         return null;
     }
+
     // Validation du département
     public static String validateDepartment(Department department) {
         if (department == null) {
@@ -205,11 +208,18 @@ public class ValidationUtil {
         return null;
     }
 
-    // Validation de la liste des médicaments
-    public static String validateMedicationsList(String medications) {
-        if (isEmpty(medications)) {
-            return "La liste des médicaments ne peut pas être vide.";
+    // Validation du panier de médicaments
+    public static String validateBasket(Map<Medication, Integer> medicationBasket) {
+        if (medicationBasket == null || medicationBasket.isEmpty()) {
+            return "Le panier ne peut pas être vide.";
         }
-        return null;
+
+        for (Map.Entry<Medication, Integer> entry : medicationBasket.entrySet()) {
+            if (entry.getValue() <= 0) {
+                return "La quantité doit être supérieure à 0.";
+            }
+        }
+
+        return null; // Le panier est valide
     }
 }

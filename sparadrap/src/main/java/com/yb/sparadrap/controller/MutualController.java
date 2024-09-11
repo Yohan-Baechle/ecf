@@ -3,9 +3,9 @@ package com.yb.sparadrap.controller;
 import com.yb.sparadrap.model.Address;
 import com.yb.sparadrap.model.Mutual;
 import com.yb.sparadrap.model.enums.Department;
-import com.yb.sparadrap.model.store.MutualDataStore;
-import com.yb.sparadrap.util.AlertUtil;
+import com.yb.sparadrap.store.MutualDataStore;
 import com.yb.sparadrap.util.ActionButtonUtil;
+import com.yb.sparadrap.util.AlertUtil;
 import com.yb.sparadrap.util.DeleteUtil;
 import com.yb.sparadrap.util.EntityDialogUtil;
 import javafx.beans.binding.Bindings;
@@ -166,7 +166,7 @@ public class MutualController {
     /**
      * Ouvre un formulaire de mutuelle pour ajouter ou éditer une mutuelle.
      *
-     * @param mutual La mutuelle à ajouter ou modifier.
+     * @param mutual      La mutuelle à ajouter ou modifier.
      * @param dialogTitle Le titre de la boîte de dialogue.
      */
     private void openMutualForm(Mutual mutual, String dialogTitle) {

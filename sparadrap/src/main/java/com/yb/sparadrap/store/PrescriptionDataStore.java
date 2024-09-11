@@ -1,7 +1,7 @@
-package com.yb.sparadrap.model.store;
+package com.yb.sparadrap.store;
 
-import com.yb.sparadrap.model.Doctor;
 import com.yb.sparadrap.model.Customer;
+import com.yb.sparadrap.model.Doctor;
 import com.yb.sparadrap.model.Medication;
 import com.yb.sparadrap.model.Prescription;
 import com.yb.sparadrap.model.enums.MedicationCategory;

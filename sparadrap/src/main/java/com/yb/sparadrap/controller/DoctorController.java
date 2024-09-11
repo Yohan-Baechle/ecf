@@ -2,9 +2,9 @@ package com.yb.sparadrap.controller;
 
 import com.yb.sparadrap.model.Address;
 import com.yb.sparadrap.model.Doctor;
-import com.yb.sparadrap.model.store.DoctorDataStore;
-import com.yb.sparadrap.util.AlertUtil;
+import com.yb.sparadrap.store.DoctorDataStore;
 import com.yb.sparadrap.util.ActionButtonUtil;
+import com.yb.sparadrap.util.AlertUtil;
 import com.yb.sparadrap.util.DeleteUtil;
 import com.yb.sparadrap.util.EntityDialogUtil;
 import javafx.beans.binding.Bindings;
@@ -163,7 +163,7 @@ public class DoctorController {
     /**
      * Ouvre un formulaire de prescripteur pour ajouter ou éditer un prescripteur.
      *
-     * @param doctor    Le prescripteur à ajouter ou modifier.
+     * @param doctor      Le prescripteur à ajouter ou modifier.
      * @param dialogTitle Le titre de la boîte de dialogue.
      */
     private void openDoctorForm(Doctor doctor, String dialogTitle) {

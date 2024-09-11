@@ -1,21 +1,21 @@
 package com.yb.sparadrap.model;
 
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+
 import java.time.LocalDate;
+import java.util.Map;
 
 /**
- * Classe représentant un achat dans l'application. Chaque achat est associé à un client, un médicament,
- * une quantité, un montant total, et éventuellement une ordonnance prescrite par un médecin.
+ * Classe représentant un achat dans l'application. Chaque achat peut contenir plusieurs médicaments,
+ * un montant total, et éventuellement une ordonnance prescrite par un médecin.
  */
 public class Purchase {
 
     private final ObjectProperty<Customer> customer;
     private final ObjectProperty<LocalDate> purchaseDate;
-    private final ObjectProperty<Medication> medication; // Un seul médicament par ligne
-    private final IntegerProperty quantity;
+    private final MapProperty<Medication, Integer> medicationBasket; // Panier de médicaments et quantités
     private final DoubleProperty totalAmount;
-
-    // Champs pour l'ordonnance
     private final ObjectProperty<Doctor> prescribingDoctor; // Médecin prescripteur
     private final ObjectProperty<LocalDate> prescriptionDate; // Date de prescription
 
@@ -25,9 +25,8 @@ public class Purchase {
     public Purchase() {
         this.customer = new SimpleObjectProperty<>();
         this.purchaseDate = new SimpleObjectProperty<>();
-        this.medication = new SimpleObjectProperty<>();
-        this.quantity = new SimpleIntegerProperty(0);
-        this.totalAmount = new SimpleDoubleProperty(0.0);
+        this.medicationBasket = new SimpleMapProperty<>(FXCollections.observableHashMap()); // Initialisation du panier vide
+        this.totalAmount = new SimpleDoubleProperty(0.0); // Initialisation de totalAmount à 0
         this.prescribingDoctor = new SimpleObjectProperty<>();
         this.prescriptionDate = new SimpleObjectProperty<>();
     }
@@ -37,20 +36,26 @@ public class Purchase {
      *
      * @param customer          Le client associé à cet achat.
      * @param purchaseDate      La date de l'achat.
-     * @param medication        Le médicament acheté.
-     * @param quantity          La quantité de médicament achetée.
+     * @param medications       Le panier de médicaments (médicament -> quantité).
      * @param prescribingDoctor Le médecin prescripteur (si applicable).
      * @param prescriptionDate  La date de prescription (si applicable).
      */
-    public Purchase(Customer customer, LocalDate purchaseDate, Medication medication, int quantity,
+    public Purchase(Customer customer, LocalDate purchaseDate, Map<Medication, Integer> medications,
                     Doctor prescribingDoctor, LocalDate prescriptionDate) {
         this.customer = new SimpleObjectProperty<>(customer);
         this.purchaseDate = new SimpleObjectProperty<>(purchaseDate);
-        this.medication = new SimpleObjectProperty<>(medication);
-        this.quantity = new SimpleIntegerProperty(quantity);
-        this.totalAmount = new SimpleDoubleProperty(medication.getPrice() * quantity);
+        this.medicationBasket = new SimpleMapProperty<>(FXCollections.observableHashMap()); // Initialisation du panier
+        this.medicationBasket.putAll(medications); // Remplir le panier après l'initialisation
+        this.totalAmount = new SimpleDoubleProperty(0.0); // Assurez-vous d'initialiser totalAmount avant de calculer
+        calculateTotalAmount(); // Calculer le total après initialisation du panier
         this.prescribingDoctor = new SimpleObjectProperty<>(prescribingDoctor);
         this.prescriptionDate = new SimpleObjectProperty<>(prescriptionDate);
+    }
+
+    // Méthode pour ajouter un médicament au panier
+    public void addMedication(Medication medication, int quantity) {
+        medicationBasket.put(medication, quantity);
+        calculateTotalAmount(); // Recalculer le total après ajout
     }
 
     // Propriétés observables + Getters et Setters
@@ -78,30 +83,18 @@ public class Purchase {
         this.purchaseDate.set(purchaseDate);
     }
 
-    public ObjectProperty<Medication> medicationProperty() {
-        return medication;
+    public MapProperty<Medication, Integer> medicationBasketProperty() {
+        return medicationBasket;
     }
 
-    public Medication getMedication() {
-        return medication.get();
+    public Map<Medication, Integer> getMedicationBasket() {
+        return medicationBasket.get();
     }
 
-    public void setMedication(Medication medication) {
-        this.medication.set(medication);
-        calculateTotalAmount(); // Recalculer le total lorsqu'un nouveau médicament est défini
-    }
-
-    public IntegerProperty quantityProperty() {
-        return quantity;
-    }
-
-    public int getQuantity() {
-        return quantity.get();
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity.set(quantity);
-        calculateTotalAmount(); // Recalculer le total lorsqu'une nouvelle quantité est définie
+    public void setMedicationBasket(Map<Medication, Integer> medicationBasket) {
+        this.medicationBasket.get().clear(); // On vide l'ancien panier
+        this.medicationBasket.get().putAll(medicationBasket); // On ajoute le nouveau panier
+        calculateTotalAmount(); // Recalculer le total lorsqu'un nouveau panier est défini
     }
 
     public DoubleProperty totalAmountProperty() {
@@ -117,7 +110,6 @@ public class Purchase {
     }
 
     // Propriétés liées à l'ordonnance (prescription)
-
     public ObjectProperty<Doctor> prescribingDoctorProperty() {
         return prescribingDoctor;
     }
@@ -143,12 +135,15 @@ public class Purchase {
     }
 
     /**
-     * Méthode pour recalculer le montant total basé sur le prix du médicament et la quantité achetée.
+     * Méthode pour recalculer le montant total basé sur les prix des médicaments et les quantités achetées.
      */
-    public void calculateTotalAmount() {
-        if (medication.get() != null) {
-            this.totalAmount.set(medication.get().getPrice() * quantity.get());
+    public double calculateTotalAmount() {
+        double total = 0.0;
+        for (Map.Entry<Medication, Integer> entry : medicationBasket.entrySet()) {
+            total += entry.getKey().getPrice() * entry.getValue();
         }
+        this.totalAmount.set(total);
+        return total;
     }
 
     @Override
@@ -157,9 +152,14 @@ public class Purchase {
         sb.append("Achat effectué par ")
                 .append(customer.get().getFirstName()).append(" ").append(customer.get().getLastName())
                 .append(" le ").append(purchaseDate.get())
-                .append(".\nMédicament : ").append(medication.get().getName())
-                .append(", Quantité : ").append(quantity.get())
-                .append(", Montant total : ").append(String.format("%.2f €", totalAmount.get()));
+                .append(".\nMédicaments : ");
+
+        for (Map.Entry<Medication, Integer> entry : medicationBasket.entrySet()) {
+            sb.append(entry.getKey().getName())
+                    .append(" (Quantité : ").append(entry.getValue()).append("), ");
+        }
+
+        sb.append("\nMontant total : ").append(String.format("%.2f €", totalAmount.get()));
 
         if (prescribingDoctor.get() != null) {
             sb.append("\nPrescrit par le Dr. ")

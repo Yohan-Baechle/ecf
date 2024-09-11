@@ -1,9 +1,9 @@
 package com.yb.sparadrap.controller;
 
 import com.yb.sparadrap.model.Medication;
-import com.yb.sparadrap.model.store.MedicationDataStore;
-import com.yb.sparadrap.util.AlertUtil;
+import com.yb.sparadrap.store.MedicationDataStore;
 import com.yb.sparadrap.util.ActionButtonUtil;
+import com.yb.sparadrap.util.AlertUtil;
 import com.yb.sparadrap.util.DeleteUtil;
 import com.yb.sparadrap.util.EntityDialogUtil;
 import javafx.beans.property.SimpleStringProperty;
@@ -139,7 +139,7 @@ public class MedicationController {
      */
     @FXML
     private void handleAddMedication() {
-        Medication newMedication = new Medication("", null, null,0, 0.0);
+        Medication newMedication = new Medication("", null, null, 0, 0.0);
         openMedicationForm(newMedication, "Ajouter un nouveau médicament");
     }
 
@@ -157,7 +157,7 @@ public class MedicationController {
     /**
      * Ouvre un formulaire de médicament pour ajouter ou éditer un médicament.
      *
-     * @param medication Le médicament à ajouter ou modifier.
+     * @param medication  Le médicament à ajouter ou modifier.
      * @param dialogTitle Le titre de la boîte de dialogue.
      */
     private void openMedicationForm(Medication medication, String dialogTitle) {

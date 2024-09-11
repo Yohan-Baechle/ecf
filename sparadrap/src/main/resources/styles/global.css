@@ -51,7 +51,7 @@ Button {
 .button-primary {
     -fx-background-color: #006a60;
     -fx-text-fill: white;
-    -fx-padding: 10 20 ;
+    -fx-padding: 10 20;
     -fx-font-size: 14px;
     -fx-background-radius: 5;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 15, 0, 0, 2);
@@ -70,6 +70,23 @@ Button {
 .button-primary:pressed {
     -fx-background-color: #004d40;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, -2);
+}
+
+.basket-btn {
+    -fx-background-color: #23dfa5;
+    -fx-text-fill: white;
+    -fx-padding: 12 8;
+    -fx-font-size: 12px;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 3, 0, 0, 0.5);
+}
+
+.basket-btn:hover {
+    -fx-cursor: hand;
+}
+
+.basket-btn FontIcon {
+    -fx-fill: #00374f;
 }
 
 .button-success {
@@ -223,6 +240,7 @@ Button {
     -fx-border-radius: 5 5 0 0;
     -fx-padding: 0; /* Remove padding from header */
 }
+
 .table-column {
     -fx-alignment: CENTER-LEFT;
 }
@@ -287,8 +305,6 @@ Button {
 }
 
 
-
-
 /* Style général de l'alerte */
 .dialog-pane {
     -fx-background-color: #F0F0F0;
@@ -328,7 +344,7 @@ Button {
 .dialog-pane .button-bar .button {
     -fx-background-color: #23dfa5;
     -fx-text-fill: white;
-    -fx-padding: 10 20 ;
+    -fx-padding: 10 20;
     -fx-font-size: 14px;
     -fx-background-radius: 5;
     -fx-cursor: hand;
@@ -349,6 +365,26 @@ Button {
 
 .dialog-pane .error-label {
     -fx-text-fill: red;
+}
+
+.text-area {
+    -fx-background-color: white;
+    -fx-font-size: 1.2em;
+    -fx-padding: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: transparent;
+}
+
+.text-area .content {
+    -fx-background-color: white;
+}
+
+.text-area .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-bar:vertical .thumb {
+    -fx-background-color: #aaa;
 }
 
 .combo-box {

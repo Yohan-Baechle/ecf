@@ -2,9 +2,9 @@ package com.yb.sparadrap.controller;
 
 import com.yb.sparadrap.model.Address;
 import com.yb.sparadrap.model.Customer;
-import com.yb.sparadrap.model.store.CustomerDataStore;
-import com.yb.sparadrap.util.AlertUtil;
+import com.yb.sparadrap.store.CustomerDataStore;
 import com.yb.sparadrap.util.ActionButtonUtil;
+import com.yb.sparadrap.util.AlertUtil;
 import com.yb.sparadrap.util.DeleteUtil;
 import com.yb.sparadrap.util.EntityDialogUtil;
 import javafx.beans.binding.Bindings;

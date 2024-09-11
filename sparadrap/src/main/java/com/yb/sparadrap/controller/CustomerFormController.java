@@ -4,17 +4,21 @@ import com.yb.sparadrap.model.Address;
 import com.yb.sparadrap.model.Customer;
 import com.yb.sparadrap.model.Doctor;
 import com.yb.sparadrap.model.Mutual;
-import com.yb.sparadrap.model.store.DoctorDataStore;
-import com.yb.sparadrap.model.store.MutualDataStore;
+import com.yb.sparadrap.store.DoctorDataStore;
+import com.yb.sparadrap.store.MutualDataStore;
 import com.yb.sparadrap.util.ValidationUtil;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CustomerFormController {
 
@@ -103,6 +107,22 @@ public class CustomerFormController {
         fieldErrorMap.put(socialSecurityNumberField, socialSecurityNumberErrorLabel);
     }
 
+    public Customer getCustomer() {
+        // Récupérer les valeurs des champs du formulaire
+        String firstName = firstNameField.getText().trim();
+        String lastName = lastNameField.getText().trim();
+        Address address = new Address(streetField.getText().trim(), zipCodeField.getText().trim(), cityField.getText().trim());
+        String phoneNumber = phoneNumberField.getText().trim();
+        String email = emailField.getText().trim();
+        String socialSecurityNumber = socialSecurityNumberField.getText().trim();
+        LocalDate birthDate = birthDatePicker.getValue();
+        Mutual selectedMutual = mutualComboBox.getValue();
+        Doctor selectedDoctor = primaryDoctorComboBox.getValue();
+
+        // Créer et retourner un objet Customer avec les données du formulaire
+        return new Customer(firstName, lastName, address, phoneNumber, email, socialSecurityNumber, birthDate, selectedMutual, selectedDoctor);
+    }
+
     public void setCustomer(Customer customer) {
         if (customer != null) {
             firstNameField.setText(customer.getFirstName());
@@ -120,23 +140,6 @@ public class CustomerFormController {
             primaryDoctorComboBox.setValue(customer.getReferringDoctor());  // Modification : Objet Doctor
         }
     }
-
-    public Customer getCustomer() {
-        // Récupérer les valeurs des champs du formulaire
-        String firstName = firstNameField.getText().trim();
-        String lastName = lastNameField.getText().trim();
-        Address address = new Address(streetField.getText().trim(), zipCodeField.getText().trim(), cityField.getText().trim());
-        String phoneNumber = phoneNumberField.getText().trim();
-        String email = emailField.getText().trim();
-        String socialSecurityNumber = socialSecurityNumberField.getText().trim();
-        LocalDate birthDate = birthDatePicker.getValue();
-        Mutual selectedMutual = mutualComboBox.getValue();
-        Doctor selectedDoctor = primaryDoctorComboBox.getValue();
-
-        // Créer et retourner un objet Customer avec les données du formulaire
-        return new Customer(firstName, lastName, address, phoneNumber, email, socialSecurityNumber, birthDate, selectedMutual, selectedDoctor);
-    }
-
 
     public boolean validateInputs() {
         clearErrorLabels();

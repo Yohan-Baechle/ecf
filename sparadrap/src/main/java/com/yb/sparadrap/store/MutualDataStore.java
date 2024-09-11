@@ -1,7 +1,6 @@
-package com.yb.sparadrap.model.store;
+package com.yb.sparadrap.store;
 
 import com.yb.sparadrap.model.Address;
-import com.yb.sparadrap.model.Doctor;
 import com.yb.sparadrap.model.Mutual;
 import com.yb.sparadrap.model.enums.Department;
 import javafx.collections.FXCollections;
@@ -12,8 +11,8 @@ import javafx.collections.ObservableList;
  * Utilise une liste observable pour stocker et manipuler les mutuelles.
  */
 public class MutualDataStore {
-    private final ObservableList<Mutual> mutuals = FXCollections.observableArrayList();
     private static MutualDataStore instance;
+    private final ObservableList<Mutual> mutuals = FXCollections.observableArrayList();
 
     /**
      * Constructeur privé pour le pattern Singleton.
