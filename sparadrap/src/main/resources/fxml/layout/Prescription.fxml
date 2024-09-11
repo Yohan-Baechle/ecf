@@ -18,11 +18,6 @@
         <FontIcon iconLiteral="fas-file-medical" iconSize="24" />
         <Text styleClass="page-title" text="Gestion des ordonnances" />
         <Region HBox.hgrow="ALWAYS" />
-        <Button fx:id="addPrescriptionBtn" onAction="#handleAddPrescription" prefWidth="120.0" styleClass="button-success" text="Nouveau">
-            <graphic>
-                <FontIcon iconLiteral="fas-plus" iconSize="20" />
-            </graphic>
-        </Button>
     </HBox>
 
     <!-- Barre de recherche en haut -->
@@ -41,8 +36,5 @@
             <TableColumn fx:id="actionColumn" text="Actions" />
         </columns>
     </TableView>
-
-    <!-- Étiquette de statut en bas -->
-    <Label fx:id="statusLabel" layoutX="20.0" layoutY="710.0" prefHeight="60.0" prefWidth="880.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
 
 </AnchorPane>

@@ -12,6 +12,30 @@ import java.util.function.Consumer;
 
 public class EntityDialogUtil {
 
+    public static <T, C> void openEntityDisplayDialog(String fxmlPath, String dialogTitle,
+                                                      Consumer<C> controllerConfigurer) {
+        try {
+            // Charger le fichier FXML
+            FXMLLoader loader = new FXMLLoader(EntityDialogUtil.class.getResource(fxmlPath));
+            DialogPane dialogPane = loader.load();
+
+            // Obtenir le contrôleur
+            C controller = loader.getController();
+            controllerConfigurer.accept(controller);  // Configurer le contrôleur
+
+            // Créer la boîte de dialogue
+            Dialog<Void> dialog = new Dialog<>();
+            dialog.setDialogPane(dialogPane);
+            dialog.setTitle(dialogTitle);
+            dialog.getDialogPane().getButtonTypes().setAll(ButtonType.OK);
+
+            dialog.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     /**
      * Ouvre une boîte de dialogue pour ajouter ou modifier une entité.
      *

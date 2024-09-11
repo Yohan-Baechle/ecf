@@ -3,28 +3,27 @@ package com.yb.sparadrap.controller;
 import com.yb.sparadrap.model.Medication;
 import com.yb.sparadrap.model.Prescription;
 import com.yb.sparadrap.model.store.PrescriptionDataStore;
-import com.yb.sparadrap.util.AlertUtil;
 import com.yb.sparadrap.util.ActionButtonUtil;
-import com.yb.sparadrap.util.DeleteUtil;
 import com.yb.sparadrap.util.EntityDialogUtil;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
 /**
  * Contrôleur pour la gestion des ordonnances dans l'application.
- * Gère les interactions avec la liste des prescripteurs et les actions d'ajout, d'édition et de suppression.
+ * Gère uniquement la visualisation des ordonnances dans le TableView.
  */
 public class PrescriptionController {
 
-    @FXML
-    private Button addPrescriptionBtn;
     @FXML
     private TableView<Prescription> prescriptionTable;
     @FXML
@@ -41,8 +40,6 @@ public class PrescriptionController {
     private TableColumn<Prescription, Void> actionColumn;
     @FXML
     private TextField searchField;
-    @FXML
-    private Label statusLabel;
 
     /**
      * Initialise le contrôleur : configuration des colonnes, des données ordonnances,
@@ -62,7 +59,13 @@ public class PrescriptionController {
      * Configure les colonnes du TableView avec les propriétés observables des ordonnances.
      */
     private void initializeColumns() {
-        dateColumn.setCellValueFactory(cellData -> cellData.getValue().prescriptionDateProperty().asString());
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        dateColumn.setCellValueFactory(cellData -> {
+            LocalDate date = cellData.getValue().getPrescriptionDate();
+            return new SimpleStringProperty(date != null ? date.format(dateFormatter) : "");
+        });
+
         doctorColumn.setCellValueFactory(cellData -> cellData.getValue().doctorProperty().asString());
         patientColumn.setCellValueFactory(cellData -> cellData.getValue().patientProperty().asString());
         medicationsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
@@ -80,8 +83,8 @@ public class PrescriptionController {
         patientColumn.prefWidthProperty().bind(prescriptionTable.widthProperty().multiply(0.20));
         medicationsColumn.prefWidthProperty().bind(prescriptionTable.widthProperty().multiply(0.40));
         specialistColumn.prefWidthProperty().bind(prescriptionTable.widthProperty().multiply(0.10));
-        actionColumn.prefWidthProperty().bind(prescriptionTable.widthProperty().multiply(0.10));
     }
+
 
     /**
      * Initialise les données ordonnances à partir de PrescriptionDataStore.
@@ -94,6 +97,8 @@ public class PrescriptionController {
      * Initialise la barre de recherche pour filtrer les ordonnances dans le TableView.
      */
     private void initializeSearchField() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         FilteredList<Prescription> filteredData = new FilteredList<>(PrescriptionDataStore.getInstance().getPrescriptions(), b -> true);
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -104,10 +109,15 @@ public class PrescriptionController {
 
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                // Rechercher dans le docteur, le patient, les médicaments, le spécialiste et la date
-                return prescription.getPrescriptionDate().toString().toLowerCase().contains(lowerCaseFilter)
-                        || prescription.getPatient().toString().toLowerCase().contains(lowerCaseFilter)
-                        || prescription.getDoctor().toString().toLowerCase().contains(lowerCaseFilter)
+                // Formater la date de prescription
+                String formattedDate = prescription.getPrescriptionDate() != null
+                        ? prescription.getPrescriptionDate().format(dateFormatter)
+                        : "";
+
+                // Rechercher dans le docteur, le patient, les médicaments, le spécialiste et la date formatée
+                return formattedDate.contains(lowerCaseFilter)
+                        || (prescription.getPatient() != null && prescription.getPatient().toString().toLowerCase().contains(lowerCaseFilter))
+                        || (prescription.getDoctor() != null && prescription.getDoctor().toString().toLowerCase().contains(lowerCaseFilter))
                         || prescription.getMedications().stream()
                         .map(med -> med.getName().toLowerCase())
                         .collect(Collectors.joining(", "))
@@ -123,13 +133,18 @@ public class PrescriptionController {
 
 
     /**
-     * Configure les boutons d'action (édition et suppression) pour chaque ligne du TableView.
+     * Configure le bouton d'action pour visualiser l'ordonnance dans chaque ligne du TableView.
      */
     private void initializeActionsColumn() {
-        // Capturer une référence explicite au contrôleur parent
-        PrescriptionController controller = this;
-
         actionColumn.setCellFactory(param -> new TableCell<>() {
+            Button viewButton = new Button();
+
+            {
+                // Définir l'icône et la classe CSS
+                viewButton.setGraphic(new FontIcon(FontAwesomeSolid.EYE)); // Icône de visualisation
+                viewButton.getStyleClass().add("button-info"); // Ajouter la classe CSS button-info
+            }
+
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -137,69 +152,30 @@ public class PrescriptionController {
                     setGraphic(null); // Si la cellule est vide, ne rien afficher
                 } else {
                     Prescription prescription = getTableView().getItems().get(getIndex());
-                    // Utiliser la référence explicite au contrôleur parent pour accéder aux méthodes
-                    setGraphic(ActionButtonUtil.createEditDeleteButtons(prescription,
-                            controller::handleEditPrescription,
-                            controller::handleDeletePrescription));
+                    viewButton.setOnAction(event -> handleViewPrescription(prescription));
+
+                    // Utiliser un HBox pour centrer le bouton
+                    HBox hbox = new HBox(viewButton);
+                    hbox.setStyle("-fx-alignment: center;"); // Centrer le contenu
+                    setGraphic(hbox);
                 }
             }
         });
     }
 
-    /**
-     * Gère l'ajout d'une nouvelle ordonnance à l'aide d'une boîte de dialogue.
-     */
-    @FXML
-    private void handleAddPrescription() {
-        Prescription newPrescription = new Prescription(LocalDate.now(), null, null, FXCollections.observableArrayList(), null);
-        openPrescriptionForm(newPrescription, "Ajouter une nouvelle ordonnance");
-    }
+
 
     /**
-     * Gère la modification d'une ordonnance existante.
+     * Gère l'affichage des détails de l'ordonnance sélectionnée.
      *
-     * @param prescription L'ordonnance à modifier.
+     * @param prescription L'ordonnance à afficher.
      */
-    @FXML
-    private void handleEditPrescription(Prescription prescription) {
-        openPrescriptionForm(prescription, "Modification ordonnance");
-    }
-
-
-    /**
-     * Ouvre un formulaire d'ordonnance pour ajouter ou éditer une ordonnance.
-     *
-     * @param prescription    Le prescripteur à ajouter ou modifier.
-     * @param dialogTitle Le titre de la boîte de dialogue.
-     */
-    private void openPrescriptionForm(Prescription prescription, String dialogTitle) {
-        EntityDialogUtil.openEntityFormDialog("/fxml/layout/PrescriptionForm.fxml", dialogTitle,
+    private void handleViewPrescription(Prescription prescription) {
+        // Ouvre une boîte de dialogue pour visualiser l'ordonnance
+        EntityDialogUtil.openEntityDisplayDialog("/fxml/layout/PrescriptionDetails.fxml", "Détails de l'ordonnance",
                 controller -> {
-                    PrescriptionFormController prescriptionFormController = (PrescriptionFormController) controller;
-                    prescriptionFormController.setPrescription(prescription);
-                },
-                controller -> ((PrescriptionFormController) controller).getPrescription()
-        ).ifPresent(updatedPrescription -> {
-            if (prescriptionTable.getItems().contains(prescription)) {
-                int index = PrescriptionDataStore.getInstance().getPrescriptions().indexOf(prescription);
-                PrescriptionDataStore.getInstance().getPrescriptions().set(index, updatedPrescription);
-                AlertUtil.updateStatusLabel(statusLabel, "L'ordonnance a été modifiée avec succès.", "success");
-            } else {
-                PrescriptionDataStore.getInstance().addPrescription(updatedPrescription);
-                AlertUtil.updateStatusLabel(statusLabel, "L'ordonannce' a été créés avec succès.", "success");
-            }
-        });
-    }
-
-    /**
-     * Gère la suppression d'une ordonnance avec confirmation.
-     *
-     * @param prescription L'ordonnance à supprimer.
-     */
-    private void handleDeletePrescription(Prescription prescription) {
-        DeleteUtil.handleDelete(prescription,
-                PrescriptionDataStore.getInstance()::removePrescription,
-                "L'ordonnance a été supprimée avec succès.",
-                statusLabel);
+                    PrescriptionDetailsController prescriptionDetailsController = (PrescriptionDetailsController) controller;
+                    prescriptionDetailsController.setPrescription(prescription);
+                });
     }
 }
