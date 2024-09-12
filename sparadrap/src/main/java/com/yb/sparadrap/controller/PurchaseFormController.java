@@ -28,6 +28,8 @@ public class PurchaseFormController {
     @FXML
     private TextField totalPriceField;
     @FXML
+    private TextField reimbursementRateField;
+    @FXML
     private ComboBox<Doctor> prescribingDoctorComboBox;
     @FXML
     private DatePicker prescriptionDatePicker;
@@ -74,9 +76,21 @@ public class PurchaseFormController {
         // Listener pour mettre à jour le prix total lors du changement de quantité
         quantityField.textProperty().addListener((obs, oldValue, newValue) -> updateTotalPrice());
 
+        // Listener pour mettre à jour le taux de remboursement lorsqu'un client est sélectionné
+        customerComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null && newValue.getMutual() != null) {
+                double reimbursementRate = newValue.getMutual().getReimbursementRate();
+                reimbursementRateField.setText(String.format("%.0f%%", reimbursementRate));
+            } else {
+                reimbursementRateField.setText("Aucune mutuelle");
+            }
+            updateTotalPrice(); // Recalculer le prix total avec le taux de remboursement
+        });
+
         // Initialisation de la zone de texte pour le panier
         medicationBasketArea.setEditable(false);
     }
+
 
     /**
      * Met à jour le champ TextArea qui affiche les médicaments du panier.
@@ -140,14 +154,22 @@ public class PurchaseFormController {
 
 
     /**
-     * Calcule et met à jour le prix total basé sur le panier.
+     * Calcule et met à jour le prix total basé sur le panier et le ttaux de remboursmeent mutuelle (si disponible)
      */
     private void updateTotalPrice() {
         double totalPrice = medicationBasket.entrySet().stream()
                 .mapToDouble(entry -> entry.getKey().getPrice() * entry.getValue())
                 .sum();
+
+        Customer selectedCustomer = customerComboBox.getValue();
+        if (selectedCustomer != null && selectedCustomer.getMutual() != null) {
+            double reimbursementRate = selectedCustomer.getMutual().getReimbursementRate();
+            totalPrice = totalPrice * (1 - (reimbursementRate / 100));
+        }
+
         totalPriceField.setText(String.format("%.2f", totalPrice));
     }
+
 
     /**
      * Récupère les informations du formulaire pour créer ou mettre à jour un achat.
@@ -239,7 +261,7 @@ public class PurchaseFormController {
                 customerErrorLabel.setText(customerError);
                 isPrescriptionValid = false;
             }
-            
+
             // Validation du médecin avec ValidationUtil
             String doctorError = ValidationUtil.validateDoctor(prescribingDoctorComboBox.getValue());
             boolean isDoctorValid = doctorError == null;

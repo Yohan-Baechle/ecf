@@ -23,56 +23,56 @@ public class ValidationUtil {
 
     // Validation du nom
     public static String validateLastName(String lastName) {
-        if (isEmpty(lastName)) return "Le nom ne peut pas être vide.";
+        if (isEmpty(lastName)) return "Le nom est obligatoire.";
         if (!lastName.matches(NAME_REGEX)) return "Le nom est invalide.";
         return null;
     }
 
     // Validation du prénom
     public static String validateFirstName(String firstName) {
-        if (isEmpty(firstName)) return "Le prénom ne peut pas être vide.";
+        if (isEmpty(firstName)) return "Le prénom est obligatoire.";
         if (!firstName.matches(NAME_REGEX)) return "Le prénom est invalide.";
         return null;
     }
 
     // Validation de l'adresse
     public static String validateStreet(String street) {
-        if (isEmpty(street)) return "L'adresse ne peut pas être vide.";
+        if (isEmpty(street)) return "L'adresse est obligatoire.";
         if (street.length() < 5) return "L'adresse doit avoir au moins 5 caractères.";
         return null;
     }
 
     // Validation du code postal
     public static String validateZipCode(String zipCode) {
-        if (isEmpty(zipCode)) return "Le code postal ne peut pas être vide.";
+        if (isEmpty(zipCode)) return "Le code postal est obligatoire.";
         if (!zipCode.matches("\\d{5}")) return "Le code postal est invalide.";
         return null;
     }
 
     // Validation de la ville
     public static String validateCity(String city) {
-        if (isEmpty(city)) return "La ville ne peut pas être vide.";
+        if (isEmpty(city)) return "La ville est obligatoire.";
         if (!city.matches(NAME_REGEX)) return "La ville est invalide.";
         return null;
     }
 
     // Validation du numéro de téléphone
     public static String validatePhoneNumber(String phoneNumber) {
-        if (isEmpty(phoneNumber)) return "Le numéro de téléphone ne peut pas être vide.";
+        if (isEmpty(phoneNumber)) return "Le téléphone est obligatoire.";
         if (!phoneNumber.matches(PHONE_REGEX)) return "Le numéro de téléphone est invalide.";
         return null;
     }
 
     // Validation de l'email
     public static String validateEmail(String email) {
-        if (isEmpty(email)) return "L'email ne peut pas être vide.";
+        if (isEmpty(email)) return "L'email est obligatoire.";
         if (!email.matches(EMAIL_REGEX)) return "L'email est invalide.";
         return null;
     }
 
     // Validation du numéro de sécurité sociale
     public static String validateSocialSecurityNumber(String ssn) {
-        if (isEmpty(ssn)) return "Le n° de sécurité sociale ne peut pas être vide.";
+        if (isEmpty(ssn)) return "Le n° de sécurité sociale est obligatoire.";
         if (!ssn.matches("\\d{15}")) return "Le n°de sécurité sociale est invalide.";
 
         String numberWithoutKey = ssn.substring(0, 13);
@@ -91,7 +91,7 @@ public class ValidationUtil {
 
     // Validation de la date de naissance
     public static String validateBirthDate(LocalDate birthDate) {
-        if (birthDate == null) return "La date de naissance ne peut pas être vide.";
+        if (birthDate == null) return "La date de naissance est obligatoire.";
         LocalDate today = LocalDate.now();
         if (!birthDate.isBefore(today.minusYears(18))) return "Le client doit avoir plus de 18 ans.";
         return null;
@@ -117,7 +117,7 @@ public class ValidationUtil {
 
     // Validation de la quantité
     public static String validateQuantity(String quantity) {
-        if (isEmpty(quantity)) return "La quantité ne peut pas être vide.";
+        if (isEmpty(quantity)) return "La quantité est obligatoire.";
         try {
             int qty = Integer.parseInt(quantity);
             if (qty <= 0) return "La quantité doit être un nombre positif.";
@@ -130,7 +130,7 @@ public class ValidationUtil {
     // Validation de la saisie de la date de prescription
     public static String validatePrescriptionDate(LocalDate prescriptionDate) {
         if (prescriptionDate == null) {
-            return "La date de prescription ne peut pas être vide.";
+            return "La date de prescription est obligatoire.";
         }
         if (prescriptionDate.isAfter(LocalDate.now())) {
             return "La date de prescription est invalide.";
@@ -141,7 +141,7 @@ public class ValidationUtil {
     // Validation du numéro d'agrément du médecin
     public static String validateRegistrationNumber(String registrationNumber) {
         if (isEmpty(registrationNumber)) {
-            return "Le numéro d'agrément ne peut pas être vide.";
+            return "Le n° d'agrément est obligatoire.";
         }
         // Un numéro d'agrément de médecin en France est généralement composé de chiffres (15 caractères)
         if (!registrationNumber.matches("\\d{11}")) {
@@ -160,7 +160,7 @@ public class ValidationUtil {
     // Validation de la catégorie du médicament
     public static String validateCategory(Object category) {
         if (category == null) {
-            return "La catégorie ne peut pas être vide.";
+            return "La catégorie est obligatoire.";
         }
         // Vous pouvez ajouter des validations spécifiques à la catégorie si nécessaire
         return null;
@@ -168,7 +168,7 @@ public class ValidationUtil {
 
     // Validation du prix du médicament
     public static String validatePrice(String price) {
-        if (isEmpty(price)) return "Le prix ne peut pas être vide.";
+        if (isEmpty(price)) return "Le prix est obligatoire.";
         try {
             double parsedPrice = Double.parseDouble(price);
             if (parsedPrice < 0) return "Le prix doit être un nombre positif.";
@@ -180,7 +180,7 @@ public class ValidationUtil {
 
     // Validation de la date de mise en service du médicament
     public static String validateLaunchDate(LocalDate launchDate) {
-        if (launchDate == null) return "La date ne peut pas être vide.";
+        if (launchDate == null) return "La date est obligatoire.";
         if (launchDate.isAfter(LocalDate.now())) return "La date est invalide.";
         return null;
     }
@@ -188,7 +188,7 @@ public class ValidationUtil {
     // Validation du département
     public static String validateDepartment(Department department) {
         if (department == null) {
-            return "Le département ne peut pas être vide.";
+            return "Le département est obligatoire.";
         }
         return null;
     }
@@ -196,7 +196,7 @@ public class ValidationUtil {
     // Validation du taux de remboursement
     public static String validateReimbursementRate(String reimbursementRate) {
         if (isEmpty(reimbursementRate)) {
-            return "Le taux ne peut pas être vide.";
+            return "Le taux est obligatoire.";
         }
         try {
             double rate = Double.parseDouble(reimbursementRate);

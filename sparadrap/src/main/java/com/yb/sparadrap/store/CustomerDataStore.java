@@ -78,55 +78,57 @@ public class CustomerDataStore {
                         new Address("12 rue de la Paix", "75002", "Paris"),
                         "0612345678", "jean.dupont@example.com",
                         "179025452847269", LocalDate.of(1980, 5, 12),
-                        mutualStore.getMutualByName("Mutuelle A"), doctorStore.getDoctorByName("Dr. Bernard Martin")),
+                        mutualStore.getMutualByName("Mutuelle MGEN"), doctorStore.getDoctorByName("Dr. Bernard Martin")),
 
                 new Customer("Marie", "Lefevre",
                         new Address("25 avenue des Champs-Élysées", "75008", "Paris"),
                         "0623456789", "marie.lefevre@example.com",
                         "283067509825620", LocalDate.of(1975, 3, 22),
-                        mutualStore.getMutualByName("Mutuelle B"), doctorStore.getDoctorByName("Dr. Anne Dupuis")),
+                        mutualStore.getMutualByName("Mutuelle Harmonie"), doctorStore.getDoctorByName("Dr. Anne Dupuis")),
 
                 new Customer("Paul", "Moreau",
                         new Address("14 rue des Fleurs", "69002", "Lyon"),
                         "0645678910", "paul.moreau@example.com",
                         "170023456789044", LocalDate.of(1990, 11, 3),
-                        mutualStore.getMutualByName("Mutuelle C"), doctorStore.getDoctorByName("Dr. Sophie Girard")),
+                        mutualStore.getMutualByName("Mutuelle AG2R La Mondiale"), doctorStore.getDoctorByName("Dr. Sophie Girard")),
 
                 new Customer("Lucie", "Durand",
                         new Address("58 boulevard Victor Hugo", "06000", "Nice"),
                         "0654321098", "lucie.durand@example.com",
                         "185089012345607", LocalDate.of(1985, 8, 15),
-                        mutualStore.getMutualByName("Mutuelle D"), doctorStore.getDoctorByName("Dr. Pierre Lefevre")),
+                        mutualStore.getMutualByName("Mutuelle AÉSIO"), doctorStore.getDoctorByName("Dr. Pierre Lefevre")),
 
                 new Customer("Pierre", "Dubois",
                         new Address("34 rue de la République", "13001", "Marseille"),
                         "0678912345", "pierre.dubois@example.com",
                         "197054308765467", LocalDate.of(1970, 12, 7),
-                        mutualStore.getMutualByName("Mutuelle E"), doctorStore.getDoctorByName("Dr. Jacques Bernard")),
+                        mutualStore.getMutualByName("Mutuelle MGEN"), doctorStore.getDoctorByName("Dr. Jacques Bernard")),
 
                 new Customer("Sophie", "Martin",
                         new Address("45 rue des Lilas", "44000", "Nantes"),
                         "0678901234", "sophie.martin@example.com",
                         "185072309854338", LocalDate.of(1987, 6, 22),
-                        mutualStore.getMutualByName("Mutuelle F"), doctorStore.getDoctorByName("Dr. Claire Dubois")),
+                        mutualStore.getMutualByName("Mutuelle Harmonie"), doctorStore.getDoctorByName("Dr. Claire Dubois")),
 
                 new Customer("Antoine", "Rousseau",
                         new Address("13 avenue des Acacias", "33000", "Bordeaux"),
                         "0678909876", "antoine.rousseau@example.com",
                         "197052408765101", LocalDate.of(1979, 11, 17),
-                        mutualStore.getMutualByName("Mutuelle G"), doctorStore.getDoctorByName("Dr. Philippe Leroy")),
+                        mutualStore.getMutualByName("Mutuelle AG2R La Mondiale"), doctorStore.getDoctorByName("Dr. Philippe Leroy")),
 
                 new Customer("Isabelle", "Petit",
                         new Address("75 boulevard de la Liberté", "59000", "Lille"),
                         "0687654321", "isabelle.petit@example.com",
                         "186054309872511", LocalDate.of(1992, 2, 10),
-                        mutualStore.getMutualByName("Mutuelle H"), doctorStore.getDoctorByName("Dr. Anne Lopez")),
+                        mutualStore.getMutualByName("Mutuelle AÉSIO"), doctorStore.getDoctorByName("Dr. Anne Lopez")),
 
+                // Ce client n'a pas de mutuelle (par exemple, on ignore la mutuelle MACIF ici)
                 new Customer("Laurent", "Girard",
                         new Address("22 rue du Commerce", "69001", "Lyon"),
                         "0698765432", "laurent.girard@example.com",
                         "175084309654364", LocalDate.of(1965, 7, 25),
-                        mutualStore.getMutualByName("Mutuelle I"), doctorStore.getDoctorByName("Dr. Charles Garnier"))
+                        null, doctorStore.getDoctorByName("Dr. Charles Garnier"))
         );
     }
+
 }

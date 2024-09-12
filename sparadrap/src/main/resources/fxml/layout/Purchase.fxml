@@ -38,6 +38,7 @@
             <TableColumn fx:id="purchaseTypeColumn" text="Type d'achat"/>
             <TableColumn fx:id="quantityColumn" text="Quantité"/>
             <TableColumn fx:id="unitPriceColumn" text="Prix unitaire"/>
+            <TableColumn fx:id="reimbursementRateColumn" text="Taux de remboursement"/>
             <TableColumn fx:id="purchaseDateColumn" text="Date d'achat"/>
             <TableColumn fx:id="totalPriceColumn" text="Prix total"/>
             <TableColumn fx:id="actionColumn" text="Actions"/>

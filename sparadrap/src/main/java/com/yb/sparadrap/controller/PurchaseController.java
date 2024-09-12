@@ -44,6 +44,8 @@ public class PurchaseController {
     @FXML
     private TableColumn<Purchase, String> unitPriceColumn;
     @FXML
+    private TableColumn<Purchase, String> reimbursementRateColumn;
+    @FXML
     private TableColumn<Purchase, String> totalPriceColumn;
     @FXML
     private TableColumn<Purchase, Void> actionColumn;
@@ -62,8 +64,6 @@ public class PurchaseController {
         initializePurchaseData();
         initializeSearchField();
         initializeActionsColumn();
-
-        purchaseTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_NEXT_COLUMN);
     }
 
     /**
@@ -77,6 +77,7 @@ public class PurchaseController {
                     return customer != null ? customer.getFirstName() + " " + customer.getLastName() : "Aucun client";
                 })
         );
+
         // Colonne du panier de médicaments
         medicationBasketColumn.setCellValueFactory(cellData ->
                 Bindings.createStringBinding(() ->
@@ -102,20 +103,50 @@ public class PurchaseController {
                 )
         );
 
+        // Colonne pour afficher le prix unitaire des médicaments
         unitPriceColumn.setCellValueFactory(cellData ->
                 Bindings.createStringBinding(() ->
-                        cellData.getValue().getMedicationBasket().entrySet().stream()
-                                .map(entry -> String.format("%s: %.2f €", entry.getKey().getName(), entry.getKey().getPrice()))
+                        cellData.getValue().getMedicationBasket().keySet().stream()
+                                .map(integer -> String.format("%s: %.2f €", integer.getName(), integer.getPrice()))
                                 .collect(Collectors.joining(", "))
                 )
         );
 
-        totalPriceColumn.setCellValueFactory(cellData ->
-                Bindings.createStringBinding(() ->
-                        String.format("%.2f €", cellData.getValue().getTotalAmount())
-                )
-        );
+        // Colonne pour afficher le prix total après le calcul du remboursement
+        totalPriceColumn.setCellValueFactory(cellData -> {
+            Purchase purchase = cellData.getValue();
+            Customer customer = purchase.getCustomer();
 
+            // Calculer le prix total avant remboursement
+            double totalPrice = purchase.getMedicationBasket().entrySet().stream()
+                    .mapToDouble(entry -> entry.getKey().getPrice() * entry.getValue())
+                    .sum();
+
+            // Appliquer le taux de remboursement si le client a une mutuelle
+            if (customer != null && customer.getMutual() != null) {
+                double reimbursementRate = customer.getMutual().getReimbursementRate();
+                totalPrice = totalPrice * (1 - (reimbursementRate / 100));
+            }
+
+            // Retourner le prix formaté
+            double finalTotalPrice = totalPrice;
+            return Bindings.createStringBinding(() -> String.format("%.2f €", finalTotalPrice));
+        });
+
+        // Nouvelle colonne pour afficher le taux de remboursement du client
+        reimbursementRateColumn.setCellValueFactory(cellData -> {
+            Purchase purchase = cellData.getValue();
+            Customer customer = purchase.getCustomer();
+
+            // Récupérer le taux de remboursement si disponible
+            double reimbursementRate = customer != null && customer.getMutual() != null
+                    ? customer.getMutual().getReimbursementRate()
+                    : 0.0; // Si aucune mutuelle, taux = 0%
+
+            return Bindings.createStringBinding(() -> String.format("%.0f%%", reimbursementRate));
+        });
+
+        // Colonne pour afficher la date d'achat
         purchaseDateColumn.setCellValueFactory(cellData ->
                 Bindings.createStringBinding(() ->
                         cellData.getValue().getPurchaseDate().format(dateFormatter)
@@ -124,14 +155,16 @@ public class PurchaseController {
 
         // Configuration des largeurs des colonnes
         patientColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
-        medicationBasketColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.30));
+        medicationBasketColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.25)); // Réduit pour ajouter la nouvelle colonne
         purchaseTypeColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
         quantityColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
         unitPriceColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
+        reimbursementRateColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10)); // Largeur pour le taux de remboursement
         totalPriceColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
         purchaseDateColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
         actionColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
     }
+
 
     /**
      * Initialise les données des achats à partir de PurchaseDataStore.

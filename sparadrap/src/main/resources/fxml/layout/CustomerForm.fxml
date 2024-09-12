@@ -1,122 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<DialogPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="780.0" prefWidth="600.0"
-            stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/21"
-            fx:controller="com.yb.sparadrap.controller.CustomerFormController">
+<DialogPane xmlns:fx="http://javafx.com/fxml/1" prefWidth="1200.0" stylesheets="@../../styles/global.css"
+            xmlns="http://javafx.com/javafx/21" fx:controller="com.yb.sparadrap.controller.CustomerFormController">
 
     <content>
         <VBox>
             <GridPane hgap="10" vgap="10">
-
-                <!-- Informations personnelles -->
+                <!-- Nom et Prénom sur la même ligne -->
                 <Label text="Nom :" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                <TextField fx:id="lastNameField" GridPane.columnIndex="1" GridPane.rowIndex="0"
-                           GridPane.hgrow="ALWAYS"/>
+                <TextField fx:id="lastNameField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="0"/>
+                <Label text="Prénom :" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                <TextField fx:id="firstNameField" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="0"/>
+
+                <!-- Label d'erreurs pour Nom et Prénom -->
                 <Label fx:id="lastNameErrorLabel" styleClass="error-label" GridPane.columnIndex="1"
-                       GridPane.rowIndex="1">
-                    <GridPane.margin>
-                        <Insets bottom="10.0"/>
-                    </GridPane.margin>
-                </Label>
+                       GridPane.rowIndex="1"/>
+                <Label fx:id="firstNameErrorLabel" styleClass="error-label" GridPane.columnIndex="3"
+                       GridPane.rowIndex="1"/>
 
-                <Label text="Prénom :" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                <TextField fx:id="firstNameField" GridPane.columnIndex="1" GridPane.rowIndex="2"
-                           GridPane.hgrow="ALWAYS"/>
-                <Label fx:id="firstNameErrorLabel" styleClass="error-label" GridPane.columnIndex="1"
-                       GridPane.rowIndex="3">
-                    <GridPane.margin>
-                        <Insets bottom="10.0"/>
-                    </GridPane.margin>
-                </Label>
+                <!-- Téléphone et Email sur la même ligne -->
+                <Label text="Téléphone :" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TextField fx:id="phoneNumberField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="2"/>
+                <Label text="Email :" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                <TextField fx:id="emailField" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2"/>
 
-                <Label text="Téléphone :" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-                <TextField fx:id="phoneNumberField" GridPane.columnIndex="1" GridPane.rowIndex="4"
-                           GridPane.hgrow="ALWAYS"/>
+                <!-- Label d'erreurs pour Téléphone et Email -->
                 <Label fx:id="phoneNumberErrorLabel" styleClass="error-label" GridPane.columnIndex="1"
-                       GridPane.rowIndex="5">
-                    <GridPane.margin>
-                        <Insets bottom="10.0"/>
-                    </GridPane.margin>
-                </Label>
+                       GridPane.rowIndex="3"/>
+                <Label fx:id="emailErrorLabel" styleClass="error-label" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
 
-                <Label text="Email :" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
-                <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.hgrow="ALWAYS"/>
-                <Label fx:id="emailErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="7">
-                    <GridPane.margin>
-                        <Insets bottom="10.0"/>
-                    </GridPane.margin>
-                </Label>
+                <!-- N° Sécurité Sociale et Date de Naissance sur la même ligne -->
+                <Label text="N° de Sécurité Sociale :" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                <TextField fx:id="socialSecurityNumberField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="4"/>
+                <Label text="Date de Naissance :" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+                <DatePicker fx:id="birthDatePicker" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS"
+                            GridPane.rowIndex="4"/>
 
-                <Label text="N° de Sécurité Sociale :" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
-                <TextField fx:id="socialSecurityNumberField" GridPane.columnIndex="1" GridPane.rowIndex="8"
-                           GridPane.hgrow="ALWAYS"/>
+                <!-- Label d'erreurs pour N° de Sécurité Sociale et Date de Naissance -->
                 <Label fx:id="socialSecurityNumberErrorLabel" styleClass="error-label" GridPane.columnIndex="1"
-                       GridPane.rowIndex="9">
-                    <GridPane.margin>
-                        <Insets bottom="10.0"/>
-                    </GridPane.margin>
-                </Label>
+                       GridPane.rowIndex="5"/>
+                <Label fx:id="birthDateErrorLabel" styleClass="error-label" GridPane.columnIndex="3"
+                       GridPane.rowIndex="5"/>
 
-                <Label text="Nom de la rue :" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
-                <TextField fx:id="streetField" GridPane.columnIndex="1" GridPane.rowIndex="10" GridPane.hgrow="ALWAYS"/>
+                <!-- Rue et Code Postal/Ville sur la même ligne -->
+                <Label text="Nom de la rue :" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                <TextField fx:id="streetField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6"/>
+                <Label text="Code Postal :" GridPane.columnIndex="2" GridPane.rowIndex="6"/>
+                <TextField fx:id="zipCodeField" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6"/>
+
+                <!-- Label d'erreurs pour Rue et Code Postal -->
                 <Label fx:id="streetErrorLabel" styleClass="error-label" GridPane.columnIndex="1"
-                       GridPane.rowIndex="11">
-                    <GridPane.margin>
-                        <Insets bottom="10.0"/>
-                    </GridPane.margin>
-                </Label>
+                       GridPane.rowIndex="7"/>
+                <Label fx:id="zipCodeErrorLabel" styleClass="error-label" GridPane.columnIndex="3"
+                       GridPane.rowIndex="7"/>
 
-                <Label text="Code Postal :" GridPane.columnIndex="0" GridPane.rowIndex="12"/>
-                <TextField fx:id="zipCodeField" GridPane.columnIndex="1" GridPane.rowIndex="12"
-                           GridPane.hgrow="ALWAYS"/>
-                <Label fx:id="zipCodeErrorLabel" styleClass="error-label" GridPane.columnIndex="1"
-                       GridPane.rowIndex="13">
-                    <GridPane.margin>
-                        <Insets bottom="10.0"/>
-                    </GridPane.margin>
-                </Label>
+                <!-- Ville -->
+                <Label text="Ville :" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+                <TextField fx:id="cityField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8"/>
+                <Label fx:id="cityErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
 
-                <Label text="Ville :" GridPane.columnIndex="0" GridPane.rowIndex="14"/>
-                <TextField fx:id="cityField" GridPane.columnIndex="1" GridPane.rowIndex="14" GridPane.hgrow="ALWAYS"/>
-                <Label fx:id="cityErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="15">
-                    <GridPane.margin>
-                        <Insets bottom="10.0"/>
-                    </GridPane.margin>
-                </Label>
+                <!-- Mutuelle et Médecin Référent -->
+                <Label text="Mutuelle :" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
+                <ComboBox fx:id="mutualComboBox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+                          GridPane.rowIndex="10"/>
+                <Label text="Médecin Référent :" GridPane.columnIndex="2" GridPane.rowIndex="10"/>
+                <ComboBox fx:id="primaryDoctorComboBox" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS"
+                          GridPane.rowIndex="10"/>
 
-                <!-- Date de naissance -->
-                <Label text="Date de Naissance :" GridPane.columnIndex="0" GridPane.rowIndex="16"/>
-                <DatePicker fx:id="birthDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="16"
-                            GridPane.hgrow="ALWAYS"/>
-                <Label fx:id="birthDateErrorLabel" styleClass="error-label" GridPane.columnIndex="1"
-                       GridPane.rowIndex="17">
-                    <GridPane.margin>
-                        <Insets bottom="10.0"/>
-                    </GridPane.margin>
-                </Label>
-
-                <!-- Autres informations -->
-                <Label text="Mutuelle :" GridPane.columnIndex="0" GridPane.rowIndex="18"/>
-                <ComboBox fx:id="mutualComboBox" GridPane.columnIndex="1" GridPane.rowIndex="18"
-                          GridPane.hgrow="ALWAYS"/>
+                <!-- Label d'erreurs pour Mutuelle et Médecin Référent -->
                 <Label fx:id="mutualErrorLabel" styleClass="error-label" GridPane.columnIndex="1"
-                       GridPane.rowIndex="19">
-                    <GridPane.margin>
-                        <Insets bottom="10.0"/>
-                    </GridPane.margin>
-                </Label>
+                       GridPane.rowIndex="11"/>
+                <Label fx:id="referringDoctorErrorLabel" styleClass="error-label" GridPane.columnIndex="3"
+                       GridPane.rowIndex="11"/>
 
-                <Label text="Médecin Référent :" GridPane.columnIndex="0" GridPane.rowIndex="20"/>
-                <ComboBox fx:id="primaryDoctorComboBox" GridPane.columnIndex="1" GridPane.rowIndex="20"
-                          GridPane.hgrow="ALWAYS"/>
-                <Label fx:id="referringDoctorErrorLabel" styleClass="error-label" GridPane.columnIndex="1"
-                       GridPane.rowIndex="21"/>
+                <!-- Colonnes et lignes ajustées -->
+                <columnConstraints>
+                    <ColumnConstraints/>
+                    <ColumnConstraints/>
+                    <ColumnConstraints/>
+                    <ColumnConstraints/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                </rowConstraints>
 
             </GridPane>
-
         </VBox>
     </content>
     <padding>
