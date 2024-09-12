@@ -70,7 +70,7 @@ public class SpecialistTest {
     public void testInheritedProperties() {
         // Vérification des propriétés héritées de la classe Doctor
         assertEquals("10 rue de la Santé", specialist.getAddress().getStreet());
-        assertEquals("75001", specialist.getAddress().getPostalCode());
+        assertEquals("75001", specialist.getAddress().getZipCode());
         assertEquals("Paris", specialist.getAddress().getCity());
     }
 }

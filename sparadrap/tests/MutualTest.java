@@ -37,7 +37,7 @@ public class MutualTest {
 
         // Vérifier chaque attribut individuellement
         assertEquals("50 avenue des Champs", mutual.getAddress().getStreet());
-        assertEquals("75008", mutual.getAddress().getPostalCode());
+        assertEquals("75008", mutual.getAddress().getZipCode());
         assertEquals("Paris", mutual.getAddress().getCity());
     }
 

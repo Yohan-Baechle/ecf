@@ -3,12 +3,14 @@ package com.yb.sparadrap.controller;
 import com.yb.sparadrap.model.Address;
 import com.yb.sparadrap.model.Mutual;
 import com.yb.sparadrap.model.enums.Department;
-import com.yb.sparadrap.model.enums.MedicationCategory;
 import com.yb.sparadrap.util.ValidationUtil;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import java.util.Map;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+
 import java.util.HashMap;
+import java.util.Map;
 
 public class MutualFormController {
 
@@ -61,21 +63,6 @@ public class MutualFormController {
         fieldErrorMap.put(reimbursementRateField, reimbursementRateErrorLabel);
     }
 
-    public void setMutual(Mutual mutual) {
-        if (mutual != null) {
-            nameField.setText(mutual.getName());
-            if (mutual.getAddress() != null) {
-                streetField.setText(mutual.getAddress().getStreet());
-                zipCodeField.setText(mutual.getAddress().getPostalCode());
-                cityField.setText(mutual.getAddress().getCity());
-            }
-            departmentComboBox.setValue(mutual.getDepartment());
-            phoneNumberField.setText(mutual.getPhoneNumber());
-            emailField.setText(mutual.getEmail());
-            reimbursementRateField.setText(Double.toString(mutual.getReimbursementRate()));
-        }
-    }
-
     public Mutual getMutual() {
         // Récupérer les valeurs des champs du formulaire
         String name = nameField.getText().trim();
@@ -89,12 +76,26 @@ public class MutualFormController {
         return new Mutual(name, address, department, phoneNumber, email, reimbursementRate);
     }
 
+    public void setMutual(Mutual mutual) {
+        if (mutual != null) {
+            nameField.setText(mutual.getName());
+            if (mutual.getAddress() != null) {
+                streetField.setText(mutual.getAddress().getStreet());
+                zipCodeField.setText(mutual.getAddress().getZipCode());
+                cityField.setText(mutual.getAddress().getCity());
+            }
+            departmentComboBox.setValue(mutual.getDepartment());
+            phoneNumberField.setText(mutual.getPhoneNumber());
+            emailField.setText(mutual.getEmail());
+            reimbursementRateField.setText(Double.toString(mutual.getReimbursementRate()));
+        }
+    }
 
     public boolean validateInputs() {
         clearErrorLabels();
 
         // Validation des champs
-        boolean isFirstNameValid = validateField(nameField, ValidationUtil.validateFirstName(nameField.getText().trim()));
+        boolean isNameValid = validateField(nameField, ValidationUtil.validateName(nameField.getText().trim()));
         boolean isStreetValid = validateField(streetField, ValidationUtil.validateStreet(streetField.getText().trim()));
         boolean isZipCodeValid = validateField(zipCodeField, ValidationUtil.validateZipCode(zipCodeField.getText().trim()));
         boolean isCityValid = validateField(cityField, ValidationUtil.validateCity(cityField.getText().trim()));
@@ -108,7 +109,7 @@ public class MutualFormController {
         boolean isEmailValid = validateField(emailField, ValidationUtil.validateEmail(emailField.getText().trim()));
         boolean reimbursementRateValid = validateField(reimbursementRateField, ValidationUtil.validateReimbursementRate(reimbursementRateField.getText().trim()));
 
-        return !isFirstNameValid || !isStreetValid || !isZipCodeValid || !isCityValid || !isDepartmentValid
+        return !isNameValid || !isStreetValid || !isZipCodeValid || !isCityValid || !isDepartmentValid
                 || !isPhoneNumberValid || !isEmailValid || !reimbursementRateValid;
     }
 

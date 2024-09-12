@@ -42,7 +42,7 @@ public class DoctorFormController {
     @FXML
     private Label streetErrorLabel;
     @FXML
-    private Label postalCodeErrorLabel;
+    private Label zipCodeErrorLabel;
     @FXML
     private Label cityErrorLabel;
     @FXML
@@ -61,7 +61,7 @@ public class DoctorFormController {
         fieldErrorMap.put(firstNameField, firstNameErrorLabel);
         fieldErrorMap.put(lastNameField, lastNameErrorLabel);
         fieldErrorMap.put(streetField, streetErrorLabel);
-        fieldErrorMap.put(zipCodeField, postalCodeErrorLabel);
+        fieldErrorMap.put(zipCodeField, zipCodeErrorLabel);
         fieldErrorMap.put(cityField, cityErrorLabel);
         fieldErrorMap.put(phoneNumberField, phoneNumberErrorLabel);
         fieldErrorMap.put(emailField, emailErrorLabel);
@@ -95,7 +95,7 @@ public class DoctorFormController {
             lastNameField.setText(doctor.getLastName());
             if (doctor.getAddress() != null) {
                 streetField.setText(doctor.getAddress().getStreet());
-                zipCodeField.setText(doctor.getAddress().getPostalCode());
+                zipCodeField.setText(doctor.getAddress().getZipCode());
                 cityField.setText(doctor.getAddress().getCity());
             }
             phoneNumberField.setText(doctor.getPhoneNumber());

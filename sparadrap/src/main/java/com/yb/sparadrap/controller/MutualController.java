@@ -66,13 +66,13 @@ public class MutualController {
         addressColumn.setCellValueFactory(cellData ->
                 Bindings.createStringBinding(() -> cellData.getValue().getAddress().toString(),
                         cellData.getValue().getAddress().streetProperty(),
-                        cellData.getValue().getAddress().postalCodeProperty(),
+                        cellData.getValue().getAddress().zipCodeProperty(),
                         cellData.getValue().getAddress().cityProperty())
         );
         emailColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
         phoneNumberColumn.setCellValueFactory(cellData -> cellData.getValue().phoneNumberProperty());
         departmentColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getDepartment().getFormattedName()));
+                new SimpleStringProperty(cellData.getValue().getDepartment().getDisplayName()));
         reimbursementRateColumn.setCellValueFactory(cellData -> cellData.getValue().reimbursementRateProperty().asObject().asString());
 
 

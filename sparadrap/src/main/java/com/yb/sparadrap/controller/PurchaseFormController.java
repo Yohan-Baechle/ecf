@@ -233,13 +233,13 @@ public class PurchaseFormController {
         boolean isPrescriptionValid = true;
         if ("Avec ordonnance".equals(purchaseTypeComboBox.getValue())) {
             // Validation du client avec ValidationUtil
-            String customerError = ValidationUtil.validateCustomer(customerComboBox.getValue());
+            String customerError = ValidationUtil.validateCustomer(customerComboBox.getValue(), customerComboBox);
             boolean isCustomerValid = customerError == null;
             if (!isCustomerValid) {
                 customerErrorLabel.setText(customerError);
                 isPrescriptionValid = false;
             }
-
+            
             // Validation du médecin avec ValidationUtil
             String doctorError = ValidationUtil.validateDoctor(prescribingDoctorComboBox.getValue());
             boolean isDoctorValid = doctorError == null;

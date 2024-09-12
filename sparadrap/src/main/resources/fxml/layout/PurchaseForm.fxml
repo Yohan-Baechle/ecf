@@ -50,10 +50,10 @@
                        GridPane.rowIndex="11"/>
 
                 <!-- Bouton pour ajouter le médicament au panier -->
-                <Button onAction="#handleAddMedicationToBasket" styleClass="basket-btn" text="Ajouter au panier"
+                <Button onAction="#handleAddMedicationToBasket" styleClass="button-primary" text="Ajouter au panier"
                         GridPane.columnIndex="1" GridPane.rowIndex="12">
                     <graphic>
-                        <FontIcon iconLiteral="fas-cart-plus" iconSize="16"/>
+                        <FontIcon iconLiteral="fas-cart-arrow-down" iconSize="16"/>
                     </graphic>
                 </Button>
 

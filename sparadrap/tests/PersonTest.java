@@ -27,7 +27,7 @@ public class PersonTest {
         assertEquals("0612345678", customer.getPhoneNumber());
         assertEquals("john.doe@example.com", customer.getEmail());
         assertEquals("10 rue de la Santé", customer.getAddress().getStreet());
-        assertEquals("75001", customer.getAddress().getPostalCode());
+        assertEquals("75001", customer.getAddress().getZipCode());
         assertEquals("Paris", customer.getAddress().getCity());
     }
 
@@ -46,7 +46,7 @@ public class PersonTest {
         assertEquals("0698765432", customer.getPhoneNumber());
         assertEquals("jane.smith@example.com", customer.getEmail());
         assertEquals("20 avenue des Champs", customer.getAddress().getStreet());
-        assertEquals("75008", customer.getAddress().getPostalCode());
+        assertEquals("75008", customer.getAddress().getZipCode());
         assertEquals("Paris", customer.getAddress().getCity());
     }
 
@@ -89,7 +89,7 @@ public class PersonTest {
         customer.setAddress(newAddress);
 
         assertEquals("15 rue Victor Hugo", customer.getAddress().getStreet());
-        assertEquals("69002", customer.getAddress().getPostalCode());
+        assertEquals("69002", customer.getAddress().getZipCode());
         assertEquals("Lyon", customer.getAddress().getCity());
     }
 }

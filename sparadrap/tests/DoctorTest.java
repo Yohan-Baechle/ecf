@@ -27,7 +27,7 @@ public class DoctorTest {
 
         // Tester l'adresse associée au médecin
         assertEquals("10 rue de la Santé", doctor.getAddress().getStreet());
-        assertEquals("75001", doctor.getAddress().getPostalCode());
+        assertEquals("75001", doctor.getAddress().getZipCode());
         assertEquals("Paris", doctor.getAddress().getCity());
     }
 
@@ -52,7 +52,7 @@ public class DoctorTest {
 
         // Vérifier les nouvelles valeurs de l'adresse
         assertEquals("20 avenue des Champs", doctor.getAddress().getStreet());
-        assertEquals("75008", doctor.getAddress().getPostalCode());
+        assertEquals("75008", doctor.getAddress().getZipCode());
         assertEquals("Paris", doctor.getAddress().getCity());
     }
 

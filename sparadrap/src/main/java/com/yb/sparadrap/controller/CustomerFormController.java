@@ -51,7 +51,7 @@ public class CustomerFormController {
     @FXML
     private Label streetErrorLabel;
     @FXML
-    private Label postalCodeErrorLabel;
+    private Label zipCodeErrorLabel;
     @FXML
     private Label cityErrorLabel;
     @FXML
@@ -100,7 +100,7 @@ public class CustomerFormController {
         fieldErrorMap.put(firstNameField, firstNameErrorLabel);
         fieldErrorMap.put(lastNameField, lastNameErrorLabel);
         fieldErrorMap.put(streetField, streetErrorLabel);
-        fieldErrorMap.put(zipCodeField, postalCodeErrorLabel);
+        fieldErrorMap.put(zipCodeField, zipCodeErrorLabel);
         fieldErrorMap.put(cityField, cityErrorLabel);
         fieldErrorMap.put(phoneNumberField, phoneNumberErrorLabel);
         fieldErrorMap.put(emailField, emailErrorLabel);
@@ -129,7 +129,7 @@ public class CustomerFormController {
             lastNameField.setText(customer.getLastName());
             if (customer.getAddress() != null) {
                 streetField.setText(customer.getAddress().getStreet());
-                zipCodeField.setText(customer.getAddress().getPostalCode());
+                zipCodeField.setText(customer.getAddress().getZipCode());
                 cityField.setText(customer.getAddress().getCity());
             }
             phoneNumberField.setText(customer.getPhoneNumber());

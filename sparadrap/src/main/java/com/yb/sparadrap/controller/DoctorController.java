@@ -68,7 +68,7 @@ public class DoctorController {
         addressColumn.setCellValueFactory(cellData ->
                 Bindings.createStringBinding(() -> cellData.getValue().getAddress().toString(),
                         cellData.getValue().getAddress().streetProperty(),
-                        cellData.getValue().getAddress().postalCodeProperty(),
+                        cellData.getValue().getAddress().zipCodeProperty(),
                         cellData.getValue().getAddress().cityProperty())
         );
         emailColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());

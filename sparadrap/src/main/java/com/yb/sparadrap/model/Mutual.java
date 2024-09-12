@@ -1,12 +1,7 @@
 package com.yb.sparadrap.model;
 
 import com.yb.sparadrap.model.enums.Department;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 /**
  * Classe représentant une mutuelle dans l'application.
@@ -49,7 +44,7 @@ public class Mutual {
 
     public void setAddress(Address address) {
         this.address.setStreet(address.getStreet());
-        this.address.setPostalCode(address.getPostalCode());
+        this.address.setZipCode(address.getZipCode());
         this.address.setCity(address.getCity());
     }
 

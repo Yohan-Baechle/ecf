@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="800" prefWidth="920" styleClass="main-container"
-            stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/21"
-            fx:controller="com.yb.sparadrap.controller.PrescriptionController">
+
+<AnchorPane prefHeight="800" prefWidth="920" styleClass="main-container" stylesheets="@../../styles/global.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yb.sparadrap.controller.PrescriptionController">
 
     <!-- Titre de la page -->
-    <HBox alignment="CENTER_LEFT" spacing="10.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="20.0"
-          AnchorPane.topAnchor="40.0">
-        <FontIcon iconLiteral="fas-file-medical" iconSize="24"/>
-        <Text styleClass="page-title" text="Gestion des ordonnances"/>
-        <Region HBox.hgrow="ALWAYS"/>
+    <HBox alignment="CENTER_LEFT" spacing="10.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0">
+        <FontIcon iconLiteral="fas-file-medical" iconSize="24" />
+        <Text styleClass="page-title" text="Gestion des ordonnances" />
+        <Region HBox.hgrow="ALWAYS" />
     </HBox>
 
     <!-- Barre de recherche en haut -->
-    <HBox alignment="CENTER" spacing="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0"
-          AnchorPane.topAnchor="110.0">
-        <TextField fx:id="searchField" promptText="Rechercher un achat..." styleClass="search-bar" HBox.hgrow="ALWAYS"/>
+    <HBox alignment="CENTER" spacing="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="110.0">
+        <TextField fx:id="searchField" promptText="Rechercher une ordonnance..." styleClass="search-bar" HBox.hgrow="ALWAYS" />
     </HBox>
 
     <!-- TableView pour les clients au centre -->
-    <TableView fx:id="prescriptionTable" layoutX="20.0" layoutY="130.0" prefHeight="560.0" prefWidth="860.0"
-               AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0"
-               AnchorPane.topAnchor="160.0">
+    <TableView fx:id="prescriptionTable" layoutX="20.0" layoutY="130.0" prefHeight="560.0" prefWidth="860.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="160.0">
         <columns>
-            <TableColumn fx:id="dateColumn" text="Date de prescription"/>
-            <TableColumn fx:id="patientColumn" text="Patient"/>
-            <TableColumn fx:id="doctorColumn" text="Médecin"/>
-            <TableColumn fx:id="medicationsColumn" text="Médicaments"/>
-            <TableColumn fx:id="actionColumn" text="Actions"/>
+            <TableColumn fx:id="dateColumn" text="Date de prescription" />
+            <TableColumn fx:id="patientColumn" text="Patient" />
+            <TableColumn fx:id="doctorColumn" text="Médecin" />
+            <TableColumn fx:id="medicationsColumn" text="Médicaments" />
+            <TableColumn fx:id="actionColumn" text="Actions" />
         </columns>
     </TableView>
 

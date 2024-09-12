@@ -32,6 +32,8 @@ public class PurchaseController {
     @FXML
     private TableView<Purchase> purchaseTable;
     @FXML
+    private TableColumn<Purchase, String> patientColumn;
+    @FXML
     private TableColumn<Purchase, String> medicationBasketColumn;
     @FXML
     private TableColumn<Purchase, String> purchaseTypeColumn;
@@ -68,6 +70,13 @@ public class PurchaseController {
      * Configure les colonnes du TableView avec les propriétés observables des achats.
      */
     private void initializeColumns() {
+        // Colonne du nom du client (prénom et nom)
+        patientColumn.setCellValueFactory(cellData ->
+                Bindings.createStringBinding(() -> {
+                    Customer customer = cellData.getValue().getCustomer();
+                    return customer != null ? customer.getFirstName() + " " + customer.getLastName() : "Aucun client";
+                })
+        );
         // Colonne du panier de médicaments
         medicationBasketColumn.setCellValueFactory(cellData ->
                 Bindings.createStringBinding(() ->
@@ -114,12 +123,13 @@ public class PurchaseController {
         );
 
         // Configuration des largeurs des colonnes
-        medicationBasketColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.25));
+        patientColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
+        medicationBasketColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.30));
         purchaseTypeColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
         quantityColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
-        unitPriceColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.15));
+        unitPriceColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
         totalPriceColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
-        purchaseDateColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.15));
+        purchaseDateColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
         actionColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
     }
 

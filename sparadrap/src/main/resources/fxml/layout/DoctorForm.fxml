@@ -50,7 +50,7 @@
                     </GridPane.margin>
                 </Label>
 
-                <Label text="Adresse :" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+                <Label text="Nom de la rue :" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
                 <TextField fx:id="streetField" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.hgrow="ALWAYS"/>
                 <Label fx:id="streetErrorLabel" styleClass="error-label" GridPane.columnIndex="1" GridPane.rowIndex="9">
                     <GridPane.margin>
@@ -61,7 +61,7 @@
                 <Label text="Code Postal :" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
                 <TextField fx:id="zipCodeField" GridPane.columnIndex="1" GridPane.rowIndex="10"
                            GridPane.hgrow="ALWAYS"/>
-                <Label fx:id="postalCodeErrorLabel" styleClass="error-label" GridPane.columnIndex="1"
+                <Label fx:id="zipCodeErrorLabel" styleClass="error-label" GridPane.columnIndex="1"
                        GridPane.rowIndex="11">
                     <GridPane.margin>
                         <Insets bottom="10.0"/>

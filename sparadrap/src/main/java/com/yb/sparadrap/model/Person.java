@@ -55,7 +55,7 @@ public abstract class Person {
 
     public void setAddress(Address address) {
         this.address.setStreet(address.getStreet());
-        this.address.setPostalCode(address.getPostalCode());
+        this.address.setZipCode(address.getZipCode());
         this.address.setCity(address.getCity());
     }
 

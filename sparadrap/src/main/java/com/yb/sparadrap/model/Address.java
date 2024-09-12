@@ -9,14 +9,14 @@ import javafx.beans.property.StringProperty;
  */
 public class Address {
     private final StringProperty street;
-    private final StringProperty postalCode;
+    private final StringProperty zipCode;
     private final StringProperty city;
 
 
     // Constructeur par défaut
-    public Address(String street, String postalCode, String city) {
+    public Address(String street, String zipCode, String city) {
         this.street = new SimpleStringProperty(street);
-        this.postalCode = new SimpleStringProperty(postalCode);
+        this.zipCode = new SimpleStringProperty(zipCode);
         this.city = new SimpleStringProperty(city);
     }
 
@@ -34,16 +34,16 @@ public class Address {
         this.street.set(street);
     }
 
-    public StringProperty postalCodeProperty() {
-        return postalCode;
+    public StringProperty zipCodeProperty() {
+        return zipCode;
     }
 
-    public String getPostalCode() {
-        return postalCode.get();
+    public String getZipCode() {
+        return zipCode.get();
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode.set(postalCode);
+    public void setZipCode(String zipCode) {
+        this.zipCode.set(zipCode);
     }
 
     public StringProperty cityProperty() {
@@ -61,6 +61,6 @@ public class Address {
 
     @Override
     public String toString() {
-        return street.get() + ", " + postalCode.get() + ", " + city.get();
+        return street.get() + ", " + zipCode.get() + ", " + city.get();
     }
 }

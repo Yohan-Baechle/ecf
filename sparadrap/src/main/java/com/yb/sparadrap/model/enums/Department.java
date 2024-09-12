@@ -118,20 +118,11 @@ public enum Department {
     }
 
     /**
-     * Retourne le code du département.
-     *
-     * @return Le code associé au département.
-     */
-    public String getCode() {
-        return code;
-    }
-
-    /**
      * Retourne le nom formaté du département, remplaçant les underscores par des espaces et capitalisant chaque mot.
      *
      * @return Le nom formaté du département.
      */
-    public String getFormattedName() {
+    public String getDisplayName() {
         String name = name().replace("_", " ");
         String[] parts = name.split(" ");
         StringBuilder formattedName = new StringBuilder();
@@ -146,27 +137,12 @@ public enum Department {
     }
 
     /**
-     * Recherche un département par son code.
-     *
-     * @param code Le code du département à rechercher.
-     * @return Le département correspondant, ou null si aucun département ne correspond au code.
-     */
-    public static Department fromCode(String code) {
-        for (Department department : Department.values()) {
-            if (department.getCode().equalsIgnoreCase(code)) {
-                return department;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Retourne le nom formaté du département lorsque la méthode toString() est appelée.
      *
      * @return Le nom formaté du département.
      */
     @Override
     public String toString() {
-        return getFormattedName();
+        return getDisplayName();
     }
 }

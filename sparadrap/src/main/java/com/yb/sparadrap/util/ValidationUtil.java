@@ -4,14 +4,15 @@ import com.yb.sparadrap.model.Customer;
 import com.yb.sparadrap.model.Doctor;
 import com.yb.sparadrap.model.Medication;
 import com.yb.sparadrap.model.enums.Department;
+import javafx.scene.control.ComboBox;
 
 import java.time.LocalDate;
 import java.util.Map;
 
 public class ValidationUtil {
 
-    // Regex pour un prénom ou nom : lettres avec accents, espaces, et traits d'union (min 2 caractères)
-    private static final String NAME_REGEX = "^[A-Za-zÀ-ÖØ-öø-ÿ\\s-]{2,50}$";
+    // Regex pour le nom, n° de téléphone et email
+    private static final String NAME_REGEX = "^[A-Za-zÀ-ÖØ-öø-ÿ0-9\\s'-]{2,50}$";
     private static final String PHONE_REGEX = "^((\\+\\d{1,3}[- ]?)?\\d{10})$";
     private static final String EMAIL_REGEX = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
 
@@ -97,20 +98,20 @@ public class ValidationUtil {
     }
 
     // Validation du client
-    public static String validateCustomer(Customer customer) {
-        if (customer == null) {
+    public static String validateCustomer(Customer customer, ComboBox<Customer> customerComboBox) {
+        // Vérifie si la sélection est vide ou si aucun client n'est sélectionné
+        if (customer == null || customerComboBox.getSelectionModel().isEmpty()) {
             return "Veuillez sélectionner un client.";
         }
-        // Tu peux ajouter d'autres règles spécifiques si nécessaire
         return null;
     }
+
 
     // Validation du médecin
     public static String validateDoctor(Doctor doctor) {
         if (doctor == null) {
             return "Veuillez sélectionner un prescripteur";
         }
-        // Tu peux ajouter d'autres règles spécifiques si nécessaire
         return null;
     }
 
@@ -151,8 +152,8 @@ public class ValidationUtil {
 
     // Validation du nom du médicament
     public static String validateName(String name) {
-        if (isEmpty(name)) return "Le nom ne peut pas être vide.";
-        if (!name.matches(NAME_REGEX)) return "Le nom du médicament est invalide.";
+        if (isEmpty(name)) return "Veuillez saisir un nom.";
+        if (!name.matches(NAME_REGEX)) return "Le nom est invalide.";
         return null;
     }
 
@@ -195,15 +196,15 @@ public class ValidationUtil {
     // Validation du taux de remboursement
     public static String validateReimbursementRate(String reimbursementRate) {
         if (isEmpty(reimbursementRate)) {
-            return "Le taux de remboursement ne peut pas être vide.";
+            return "Le taux ne peut pas être vide.";
         }
         try {
             double rate = Double.parseDouble(reimbursementRate);
             if (rate < 0 || rate > 100) {
-                return "Le taux de remboursement doit être compris entre 0 et 100.";
+                return "Le taux doit être compris entre 0 et 100.";
             }
         } catch (NumberFormatException e) {
-            return "Le taux de remboursement doit être un nombre valide.";
+            return "Le taux doit être un nombre valide.";
         }
         return null;
     }
