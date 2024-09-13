@@ -14,7 +14,7 @@
         <FontIcon iconLiteral="fas-user-md" iconSize="24"/>
         <Text styleClass="page-title" text="Gestion des prescripteurs"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <Button fx:id="addDoctorBtn" onAction="#handleAddDoctor" prefWidth="120.0" styleClass="button-success"
+        <Button onAction="#handleAddDoctor" prefWidth="120.0" styleClass="button-success"
                 text="Nouveau">
             <graphic>
                 <FontIcon iconLiteral="fas-plus" iconSize="20"/>

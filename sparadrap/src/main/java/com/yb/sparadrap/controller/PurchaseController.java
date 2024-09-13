@@ -27,8 +27,7 @@ import java.util.stream.Collectors;
 public class PurchaseController {
 
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    @FXML
-    private Button addPurchaseBtn;
+
     @FXML
     private TableView<Purchase> purchaseTable;
     @FXML
@@ -155,11 +154,11 @@ public class PurchaseController {
 
         // Configuration des largeurs des colonnes
         patientColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
-        medicationBasketColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.25)); // Réduit pour ajouter la nouvelle colonne
-        purchaseTypeColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
+        medicationBasketColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.25));
+        purchaseTypeColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.05));
         quantityColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
         unitPriceColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
-        reimbursementRateColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10)); // Largeur pour le taux de remboursement
+        reimbursementRateColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
         totalPriceColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
         purchaseDateColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));
         actionColumn.prefWidthProperty().bind(purchaseTable.widthProperty().multiply(0.10));

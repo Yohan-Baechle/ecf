@@ -22,8 +22,6 @@ import javafx.scene.control.*;
 public class MutualController {
 
     @FXML
-    private Button addMutualBtn;
-    @FXML
     private TableView<Mutual> mutualTable;
     @FXML
     private TableColumn<Mutual, String> nameColumn;
@@ -54,8 +52,6 @@ public class MutualController {
         initializeMutualData();
         initializeSearchField();
         initializeActionsColumn();
-
-        mutualTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_NEXT_COLUMN);
     }
 
     /**

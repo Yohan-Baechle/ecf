@@ -85,27 +85,27 @@ public class MutualDataStore {
                 new Mutual("Mutuelle MGEN",
                         new Address("3 Square Max Hymans", "75748", "Paris"),
                         Department.PARIS,  // Département avant le numéro de téléphone
-                        "0140621220", "contact@mgen.fr", 80.0),
+                        "0140621220", "contact@mgen.fr", 10.0),
 
                 new Mutual("Mutuelle Harmonie",
                         new Address("143 Rue Blomet", "75015", "Paris"),
                         Department.PARIS,
-                        "0144885555", "contact@harmonie.fr", 85.0),
+                        "0144885555", "contact@harmonie.fr", 15),
 
                 new Mutual("Mutuelle MACIF",
                         new Address("17-21 Place Etienne Pernet", "75015", "Paris"),
                         Department.PARIS,
-                        "0970809809", "contact@macif.fr", 78.0),
+                        "0970809809", "contact@macif.fr", 35),
 
                 new Mutual("Mutuelle AG2R La Mondiale",
                         new Address("104-110 Boulevard Haussmann", "75008", "Paris"),
                         Department.PARIS,
-                        "0144218800", "contact@ag2rlamondiale.fr", 82.0),
+                        "0144218800", "contact@ag2rlamondiale.fr", 20.0),
 
                 new Mutual("Mutuelle AÉSIO",
                         new Address("37 Rue de Villeneuve", "94200", "Ivry-sur-Seine"),
                         Department.VAL_DE_MARNE,
-                        "0149225000", "contact@aesio.fr", 88.0)
+                        "0149225000", "contact@aesio.fr", 50.0)
         );
     }
 }

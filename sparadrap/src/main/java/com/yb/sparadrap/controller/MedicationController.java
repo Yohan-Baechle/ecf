@@ -19,8 +19,6 @@ import javafx.scene.control.*;
 public class MedicationController {
 
     @FXML
-    private Button addMedicationBtn;
-    @FXML
     private TableView<Medication> medicationTable;
     @FXML
     private TableColumn<Medication, String> nameColumn;
@@ -49,8 +47,6 @@ public class MedicationController {
         initializeMedicationData();
         initializeSearchField();
         initializeActionsColumn();
-
-        medicationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_NEXT_COLUMN);
     }
 
     /**
@@ -66,10 +62,9 @@ public class MedicationController {
         priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject().asString());
 
         // Configuration des largeurs des colonnes
-        nameColumn.prefWidthProperty().bind(medicationTable.widthProperty().multiply(0.10));
-        categoryColumn.prefWidthProperty().bind(medicationTable.widthProperty().multiply(0.10));
+        nameColumn.prefWidthProperty().bind(medicationTable.widthProperty().multiply(0.25));
+        categoryColumn.prefWidthProperty().bind(medicationTable.widthProperty().multiply(0.15));
         launchDateColumn.prefWidthProperty().bind(medicationTable.widthProperty().multiply(0.20));
-        priceColumn.prefWidthProperty().bind(medicationTable.widthProperty().multiply(0.20));
         quantityColumn.prefWidthProperty().bind(medicationTable.widthProperty().multiply(0.10));
         priceColumn.prefWidthProperty().bind(medicationTable.widthProperty().multiply(0.20));
         actionColumn.prefWidthProperty().bind(medicationTable.widthProperty().multiply(0.10));

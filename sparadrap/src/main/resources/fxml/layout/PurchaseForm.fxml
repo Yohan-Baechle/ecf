@@ -19,7 +19,7 @@
 
                 <!-- Client -->
                 <Label text="Client :" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                <ComboBox fx:id="customerComboBox" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <ComboBox fx:id="customerComboBox" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
                 <Label fx:id="customerErrorLabel" styleClass="error-label" GridPane.columnIndex="1"
                        GridPane.rowIndex="3"/>
 
@@ -70,6 +70,8 @@
                 <!-- Prix total -->
                 <Label text="Prix total TTC :" GridPane.columnIndex="0" GridPane.rowIndex="15"/>
                 <TextField fx:id="totalPriceField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="15"/>
+
+                <!-- Colonnes et lignes ajustées -->
                 <columnConstraints>
                     <ColumnConstraints/>
                     <ColumnConstraints maxWidth="626.0" minWidth="456.0" prefWidth="456.0"/>

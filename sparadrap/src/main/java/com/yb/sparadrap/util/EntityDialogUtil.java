@@ -1,10 +1,8 @@
 package com.yb.sparadrap.util;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -12,8 +10,8 @@ import java.util.function.Consumer;
 
 public class EntityDialogUtil {
 
-    public static <T, C> void openEntityDisplayDialog(String fxmlPath, String dialogTitle,
-                                                      Consumer<C> controllerConfigurer) {
+    public static <C> void openEntityDisplayDialog(String fxmlPath, String dialogTitle,
+                                                   Consumer<C> controllerConfigurer) {
         try {
             // Charger le fichier FXML
             FXMLLoader loader = new FXMLLoader(EntityDialogUtil.class.getResource(fxmlPath));
@@ -31,22 +29,11 @@ public class EntityDialogUtil {
 
             dialog.showAndWait();
         } catch (IOException e) {
-            e.printStackTrace();
+            // Afficher une alerte en cas d'erreur
+            showErrorDialog("Erreur", "Impossible de charger la boîte de dialogue : " + dialogTitle, e.getMessage());
         }
     }
 
-
-    /**
-     * Ouvre une boîte de dialogue pour ajouter ou modifier une entité.
-     *
-     * @param fxmlPath        Le chemin vers le fichier FXML du formulaire.
-     * @param dialogTitle     Le titre de la boîte de dialogue.
-     * @param controllerConfigurer Un consommateur pour configurer le contrôleur avec l'entité.
-     * @param resultMapper    Un consommateur pour mapper l'entité à partir du contrôleur.
-     * @param <T>             Le type de l'entité.
-     * @param <C>             Le type du contrôleur associé à l'entité.
-     * @return Un Optional contenant l'entité modifiée ou ajoutée.
-     */
     public static <T, C> Optional<T> openEntityFormDialog(String fxmlPath, String dialogTitle,
                                                           Consumer<C> controllerConfigurer,
                                                           ResultMapper<T, C> resultMapper) {
@@ -72,7 +59,8 @@ public class EntityDialogUtil {
                         event.consume(); // Empêche la fermeture si la validation échoue
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    // Afficher une alerte en cas d'erreur de validation
+                    showErrorDialog("Erreur de validation", "Une erreur est survenue lors de la validation des données", e.getMessage());
                 }
             });
 
@@ -80,9 +68,19 @@ public class EntityDialogUtil {
 
             return dialog.showAndWait();
         } catch (IOException e) {
-            e.printStackTrace();
+            // Afficher une alerte en cas d'erreur
+            showErrorDialog("Erreur", "Impossible de charger la boîte de dialogue : " + dialogTitle, e.getMessage());
             return Optional.empty();
         }
+    }
+
+    // Méthode pour afficher une boîte de dialogue d'erreur
+    private static void showErrorDialog(String title, String header, String content) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     /**

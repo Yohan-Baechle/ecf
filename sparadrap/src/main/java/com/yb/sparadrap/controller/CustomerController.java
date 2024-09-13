@@ -23,8 +23,6 @@ import java.time.format.DateTimeFormatter;
 public class CustomerController {
 
     @FXML
-    private Button addCustomerBtn;
-    @FXML
     private TableView<Customer> customerTable;
     @FXML
     private TableColumn<Customer, String> lastNameColumn;
@@ -57,8 +55,6 @@ public class CustomerController {
         initializeCustomerData();
         initializeSearchField();
         initializeActionsColumn();
-
-        customerTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_NEXT_COLUMN);
     }
 
     /**

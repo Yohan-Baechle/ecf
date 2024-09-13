@@ -174,8 +174,5 @@ public class CustomerFormController {
 
     private void clearErrorLabels() {
         fieldErrorMap.values().forEach(label -> label.setText(""));
-        birthDateErrorLabel.setText("");
-        mutualErrorLabel.setText("");
-        referringDoctorErrorLabel.setText("");
     }
 }

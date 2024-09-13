@@ -21,8 +21,6 @@ import javafx.scene.control.*;
 public class DoctorController {
 
     @FXML
-    private Button addDoctorBtn;
-    @FXML
     private TableView<Doctor> doctorTable;
     @FXML
     private TableColumn<Doctor, String> lastNameColumn;
@@ -55,8 +53,6 @@ public class DoctorController {
         initializeDoctorData();
         initializeSearchField();
         initializeActionsColumn();
-
-        doctorTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_NEXT_COLUMN);
     }
 
     /**

@@ -3,8 +3,10 @@ package com.yb.sparadrap.view;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -38,7 +40,7 @@ public class ViewFactory {
     }
 
     /**
-     * Charge et retourne la vue de gestion des clients.
+     * Charge et retourne la vue de gestion des achats.
      * Si la vue a déjà été chargée, retourne la vue mise en cache.
      *
      * @return la vue de gestion des achats.
@@ -48,7 +50,7 @@ public class ViewFactory {
             try {
                 purchaseView = new FXMLLoader(getClass().getResource("/fxml/layout/Purchase.fxml")).load();
             } catch (IOException e) {
-                e.printStackTrace();
+                showErrorDialog("Erreur de chargement", "Impossible de charger la vue des achats.", e.getMessage());
             }
         }
         return purchaseView;
@@ -58,14 +60,14 @@ public class ViewFactory {
      * Charge et retourne la vue de gestion des clients.
      * Si la vue a déjà été chargée, retourne la vue mise en cache.
      *
-     * @return la vue de gestion des achats.
+     * @return la vue de gestion des clients.
      */
     public AnchorPane getCustomerView() {
         if (customerView == null) {
             try {
                 customerView = new FXMLLoader(getClass().getResource("/fxml/layout/Customer.fxml")).load();
             } catch (IOException e) {
-                e.printStackTrace();
+                showErrorDialog("Erreur de chargement", "Impossible de charger la vue des clients.", e.getMessage());
             }
         }
         return customerView;
@@ -82,7 +84,7 @@ public class ViewFactory {
             try {
                 doctorView = new FXMLLoader(getClass().getResource("/fxml/layout/Doctor.fxml")).load();
             } catch (IOException e) {
-                e.printStackTrace();
+                showErrorDialog("Erreur de chargement", "Impossible de charger la vue des prescripteurs.", e.getMessage());
             }
         }
         return doctorView;
@@ -92,14 +94,14 @@ public class ViewFactory {
      * Charge et retourne la vue de gestion des médicaments.
      * Si la vue a déjà été chargée, retourne la vue mise en cache.
      *
-     * @return la vue de gestion des médicments.
+     * @return la vue de gestion des médicaments.
      */
     public AnchorPane getMedicationView() {
         if (medicationView == null) {
             try {
                 medicationView = new FXMLLoader(getClass().getResource("/fxml/layout/Medication.fxml")).load();
             } catch (IOException e) {
-                e.printStackTrace();
+                showErrorDialog("Erreur de chargement", "Impossible de charger la vue des médicaments.", e.getMessage());
             }
         }
         return medicationView;
@@ -116,7 +118,7 @@ public class ViewFactory {
             try {
                 mutualView = new FXMLLoader(getClass().getResource("/fxml/layout/Mutual.fxml")).load();
             } catch (IOException e) {
-                e.printStackTrace();
+                showErrorDialog("Erreur de chargement", "Impossible de charger la vue des mutuelles.", e.getMessage());
             }
         }
         return mutualView;
@@ -126,14 +128,14 @@ public class ViewFactory {
      * Charge et retourne la vue de gestion des ordonnances.
      * Si la vue a déjà été chargée, retourne la vue mise en cache.
      *
-     * @return la vue de gestion des orodnnances.
+     * @return la vue de gestion des ordonnances.
      */
     public AnchorPane getPrescriptionView() {
         if (prescriptionView == null) {
             try {
                 prescriptionView = new FXMLLoader(getClass().getResource("/fxml/layout/Prescription.fxml")).load();
             } catch (IOException e) {
-                e.printStackTrace();
+                showErrorDialog("Erreur de chargement", "Impossible de charger la vue des ordonnances.", e.getMessage());
             }
         }
         return prescriptionView;
@@ -156,17 +158,34 @@ public class ViewFactory {
         Scene scene = null;
         try {
             scene = new Scene(loader.load());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            showErrorDialog("Erreur", "Impossible de charger la fenêtre principale.", e.getMessage());
         }
 
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("SPARADRAP");
-        stage.setResizable(true);
-        stage.sizeToScene();
-        stage.setWidth(1200);
-        stage.setHeight(800);
-        stage.show();
+        if (scene != null) {
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("SPARADRAP");
+            stage.setResizable(true);
+            stage.sizeToScene();
+            stage.setWidth(1200);
+            stage.setHeight(800);
+            stage.show();
+        }
+    }
+
+    /**
+     * Affiche une boîte de dialogue d'erreur.
+     *
+     * @param title   Le titre de la boîte de dialogue.
+     * @param header  L'en-tête du message d'erreur.
+     * @param content Le contenu détaillé de l'erreur.
+     */
+    private void showErrorDialog(String title, String header, String content) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

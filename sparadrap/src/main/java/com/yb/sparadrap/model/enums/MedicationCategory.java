@@ -39,21 +39,7 @@ public enum MedicationCategory {
     public String getDisplayName() {
         return displayName;
     }
-
-    /**
-     * Recherche une catégorie de médicament à partir de son nom affichable.
-     *
-     * @param displayName Le nom affichable de la catégorie.
-     * @return La catégorie correspondante, ou null si aucune correspondance n'est trouvée.
-     */
-    public static MedicationCategory fromDisplayName(String displayName) {
-        for (MedicationCategory category : MedicationCategory.values()) {
-            if (category.getDisplayName().equalsIgnoreCase(displayName)) {
-                return category;
-            }
-        }
-        return null;
-    }
+    
 
     /**
      * Retourne le nom affichable de la catégorie lorsque toString() est appelé.

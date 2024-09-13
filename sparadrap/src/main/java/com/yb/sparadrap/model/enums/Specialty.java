@@ -39,21 +39,6 @@ public enum Specialty {
     }
 
     /**
-     * Recherche une spécialité par son nom affichable.
-     *
-     * @param displayName Le nom affichable de la spécialité à rechercher.
-     * @return La spécialité correspondante, ou null si aucune correspondance n'est trouvée.
-     */
-    public static Specialty fromDisplayName(String displayName) {
-        for (Specialty specialty : Specialty.values()) {
-            if (specialty.getDisplayName().equalsIgnoreCase(displayName)) {
-                return specialty;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Retourne le nom affichable de la spécialité.
      *
      * @return Le nom affichable.

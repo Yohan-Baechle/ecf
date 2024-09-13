@@ -137,13 +137,12 @@ public class Purchase {
     /**
      * Méthode pour recalculer le montant total basé sur les prix des médicaments et les quantités achetées.
      */
-    public double calculateTotalAmount() {
+    public void calculateTotalAmount() {
         double total = 0.0;
         for (Map.Entry<Medication, Integer> entry : medicationBasket.entrySet()) {
             total += entry.getKey().getPrice() * entry.getValue();
         }
         this.totalAmount.set(total);
-        return total;
     }
 
     @Override

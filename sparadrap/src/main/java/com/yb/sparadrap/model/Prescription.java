@@ -23,7 +23,7 @@ public class Prescription {
         this.doctor = new SimpleObjectProperty<>(doctor);
         this.patient = new SimpleObjectProperty<>(patient);
         this.medications = new SimpleListProperty<>(FXCollections.observableArrayList(medications));
-        this.specialist = new SimpleObjectProperty<>(null); // Aucun spécialiste par défaut
+        this.specialist = new SimpleObjectProperty<>(null);
     }
 
     // Constructeur avec spécialiste

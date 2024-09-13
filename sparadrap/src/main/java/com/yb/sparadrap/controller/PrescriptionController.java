@@ -48,8 +48,6 @@ public class PrescriptionController {
         initializePrescriptionData();
         initializeSearchField();
         initializeActionsColumn();
-
-        prescriptionTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_NEXT_COLUMN);
     }
 
     /**

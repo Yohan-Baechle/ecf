@@ -106,15 +106,12 @@ public enum Department {
     REUNION("974"),
     MAYOTTE("976");
 
-    private final String code;
-
     /**
      * Constructeur de l'énumération Department.
      *
      * @param code Le code du département.
      */
     Department(String code) {
-        this.code = code;
     }
 
     /**

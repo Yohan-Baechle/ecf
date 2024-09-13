@@ -58,12 +58,12 @@ public class PurchaseFormController {
         prescribingDoctorComboBox.setItems(DoctorDataStore.getInstance().getDoctors());
         medicationComboBox.setItems(MedicationDataStore.getInstance().getMedications());
 
-        // Désactiver les champs liés à l'ordonnance si l'achat est "Direct"
+        // Listener pour désactiver les champs de prescription uniquement, mais laisser "client" actif
         purchaseTypeComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             boolean isPrescription = "Avec ordonnance".equals(newValue);
-            customerComboBox.setDisable(!isPrescription);
             prescribingDoctorComboBox.setDisable(!isPrescription);
             prescriptionDatePicker.setDisable(!isPrescription);
+            // Ne plus désactiver le champ client
         });
 
         // Listener pour mettre à jour le prix unitaire et total lors de la sélection du médicament
@@ -90,7 +90,6 @@ public class PurchaseFormController {
         // Initialisation de la zone de texte pour le panier
         medicationBasketArea.setEditable(false);
     }
-
 
     /**
      * Met à jour le champ TextArea qui affiche les médicaments du panier.
@@ -250,18 +249,16 @@ public class PurchaseFormController {
             medicationErrorLabel.setText(basketError);
         }
 
+        // Validation du client, toujours obligatoire, même en achat direct
+        String customerError = ValidationUtil.validateCustomer(customerComboBox.getValue(), customerComboBox);
+        boolean isCustomerValid = customerError == null;
+        if (!isCustomerValid) {
+            customerErrorLabel.setText(customerError);
+        }
 
         // Validation des champs supplémentaires si "Avec ordonnance" est sélectionné
         boolean isPrescriptionValid = true;
         if ("Avec ordonnance".equals(purchaseTypeComboBox.getValue())) {
-            // Validation du client avec ValidationUtil
-            String customerError = ValidationUtil.validateCustomer(customerComboBox.getValue(), customerComboBox);
-            boolean isCustomerValid = customerError == null;
-            if (!isCustomerValid) {
-                customerErrorLabel.setText(customerError);
-                isPrescriptionValid = false;
-            }
-
             // Validation du médecin avec ValidationUtil
             String doctorError = ValidationUtil.validateDoctor(prescribingDoctorComboBox.getValue());
             boolean isDoctorValid = doctorError == null;
@@ -277,9 +274,8 @@ public class PurchaseFormController {
                 isPrescriptionValid = false;
             }
         }
-
-        // Retourner true si toutes les validations sont passées, sinon false
-        return !isBasketValid || !isPrescriptionValid;
+        
+        return !isCustomerValid || !isBasketValid || !isPrescriptionValid;
     }
 
     /**

@@ -10,6 +10,7 @@
     <content>
         <VBox spacing="10">
             <GridPane hgap="10" vgap="10">
+
                 <!-- Date de prescription -->
                 <Label text="Date de prescription :" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
                 <TextField fx:id="prescriptionDateField" editable="false" GridPane.columnIndex="1"
@@ -31,6 +32,8 @@
                 <!-- Spécialité -->
                 <Label text="Spécialité :" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
                 <TextField fx:id="specialtyField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+                <!-- Colonnes et lignes ajustées -->
                 <columnConstraints>
                     <ColumnConstraints prefWidth="160.0"/>
                     <ColumnConstraints maxWidth="486.0" minWidth="362.0" prefWidth="380.0"/>

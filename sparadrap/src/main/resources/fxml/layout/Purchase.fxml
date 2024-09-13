@@ -14,7 +14,7 @@
         <FontIcon iconLiteral="fas-shopping-cart" iconSize="24"/>
         <Text styleClass="page-title" text="Gestion des achats"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <Button fx:id="addPurchaseBtn" onAction="#handleAddPurchase" prefWidth="120.0" styleClass="button-success"
+        <Button onAction="#handleAddPurchase" prefWidth="120.0" styleClass="button-success"
                 text="Nouveau">
             <graphic>
                 <FontIcon iconLiteral="fas-cart-plus" iconSize="20"/>
