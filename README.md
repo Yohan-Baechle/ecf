@@ -8,7 +8,7 @@ Chaque Évaluation de Compétences est développée sur une branche dédiée dan
 
 - **ECF 1 : Sparadrap** - [Branche ccp1](https://github.com/Yohan-Baechle/ecf/tree/ccp1)
   
-  Cette première branche se concentre sur la création d'une application de gestion de pharmacie.
+  Cette première branche se concentre sur la création d'une application de bureau de gestion de pharmacie.
 
 
 ## Objectifs du projet
