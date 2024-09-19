@@ -69,15 +69,12 @@ public class PurchaseController {
      * Configure les colonnes du TableView avec les propriétés observables des achats.
      */
     private void initializeColumns() {
-        // Colonne du nom du client (prénom et nom)
         patientColumn.setCellValueFactory(cellData ->
                 Bindings.createStringBinding(() -> {
                     Customer customer = cellData.getValue().getCustomer();
                     return customer != null ? customer.getFirstName() + " " + customer.getLastName() : "Aucun client";
                 })
         );
-
-        // Colonne du panier de médicaments
         medicationBasketColumn.setCellValueFactory(cellData ->
                 Bindings.createStringBinding(() ->
                         cellData.getValue().getMedicationBasket().entrySet().stream()
@@ -85,15 +82,11 @@ public class PurchaseController {
                                 .collect(Collectors.joining(", "))
                 )
         );
-
-        // Colonne pour le type d'achat (direct ou avec ordonnance)
         purchaseTypeColumn.setCellValueFactory(cellData ->
                 Bindings.createStringBinding(() ->
                         cellData.getValue().getPrescribingDoctor() == null ? "Direct" : "Avec ordonnance"
                 )
         );
-
-        // Quantité : la somme des quantités dans le panier
         quantityColumn.setCellValueFactory(cellData ->
                 Bindings.createStringBinding(() ->
                         String.valueOf(cellData.getValue().getMedicationBasket().values().stream()
@@ -101,8 +94,6 @@ public class PurchaseController {
                                 .sum())
                 )
         );
-
-        // Colonne pour afficher le prix unitaire des médicaments
         unitPriceColumn.setCellValueFactory(cellData ->
                 Bindings.createStringBinding(() ->
                         cellData.getValue().getMedicationBasket().keySet().stream()
@@ -110,8 +101,6 @@ public class PurchaseController {
                                 .collect(Collectors.joining(", "))
                 )
         );
-
-        // Colonne pour afficher le prix total après le calcul du remboursement
         totalPriceColumn.setCellValueFactory(cellData -> {
             Purchase purchase = cellData.getValue();
             Customer customer = purchase.getCustomer();
@@ -131,8 +120,6 @@ public class PurchaseController {
             double finalTotalPrice = totalPrice;
             return Bindings.createStringBinding(() -> String.format("%.2f €", finalTotalPrice));
         });
-
-        // Nouvelle colonne pour afficher le taux de remboursement du client
         reimbursementRateColumn.setCellValueFactory(cellData -> {
             Purchase purchase = cellData.getValue();
             Customer customer = purchase.getCustomer();
@@ -144,8 +131,6 @@ public class PurchaseController {
 
             return Bindings.createStringBinding(() -> String.format("%.0f%%", reimbursementRate));
         });
-
-        // Colonne pour afficher la date d'achat
         purchaseDateColumn.setCellValueFactory(cellData ->
                 Bindings.createStringBinding(() ->
                         cellData.getValue().getPurchaseDate().format(dateFormatter)

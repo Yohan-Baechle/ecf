@@ -32,9 +32,7 @@ public class DoctorFormController {
     @FXML
     private TextField registrationNumberField;
     @FXML
-    private ComboBox<Specialty> specialtyComboBox;  // ComboBox pour la spécialité
-    @FXML
-    private Label specialtyErrorLabel;
+    private ComboBox<Specialty> specialtyComboBox;
     @FXML
     private Label firstNameErrorLabel;
     @FXML

@@ -105,7 +105,7 @@ public class CustomerController {
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(customer -> {
                 if (newValue == null || newValue.isEmpty()) {
-                    return true; // Affiche tous les clients si le champ de recherche est vide
+                    return true;
                 }
 
                 String lowerCaseFilter = newValue.toLowerCase();

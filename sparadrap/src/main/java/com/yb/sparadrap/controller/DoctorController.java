@@ -76,7 +76,7 @@ public class DoctorController {
             if (cellData.getValue() instanceof Specialist specialist) {
                 return Bindings.createStringBinding(() -> specialist.getSpecialty().getDisplayName());
             }
-            return Bindings.createStringBinding(() -> "Généraliste"); // Si pas de spécialité, afficher "Généraliste"
+            return Bindings.createStringBinding(() -> "Générale"); // Si pas de spécialité, afficher "Générale"
         });
 
         // Configuration des largeurs des colonnes

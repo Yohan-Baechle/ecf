@@ -62,10 +62,6 @@ public class CustomerFormController {
     private Label socialSecurityNumberErrorLabel;
     @FXML
     private Label birthDateErrorLabel;
-    @FXML
-    private Label mutualErrorLabel;
-    @FXML
-    private Label referringDoctorErrorLabel;
 
     private Map<TextField, Label> fieldErrorMap;
 

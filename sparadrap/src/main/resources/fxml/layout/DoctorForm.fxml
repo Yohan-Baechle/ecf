@@ -55,8 +55,6 @@
                 <Label text="Spécialité :" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
                 <ComboBox fx:id="specialtyComboBox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
                           GridPane.rowIndex="8"/>
-                <Label fx:id="specialtyErrorLabel" styleClass="error-label" GridPane.columnIndex="1"
-                       GridPane.rowIndex="9"/>
 
                 <!-- N° d'agrément -->
                 <Label text="N° d'agrément :" GridPane.columnIndex="2" GridPane.rowIndex="8"/>

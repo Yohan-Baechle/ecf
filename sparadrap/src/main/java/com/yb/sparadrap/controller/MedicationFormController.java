@@ -17,9 +17,6 @@ import java.util.Map;
 public class MedicationFormController {
 
     @FXML
-    private DialogPane dialogPane;
-
-    @FXML
     private TextField nameField;
     @FXML
     private ComboBox<MedicationCategory> categoryComboBox;

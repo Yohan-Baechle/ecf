@@ -71,15 +71,11 @@
                 <Label text="Mutuelle :" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
                 <ComboBox fx:id="mutualComboBox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
                           GridPane.rowIndex="10"/>
-                <Label fx:id="mutualErrorLabel" styleClass="error-label" GridPane.columnIndex="1"
-                       GridPane.rowIndex="11"/>
 
                 <!-- Médecin Référent -->
                 <Label text="Médecin Référent :" GridPane.columnIndex="2" GridPane.rowIndex="10"/>
                 <ComboBox fx:id="primaryDoctorComboBox" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS"
                           GridPane.rowIndex="10"/>
-                <Label fx:id="referringDoctorErrorLabel" styleClass="error-label" GridPane.columnIndex="3"
-                       GridPane.rowIndex="11"/>
 
                 <!-- Colonnes et lignes ajustées -->
                 <columnConstraints>

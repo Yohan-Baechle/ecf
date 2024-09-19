@@ -39,7 +39,7 @@
             <TableColumn fx:id="addressColumn" text="Adresse"/>
             <TableColumn fx:id="phoneNumberColumn" text="Téléphone"/>
             <TableColumn fx:id="emailColumn" text="Email"/>
-            <TableColumn fx:id="specialtyColumn" text="Email"/>
+            <TableColumn fx:id="specialtyColumn" text="Spécialité"/>
             <TableColumn fx:id="registrationNumberColumn" text="N° d'agrément"/>
             <TableColumn fx:id="actionColumn" text="Actions"/>
         </columns>

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ecf.iml" filepath="$PROJECT_DIR$/.idea/ecf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sparadrap/sparadrap.iml" filepath="$PROJECT_DIR$/sparadrap/sparadrap.iml" />
     </modules>
   </component>
 </project>
