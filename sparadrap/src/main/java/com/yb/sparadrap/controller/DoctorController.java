@@ -80,8 +80,8 @@ public class DoctorController {
         });
 
         // Configuration des largeurs des colonnes
-        firstNameColumn.prefWidthProperty().bind(doctorTable.widthProperty().multiply(0.15));
-        lastNameColumn.prefWidthProperty().bind(doctorTable.widthProperty().multiply(0.15));
+        firstNameColumn.prefWidthProperty().bind(doctorTable.widthProperty().multiply(0.10));
+        lastNameColumn.prefWidthProperty().bind(doctorTable.widthProperty().multiply(0.10));
         addressColumn.prefWidthProperty().bind(doctorTable.widthProperty().multiply(0.20));
         emailColumn.prefWidthProperty().bind(doctorTable.widthProperty().multiply(0.20));
         phoneNumberColumn.prefWidthProperty().bind(doctorTable.widthProperty().multiply(0.10));
