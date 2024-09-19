@@ -2,7 +2,9 @@
 
 ## Description
 
-**Sparadrap** est un projet réalisé dans le cadre de la formation Concepteur Développeur d'Applications (CDA) à l'AFPA de Pompey. Il s'agit d'un système de gestion de pharmacie développé en **Java** avec **JavaFX** pour l'interface utilisateur. L'application permet de gérer les clients, les médicaments, les médecins, et les achats, avec la possibilité d'ajouter des ordonnances pour certains achats.
+**Sparadrap** est un projet réalisé dans le cadre de la formation Concepteur Développeur d'Applications (CDA) à l'AFPA de Pompey. Il s'agit d'un système de gestion de pharmacie développé en **Java** avec **JavaFX** pour l'interface utilisateur. L'application permet de gérer les clients, les médicaments, les médecins, et les achats, avec la possibilité d'ajouter des ordonnances pour certains achats. Le prix total d'un achat est calculé en fonction du prix unitaire, de la quantité et du taux de remboursement de la mutuelle.
+
+Le **dossier de conception** du projet est situé à la racine du dépôt dans le dossier `analyse`.
 
 ## Fonctionnalités principales
 
