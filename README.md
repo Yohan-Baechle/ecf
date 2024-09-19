@@ -1,5 +1,7 @@
 # Sparadrap
 
+![Démonstration de l'application](https://github.com/Yohan-Baechle/ecf/blob/main/assets/sparadrap-ccp1.gif)
+
 ## Description
 
 **Sparadrap** est un projet réalisé dans le cadre de la formation Concepteur Développeur d'Applications (CDA) à l'AFPA de Pompey. Il s'agit d'un système de gestion de pharmacie développé en **Java** avec **JavaFX** pour l'interface utilisateur. L'application permet de gérer les clients, les médicaments, les médecins, et les achats, avec la possibilité d'ajouter des ordonnances pour certains achats. Le prix total d'un achat est calculé en fonction du prix unitaire, de la quantité et du taux de remboursement de la mutuelle.
@@ -31,3 +33,18 @@ Le **dossier de conception** du projet est situé à la racine du dépôt dans l
    ```bash
    git clone https://github.com/votre-repository/sparadrap.git
    cd sparadrap
+## Lancer les tests dans IntelliJ IDEA
+
+Pour lancer les tests dans IntelliJ IDEA, suivez les étapes suivantes :
+
+1. **Accéder au dossier des tests** :
+   - Dans l'explorateur de projets, localisez le dossier nommé **"tests"**.
+
+2. **Marquer le dossier comme racine de ressources de test** :
+   - Faites un **clic droit** sur le dossier **"tests"**.
+   - Sélectionnez **"Mark Directory As"**.
+   - Dans le sous-menu, choisissez **"Test Resources Root"**. Cela indique à IntelliJ que ce dossier contient des ressources de test.
+
+3. **Exécuter tous les tests** :
+   - Une fois le dossier marqué, faites à nouveau un **clic droit** sur le dossier **"tests"**.
+   - Sélectionnez **"Run 'All Tests'"**. Cela lancera tous les tests présents dans le dossier.
