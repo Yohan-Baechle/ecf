@@ -97,6 +97,6 @@ public class Medication {
 
     @Override
     public String toString() {
-        return name.get();  // Affiche uniquement le nom du médicament
+        return name.get();
     }
 }

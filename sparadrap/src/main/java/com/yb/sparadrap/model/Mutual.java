@@ -12,7 +12,7 @@ public class Mutual {
     private final Address address;
     private final ObjectProperty<Department> department;
     private final StringProperty phoneNumber;
-    private final StringProperty email;// Changement du type StringProperty à ObjectProperty<Department>
+    private final StringProperty email;
     private final DoubleProperty reimbursementRate;
 
     // Constructeur avec paramètres
