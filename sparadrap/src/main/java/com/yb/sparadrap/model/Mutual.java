@@ -8,6 +8,7 @@ import javafx.beans.property.*;
  * Chaque mutuelle possède un nom, une adresse, un numéro de téléphone, un email, un département et un taux de remboursement.
  */
 public class Mutual {
+    private final IntegerProperty id; // Ajout de l'ID
     private final StringProperty name;
     private final Address address;
     private final ObjectProperty<Department> department;
@@ -17,15 +18,28 @@ public class Mutual {
 
     // Constructeur avec paramètres
     public Mutual(String name, Address address, Department department, String phoneNumber, String email, double reimbursementRate) {
+        this.id = new SimpleIntegerProperty(); // Initialisation de l'ID
         this.name = new SimpleStringProperty(name);
         this.address = address;
         this.phoneNumber = new SimpleStringProperty(phoneNumber);
         this.email = new SimpleStringProperty(email);
-        this.department = new SimpleObjectProperty<>(department);  // Utilisation de Department
+        this.department = new SimpleObjectProperty<>(department);
         this.reimbursementRate = new SimpleDoubleProperty(reimbursementRate);
     }
 
     // Propriétés observables + Getters et Setters
+    public IntegerProperty idProperty() {
+        return id;
+    }
+
+    public int getId() {
+        return id.get();
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
+    }
+
     public StringProperty nameProperty() {
         return name;
     }

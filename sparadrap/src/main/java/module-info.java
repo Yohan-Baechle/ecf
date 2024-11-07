@@ -3,6 +3,7 @@ module com.yb.sparadrap {
     requires javafx.fxml;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.fontawesome5;
+    requires java.sql;
 
 
     opens com.yb.sparadrap to javafx.fxml;
